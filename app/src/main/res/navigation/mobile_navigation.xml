@@ -12,14 +12,19 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="sheridan.sharmupm.vegit_capstone.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_classifyproducts"
+        android:name="sheridan.sharmupm.vegit_capstone.ui.dashboard.ClassifyproductsFragment"
+        android:label="@string/title_classifyproducts"
+        tools:layout="@layout/fragment_classifyproducts" />
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="sheridan.sharmupm.vegit_capstone.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/navigation_groceryList"
+        android:name="sheridan.sharmupm.vegit_capstone.ui.groceryList.groceryListFragment"
+        android:label="Grocery List"
+        tools:layout="@layout/fragment_grocery_list" />
 </navigation>
