@@ -35,6 +35,21 @@
         android:layout_height="50dp" />
 
     <Button
+        android:id="@+id/btnFAQ"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:padding="10dp"
+        android:text="FAQ"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+
+    <Button
         android:id="@+id/btnHistory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
