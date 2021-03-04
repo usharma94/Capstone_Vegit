@@ -38,8 +38,8 @@
         android:label="activity_login"
         tools:layout="@layout/activity_login" />
     <fragment
-        android:id="@+id/dietFragment"
+        android:id="@+id/navigation_diet"
         android:name="sheridan.sharmupm.vegit_capstone.ui.diet.DietFragment"
-        android:label="diet_cardview"
+        android:label="Diets"
         tools:layout="@layout/diet_cardview" />
 </navigation>
