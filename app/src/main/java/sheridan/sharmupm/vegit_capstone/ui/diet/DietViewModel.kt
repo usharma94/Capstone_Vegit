@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 class DietViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is dashboard Fragment"
+        value = "Please select your diet"
     }
     val text: LiveData<String> = _text
 }
