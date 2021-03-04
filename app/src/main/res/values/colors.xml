@@ -14,4 +14,5 @@
     <color name="colorBlueGrey">#FFFFFF</color>
     <color name="colorBackground">#FFFFFF</color>
     <color name="green_secondary">#6FC000</color>
+    <color name="disabled_btn">#D5DBDB</color>
 </resources>

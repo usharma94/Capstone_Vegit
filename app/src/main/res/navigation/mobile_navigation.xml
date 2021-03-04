@@ -27,4 +27,19 @@
         android:name="sheridan.sharmupm.vegit_capstone.ui.groceryList.groceryListFragment"
         android:label="Grocery List"
         tools:layout="@layout/fragment_grocery_list" />
+    <fragment
+        android:id="@+id/userProfile"
+        android:name="sheridan.sharmupm.vegit_capstone.ui.user.UserProfile"
+        android:label="user_profile_fragment"
+        tools:layout="@layout/user_profile_fragment" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="sheridan.sharmupm.vegit_capstone.ui.login.LoginFragment"
+        android:label="activity_login"
+        tools:layout="@layout/activity_login" />
+    <fragment
+        android:id="@+id/dietFragment"
+        android:name="sheridan.sharmupm.vegit_capstone.ui.diet.DietFragment"
+        android:label="diet_cardview"
+        tools:layout="@layout/diet_cardview" />
 </navigation>

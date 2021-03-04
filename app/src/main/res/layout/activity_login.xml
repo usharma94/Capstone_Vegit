@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginFragment">
+    tools:context="sheridan.sharmupm.vegit_capstone.ui.login.LoginFragment">
 
     <ImageView
         android:id="@+id/imageView"
@@ -81,7 +81,6 @@
     <ImageView
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:src="@drawable/ic_arrow_right"
         android:layout_above="@id/swipeRight"
         android:layout_centerHorizontal="true"/>
 
@@ -89,7 +88,7 @@
         android:id="@+id/swipeRight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/swipe_left_for_register"
+        android:text="@string/swipe_left_to_register"
         android:textSize="15sp"
         android:fontFamily="@font/roboto_regular"
         android:layout_centerHorizontal="true"
