@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import sheridan.sharmupm.vegit_capstone.models.LoginModel
 import sheridan.sharmupm.vegit_capstone.models.UserModel
 import sheridan.sharmupm.vegit_capstone.network.APIClient
 import sheridan.sharmupm.vegit_capstone.network.ApiInterface
@@ -40,6 +41,26 @@ class UserRepository {
             }
         })
 
+        return data
+    }
+
+    fun createPost(postModel: LoginModel): LiveData<LoginModel> {
+        val data = MutableLiveData<LoginModel>()
+
+        apiInterface?.userPost(postModel)?.enqueue(object : Callback<LoginModel>{
+            override fun onFailure(call: Call<LoginModel>, t: Throwable) {
+                data.value = null
+            }
+
+            override fun onResponse(call: Call<LoginModel>, response: Response<LoginModel>) {
+                val res = response.body()
+                if (response.code() == 201 && res!=null){
+                    data.value = res
+                }else{
+                    data.value = null
+                }
+            }
+        })
         return data
     }
 }
