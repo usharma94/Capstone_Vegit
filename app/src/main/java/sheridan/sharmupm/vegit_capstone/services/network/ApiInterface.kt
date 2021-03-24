@@ -1,12 +1,15 @@
-package sheridan.sharmupm.vegit_capstone.network
+package sheridan.sharmupm.vegit_capstone.services.network
 
+import kotlinx.coroutines.Deferred
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
-import sheridan.sharmupm.vegit_capstone.models.LoginModel
 import sheridan.sharmupm.vegit_capstone.models.UserModel
+import sheridan.sharmupm.vegit_capstone.models.login.LoggedInUserView
+import sheridan.sharmupm.vegit_capstone.models.login.LoginModel
 
 interface ApiInterface {
 
@@ -17,5 +20,5 @@ interface ApiInterface {
     fun fetchUser(@Path("id") id:Int):Call<UserModel>
 
     @POST("users/login")
-    fun userPost(@Body postModel: LoginModel):Call<UserModel>
+    fun loginUserAsync(@Body loginModel: LoginModel): Deferred<Response<LoggedInUserView>>
 }
