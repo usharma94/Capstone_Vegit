@@ -46,7 +46,6 @@ class UserRepository {
 
     fun userPost(postModel: LoginModel): LiveData<UserModel> {
         val data = MutableLiveData<UserModel>()
-        println("PUTA")
 
         apiInterface?.userPost(postModel)?.enqueue(object : Callback<UserModel>{
             override fun onFailure(call: Call<UserModel>, t: Throwable) {
@@ -56,7 +55,6 @@ class UserRepository {
             override fun onResponse(call: Call<UserModel>, response: Response<UserModel>) {
                 val res = response.body()
                 println(res)
-                println("penis")
                 println(response)
 
                 println(response.message())

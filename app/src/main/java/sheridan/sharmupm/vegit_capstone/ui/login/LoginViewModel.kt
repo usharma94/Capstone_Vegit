@@ -17,7 +17,6 @@ class LoginViewModel :ViewModel(){
     }
 
     fun userPost(loginModel: LoginModel){
-        println("DUNCANNNNNNNNNN")
         println(loginModel)
         loginModelListLiveData = userRepository?.userPost(loginModel)
     }
