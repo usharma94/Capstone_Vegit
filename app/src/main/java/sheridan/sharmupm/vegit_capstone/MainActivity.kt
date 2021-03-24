@@ -9,6 +9,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import sheridan.sharmupm.vegit_capstone.models.LoginModel
 import sheridan.sharmupm.vegit_capstone.models.UserModel
 import sheridan.sharmupm.vegit_capstone.ui.login.LoginViewModel
@@ -44,13 +46,13 @@ class MainActivity : AppCompatActivity() {
 
         val um = ViewModelProvider(this)[LoginViewModel::class.java]
         val post = LoginModel()
-        post.email = "levings@sheridancollege.ca"
-        post.password = ""
-
+        post.email = "admin"
+        post.password = "admin"
+        
         um.userPost(post)
         um.loginModelListLiveData?.observe(this, Observer {
             if (it != null){
-                println(it as ArrayList<LoginModel>)
+                println(it as UserModel)
             }else{
                 println("Something went wrong")
             }

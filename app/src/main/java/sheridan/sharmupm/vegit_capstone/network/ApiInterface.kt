@@ -16,6 +16,6 @@ interface ApiInterface {
     @GET("users/get/{id}")
     fun fetchUser(@Path("id") id:Int):Call<UserModel>
 
-    @POST("posts")
-    fun userPost(@Body postModel: LoginModel):Call<LoginModel>
+    @POST("users/login")
+    fun userPost(@Body postModel: LoginModel):Call<UserModel>
 }

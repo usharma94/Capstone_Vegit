@@ -44,21 +44,32 @@ class UserRepository {
         return data
     }
 
-    fun createPost(postModel: LoginModel): LiveData<LoginModel> {
-        val data = MutableLiveData<LoginModel>()
+    fun userPost(postModel: LoginModel): LiveData<UserModel> {
+        val data = MutableLiveData<UserModel>()
+        println("PUTA")
 
-        apiInterface?.userPost(postModel)?.enqueue(object : Callback<LoginModel>{
-            override fun onFailure(call: Call<LoginModel>, t: Throwable) {
+        apiInterface?.userPost(postModel)?.enqueue(object : Callback<UserModel>{
+            override fun onFailure(call: Call<UserModel>, t: Throwable) {
                 data.value = null
+                println(t)
             }
-
-            override fun onResponse(call: Call<LoginModel>, response: Response<LoginModel>) {
+            override fun onResponse(call: Call<UserModel>, response: Response<UserModel>) {
                 val res = response.body()
-                if (response.code() == 201 && res!=null){
+                println(res)
+                println("penis")
+                println(response)
+
+                println(response.message())
+                println(response.raw())
+
+                if (response.code() == 200 && res!=null){
                     data.value = res
+
+
                 }else{
                     data.value = null
                 }
+
             }
         })
         return data
