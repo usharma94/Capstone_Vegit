@@ -50,6 +50,7 @@ class DietFragment : Fragment() {
                 ViewModelProvider(this).get(DietViewModel::class.java)
         val root = inflater.inflate(R.layout.diet_cardview, container, false)
         val textView: TextView = root.findViewById(R.id.text_diet)
+        val dietType: TextView = root.findViewById(R.id.vegetarianDiet)
         dietViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
