@@ -42,4 +42,5 @@
         android:name="sheridan.sharmupm.vegit_capstone.ui.diet.DietFragment"
         android:label="Diets"
         tools:layout="@layout/diet_cardview" />
+    <action android:id="@+id/action_global_nav_login" app:destination="@id/loginFragment" /><action android:id="@+id/action_global_navigation_diet" app:destination="@id/navigation_diet"/>
 </navigation>

@@ -3,7 +3,7 @@
     <string name="title_home">Home</string>
     <string name="title_classifyproducts">Label Check</string>
     <string name="title_notifications">Notifications</string>
-<!--Login Page-->
+    <!--Login Page-->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="swipe_left_to_register">Swipe Left to Register</string>
     <string name="login">Login</string>
@@ -18,4 +18,10 @@
     <string name="register">Register</string>
     <string name="re_type_password">Re-type Password</string>
     <string name="your_name">Full Name</string>
+
+    <string name="vegetarian_desc">This refers to a diet where egg and dairy products can be consumed</string>
+    <string name="vegan_desc">This refers to a diet where no animal products are consumed</string>
+    <!--    diet names-->
+    <string name="vegan_diet">Vegan</string>
+    <string name="vegetarian_diet">Vegetarian</string>
 </resources>
