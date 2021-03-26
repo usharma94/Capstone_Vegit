@@ -1,7 +1,10 @@
 package sheridan.sharmupm.vegit_capstone.ui.diet
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -37,22 +40,61 @@ class DietAdapter(
     }
 
 
+//    override fun onBindViewHolder(holder: DietViewHolder, position: Int) {
+//        val item: DietModel = dietList[position]
+//
+////        holder.imgDiet.setImageResource(R.drawable.vegetarian)
+//        holder.dietName.text = item.dietName
+//        holder.dietDescription.text = item.dietDescription
+//        item.dietImage?.let { holder.imgDiet.setBackgroundResource(it) }
+//
+//
+//        holder.itemView.setOnClickListener{
+//            onClickListener.onClick(item)
+//           holder.itemView.setBackgroundResource(R.drawable.btn_custom)
+//
+////            holder.itemView.isSelected = holder.itemView.isSelected
+//        }
+//
+//    }
+
+    var selectedItems = mutableListOf<Int>(-1)
+
     override fun onBindViewHolder(holder: DietViewHolder, position: Int) {
-        val item: DietModel = dietList[position]
+        // holder.setData(ContactViewModel, position)  // I'm passing this to the ViewHolder
+                val item: DietModel = dietList[position]
 
 //        holder.imgDiet.setImageResource(R.drawable.vegetarian)
         holder.dietName.text = item.dietName
         holder.dietDescription.text = item.dietDescription
         item.dietImage?.let { holder.imgDiet.setBackgroundResource(it) }
+        holder.itemView.setBackgroundColor(Color.WHITE)
 
-
-        holder.itemView.setOnClickListener{
-            onClickListener.onClick(item)
-           holder.itemView.setBackgroundResource(R.drawable.btn_custom)
-//            holder.itemView.isSelected = holder.itemView.isSelected
+        selectedItems.forEach {
+            if (it == position) {
+                holder.itemView.setBackgroundColor(Color.argb(45, 0, 255, 43))
+//                holder.itemView.visibility = INVISIBLE
+            }
+            else{
+//                holder.itemView.visibility = VISIBLE
+                holder.itemView.setBackgroundColor(Color.argb(100, 0, 255, 43))
+            }
         }
 
+        holder.itemView.setOnClickListener { it ->
+            it.setBackgroundColor(Color.BLUE)
+            selectedItems.add(position)
+            selectedItems.forEach { selectedItem ->  // this forEach is required to refresh all the list
+                notifyItemChanged(selectedItem)
+            }
+
+        }
     }
+
+//    override fun onViewDetachedFromWindow(holder: DietViewHolder) {
+//        holder.itemView.setBackgroundResource(R.color.colorGrey)
+//        holder.itemView.setSelected(if (holder.itemView.isSelected()) true else false)
+//    }
 
 
     override fun getItemCount() = dietList.size
