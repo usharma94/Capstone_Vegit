@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="sheridan.sharmupm.vegit_capstone.ui.login.LoginFragment">
+    tools:context="sheridan.sharmupm.vegit_capstone.ui.login.SignUpFragment">
 
     <ImageView
         android:id="@+id/imageView"
@@ -95,7 +95,7 @@
         android:textSize="15sp" />
 
     <Button
-        android:id="@+id/btn_login"
+        android:id="@+id/btn_sign_up"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/password"
@@ -105,24 +105,7 @@
         android:layout_marginTop="15dp"
         android:fontFamily="@font/roboto_regular"
         android:textColor="@android:color/white"
-        android:text="@string/login"/>
-
-    <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_above="@id/swipeRight"
-        android:layout_centerHorizontal="true"/>
-
-    <TextView
-        android:id="@+id/swipeRight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/swipe_left_to_register"
-        android:textSize="15sp"
-        android:fontFamily="@font/roboto_regular"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"/>
+        android:text="Sign Up"/>
 
 
 

@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import sheridan.sharmupm.vegit_capstone.R
+import sheridan.sharmupm.vegit_capstone.databinding.DietCardviewBinding
 import sheridan.sharmupm.vegit_capstone.databinding.FragmentDietBinding
 import sheridan.sharmupm.vegit_capstone.models.DietModel
 import sheridan.sharmupm.vegit_capstone.ui.diet.DietViewModel
@@ -67,7 +68,7 @@ import sheridan.sharmupm.vegit_capstone.ui.home.HomeViewModel
 
 class DietFragment : Fragment() {
 
-    private lateinit var binding: FragmentDietBinding
+//    private lateinit var binding: FragmentDietBinding
     private lateinit var dietList: List<DietModel>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,10 +76,18 @@ class DietFragment : Fragment() {
     ): View? {
 //        binding = FragmentDietBinding.inflate(inflater, container, false)
         val view: View = inflater.inflate(R.layout.diet_cardview, container, false)
+
+        val vegDes: String = getString(R.string.vegetarian_desc)
+        val veganDes: String = getString(R.string.vegan_desc)
+//        val id = context?.resources.getIdentifier("Vegetarian", "drawable", context?.packageName)
+//        itemView.img.setBackgroundResource(id)
+        val imgVegetarian =  R.drawable.vegetarian
+        val imgVegan =  R.drawable.vegan
+        val imgCustom =  R.drawable.custom
         dietList = listOf(
-            DietModel(false, null, "Vegetarian", "Vegetarian Diet"),
-            DietModel(false, null, "Vegan", "Vegan Diet"),
-            DietModel(false, null, "Custom", "Custom Diet")
+            DietModel(false, imgVegetarian, "Vegetarian", vegDes),
+            DietModel(false, imgVegan, "Vegan", veganDes),
+            DietModel(false, imgCustom, "Custom", "Custom Diet")
 
         )
 //        binding.vegetarianDiet.setOnClickListener {
@@ -92,7 +101,8 @@ class DietFragment : Fragment() {
         val recyclerView: RecyclerView = view.findViewById(R.id.diet_recycler_view)
         val adapter = DietAdapter(dietList, DietAdapter.OnClickListener { selectedDiet ->
             selectedDiet.isSelected = true
-            selectedDiet.dietImage = R.drawable.vegetarian
+//            selectedDiet.dietImage = R.drawable.vegetarian
+            Toast.makeText(context, "vegDiet", Toast.LENGTH_LONG).show()
 
 //            view.findNavController().navigate(
 //                            GalleryFragmentDirections.actionNavGalleryToMenuDetailFragment(colorName)

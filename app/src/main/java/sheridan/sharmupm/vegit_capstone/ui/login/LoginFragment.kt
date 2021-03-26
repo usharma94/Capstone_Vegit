@@ -10,10 +10,13 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.models.login.LoggedInUserView
 
@@ -21,6 +24,7 @@ import sheridan.sharmupm.vegit_capstone.models.login.LoggedInUserView
 class LoginFragment : Fragment() {
 
     private lateinit var loginViewModel: LoginViewModel
+
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +41,8 @@ class LoginFragment : Fragment() {
         val emailEditText = view.findViewById<EditText>(R.id.et_email)
         val passwordEditText = view.findViewById<EditText>(R.id.et_password)
         val loginButton = view.findViewById<Button>(R.id.btn_login)
+        val skipSignUpButton = view.findViewById<Button>(R.id.btn_skip_sign_up)
+        val signUpButton = view.findViewById<Button>(R.id.btn_sign_up)
 
         loginViewModel.loginFormState.observe(viewLifecycleOwner,
             Observer { loginFormState ->
@@ -97,6 +103,22 @@ class LoginFragment : Fragment() {
                 passwordEditText.text.toString()
             )
         }
+        val navController = findNavController()
+
+        signUpButton.setOnClickListener {
+            this.findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
+        }
+
+        skipSignUpButton.setOnClickListener {
+            this.findNavController().navigate(R.id.action_loginFragment_to_navigation_diet)
+        }
+//        Upma: trying to prevent going back to backstack here
+
+//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+//            navController.popBackStack(R.id.loginFragment, true)
+//        }
+
+
     }
 
     private fun updateUiWithUser(model: LoggedInUserView) {
@@ -111,4 +133,5 @@ class LoginFragment : Fragment() {
         val appContext = context?.applicationContext ?: return
         Toast.makeText(appContext, R.string.login_failed, Toast.LENGTH_LONG).show()
     }
+
 }
