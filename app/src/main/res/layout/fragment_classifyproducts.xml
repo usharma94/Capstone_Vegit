@@ -16,12 +16,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <View
+
+        <ImageView
+            android:id="@+id/imageView"
             android:layout_gravity="center"
-            android:layout_width="400dp"
-            android:layout_height="280dp"
+            android:layout_width="match_parent"
+            android:layout_height="290dp"
             android:background="@drawable/camera_aperture"
+            app:srcCompat="@drawable/p"
             />
+
+
 
         <TextView
             android:id="@+id/text_view"
@@ -32,8 +37,8 @@
             android:textSize="20sp"
             android:layout_marginTop="5dp"
             android:textAlignment="center"
-
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:gravity="center_horizontal" />
 
         <RelativeLayout
             android:id="@+id/action"
@@ -45,10 +50,10 @@
 
             <Button
                 android:id="@+id/takePicture"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:background="@drawable/takepicture_button" />
+                android:text="Analyze"/>
 
             <ImageButton
                 android:id="@+id/gallery"
