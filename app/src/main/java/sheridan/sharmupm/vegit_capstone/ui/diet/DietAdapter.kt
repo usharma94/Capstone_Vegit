@@ -3,11 +3,10 @@ package sheridan.sharmupm.vegit_capstone.ui.diet
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.INVISIBLE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -72,17 +71,18 @@ class DietAdapter(
 
         selectedItems.forEach {
             if (it == position) {
-                holder.itemView.setBackgroundColor(Color.argb(45, 0, 255, 43))
+                holder.itemView.setBackgroundColor(Color.argb(100, 0, 255, 0))
 //                holder.itemView.visibility = INVISIBLE
+
             }
             else{
 //                holder.itemView.visibility = VISIBLE
-                holder.itemView.setBackgroundColor(Color.argb(100, 0, 255, 43))
+                holder.itemView.setBackgroundColor(Color.argb(45, 0, 255, 0))
             }
         }
 
         holder.itemView.setOnClickListener { it ->
-            it.setBackgroundColor(Color.BLUE)
+//            it.setBackgroundColor(Color.BLUE)
             selectedItems.add(position)
             selectedItems.forEach { selectedItem ->  // this forEach is required to refresh all the list
                 notifyItemChanged(selectedItem)

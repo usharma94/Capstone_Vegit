@@ -68,14 +68,14 @@ import sheridan.sharmupm.vegit_capstone.ui.home.HomeViewModel
 
 class DietFragment : Fragment() {
 
-//    private lateinit var binding: FragmentDietBinding
+    private lateinit var binding: DietCardviewBinding
     private lateinit var dietList: List<DietModel>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        binding = FragmentDietBinding.inflate(inflater, container, false)
-        val view: View = inflater.inflate(R.layout.diet_cardview, container, false)
+        binding = DietCardviewBinding.inflate(inflater, container, false)
+//        val view: View = inflater.inflate(R.layout.diet_cardview, container, false)
 
         val vegDes: String = getString(R.string.vegetarian_desc)
         val veganDes: String = getString(R.string.vegan_desc)
@@ -98,7 +98,8 @@ class DietFragment : Fragment() {
 //        }
 //        return binding.root
 
-        val recyclerView: RecyclerView = view.findViewById(R.id.diet_recycler_view)
+//        val recyclerView: RecyclerView = view.findViewById(R.id.diet_recycler_view)
+        val recyclerView: RecyclerView = binding.dietRecyclerView
         val adapter = DietAdapter(dietList, DietAdapter.OnClickListener { selectedDiet ->
             selectedDiet.isSelected = true
 //            selectedDiet.dietImage = R.drawable.vegetarian
@@ -111,7 +112,14 @@ class DietFragment : Fragment() {
         })
         recyclerView.adapter = adapter
 
-        return view
+        val navController = findNavController()
+        val continueBtn = binding.btnContinue
+
+        continueBtn.setOnClickListener {
+            this.findNavController().navigate(R.id.action_navigation_diet_to_navigation_classifyproducts)
+        }
+
+        return binding.root
     }
 
 

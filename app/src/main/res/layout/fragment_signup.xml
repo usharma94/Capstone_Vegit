@@ -83,15 +83,15 @@
         android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:hint="@string/password"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
-        android:padding="15dp"
-        android:fontFamily="@font/roboto_regular"
-        android:inputType="textPassword"
         android:layout_centerInParent="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
         android:background="@drawable/login_custom_btn"
+        android:fontFamily="@font/roboto_regular"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:padding="15dp"
         android:textSize="15sp" />
 
     <Button
@@ -99,14 +99,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/password"
-        android:background="@drawable/btn_custom"
         android:layout_marginLeft="20dp"
+        android:layout_marginTop="75dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="15dp"
+        android:background="@drawable/btn_custom"
         android:fontFamily="@font/roboto_regular"
-        android:textColor="@android:color/white"
-        android:text="Sign Up"/>
-
+        android:text="Sign Up"
+        android:textColor="@android:color/white" />
 
 
 </RelativeLayout>

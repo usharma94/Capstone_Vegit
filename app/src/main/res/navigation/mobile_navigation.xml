@@ -50,7 +50,11 @@
         android:id="@+id/navigation_diet"
         android:name="sheridan.sharmupm.vegit_capstone.ui.diet.DietFragment"
         android:label="Diets"
-        tools:layout="@layout/diet_cardview" />
+        tools:layout="@layout/diet_cardview" >
+        <action
+            android:id="@+id/action_navigation_diet_to_navigation_classifyproducts"
+            app:destination="@id/navigation_classifyproducts" />
+    </fragment>
     <action android:id="@+id/action_global_nav_login" app:destination="@id/loginFragment" app:popUpTo="@id/loginFragment" app:popUpToInclusive="true"/><action android:id="@+id/action_global_navigation_diet" app:destination="@id/navigation_diet" app:popUpTo="@id/navigation_home" app:popUpToInclusive="true"/>
     <fragment
         android:id="@+id/signUpFragment"
