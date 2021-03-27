@@ -1,14 +1,13 @@
-package sheridan.sharmupm.vegit_capstone.ui.diet
-
+package sheridan.sharmupm.vegit_capstone.controllers.notifications
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class DietViewModel : ViewModel() {
+class NotificationsViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "Please select your diet"
+        value = "This is notifications Fragment"
     }
     val text: LiveData<String> = _text
 }

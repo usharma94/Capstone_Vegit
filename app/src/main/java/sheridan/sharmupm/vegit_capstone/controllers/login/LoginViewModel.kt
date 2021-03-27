@@ -1,4 +1,4 @@
-package sheridan.sharmupm.vegit_capstone.ui.login
+package sheridan.sharmupm.vegit_capstone.controllers.login
 
 import android.util.Patterns
 import androidx.lifecycle.LiveData

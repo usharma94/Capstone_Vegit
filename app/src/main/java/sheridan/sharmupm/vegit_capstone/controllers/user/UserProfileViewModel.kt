@@ -1,4 +1,4 @@
-package sheridan.sharmupm.vegit_capstone.ui.user
+package sheridan.sharmupm.vegit_capstone.controllers.user
 
 import androidx.lifecycle.ViewModel
 

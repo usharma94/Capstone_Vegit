@@ -1,13 +1,14 @@
-package sheridan.sharmupm.vegit_capstone.ui.home
+package sheridan.sharmupm.vegit_capstone.controllers.diet
+
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class HomeViewModel : ViewModel() {
+class DietViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is the Search Fragment"
+        value = "Please select your diet"
     }
     val text: LiveData<String> = _text
 }

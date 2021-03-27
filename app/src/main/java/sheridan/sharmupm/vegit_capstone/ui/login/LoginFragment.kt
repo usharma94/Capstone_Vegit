@@ -10,14 +10,12 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import sheridan.sharmupm.vegit_capstone.R
+import sheridan.sharmupm.vegit_capstone.controllers.login.LoginViewModel
 import sheridan.sharmupm.vegit_capstone.models.login.LoggedInUserView
 
 

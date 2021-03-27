@@ -1,5 +1,4 @@
 package sheridan.sharmupm.vegit_capstone.ui.dashboard
-import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -12,11 +11,11 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.vision.Frame
 import com.google.android.gms.vision.text.TextRecognizer
 import sheridan.sharmupm.vegit_capstone.R
+import sheridan.sharmupm.vegit_capstone.controllers.classifyProducts.ClassifyproductsViewModel
 
 class ClassifyproductsFragment : Fragment() {
 

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import sheridan.sharmupm.vegit_capstone.R
+import sheridan.sharmupm.vegit_capstone.controllers.notifications.NotificationsViewModel
 
 class NotificationsFragment : Fragment() {
 
