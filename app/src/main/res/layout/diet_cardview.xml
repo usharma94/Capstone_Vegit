@@ -7,22 +7,44 @@
     android:orientation="vertical"
     tools:context=".ui.diet.DietFragment">
     <TextView
-        android:id="@+id/text_diet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Please select diet:"
         android:layout_marginStart="5dp"
-        android:textAlignment="textStart"
         android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/diet_recycler_view"
+        />
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/item_diet"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        android:layout_height="match_parent">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/diet_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/item_diet"
+            android:layout_marginBottom="200dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        <Button
+            android:id="@+id/btn_continue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/diet_recycler_view"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="-60dp"
+            android:background="@drawable/btn_custom"
+            android:text="Scan Item"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+
 
 </LinearLayout>
 

@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     app:cardCornerRadius="6dp"
     app:cardUseCompatPadding="true"
+    android:focusable="true"
     android:background="@color/colorPrimary">
     <RelativeLayout
         android:id="@+id/layout2"
@@ -21,7 +21,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:contentDescription="@string/app_name"
-            android:src="@drawable/vegan" />
+            />
 
         <TextView
             android:id="@+id/txtDiet"

@@ -70,30 +70,43 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/et_password"
-        android:background="@drawable/btn_custom"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:layout_marginTop="15dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/btn_custom"
         android:fontFamily="@font/roboto_regular"
-        android:textColor="@android:color/white"
-        android:text="@string/login"/>
+        android:text="@string/login"
+        android:textColor="@android:color/white" />
 
-    <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_above="@id/swipeRight"
-        android:layout_centerHorizontal="true"/>
-
-    <TextView
-        android:id="@+id/swipeRight"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/btn_sign_up"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/swipe_left_to_register"
-        android:textSize="15sp"
+        android:layout_below="@id/btn_login"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/teal_700"
+        android:backgroundTint="#3BB5A9"
         android:fontFamily="@font/roboto_regular"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"/>
+        android:text="Sign Up"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/btn_skip_sign_up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_sign_up"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/menu_blue"
+        android:fontFamily="@font/roboto_regular"
+        android:text="Skip Login"
+        android:textColor="@android:color/white" />
+
+
+
 
 
 
