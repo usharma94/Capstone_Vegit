@@ -10,9 +10,9 @@
     <color name="menu_blue">#3474EB</color>
     <color name="colorPrimary">#B5EB6B</color>
     <color name="colorPrimaryDark">#210018</color>
-    <color name="colorGrey">#FFFFFF </color>
+    <color name="colorGrey">#CCD1D1 </color>
     <color name="colorBlueGrey">#FFFFFF</color>
     <color name="colorBackground">#FFFFFF</color>
-    <color name="green_secondary">#6FC000</color>
+    <color name="green_secondary">#EBFBDB</color>
     <color name="disabled_btn">#D5DBDB</color>
 </resources>

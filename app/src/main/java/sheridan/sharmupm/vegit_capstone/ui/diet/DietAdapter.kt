@@ -1,6 +1,7 @@
 package sheridan.sharmupm.vegit_capstone.ui.diet
 
 import android.graphics.Color
+import android.graphics.Color.*
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,7 +64,6 @@ class DietAdapter(
         // holder.setData(ContactViewModel, position)  // I'm passing this to the ViewHolder
                 val item: DietModel = dietList[position]
 
-//        holder.imgDiet.setImageResource(R.drawable.vegetarian)
         holder.dietName.text = item.dietName
         holder.dietDescription.text = item.dietDescription
         item.dietImage?.let { holder.imgDiet.setBackgroundResource(it) }
@@ -71,18 +71,23 @@ class DietAdapter(
 
         selectedItems.forEach {
             if (it == position) {
-                holder.itemView.setBackgroundColor(Color.argb(100, 0, 255, 0))
+                if (it != 2 ){
+                    holder.itemView.setBackgroundColor(Color.argb(100, 0, 255, 0))
+                }
 //                holder.itemView.visibility = INVISIBLE
-
             }
             else{
 //                holder.itemView.visibility = VISIBLE
-                holder.itemView.setBackgroundColor(Color.argb(45, 0, 255, 0))
+                if(position == 2){
+                    holder.itemView.setBackgroundResource(R.color.colorGrey)
+                }else{
+                    holder.itemView.setBackgroundColor(Color.argb(45, 0, 255, 0))
+                }
+
             }
         }
 
-        holder.itemView.setOnClickListener { it ->
-//            it.setBackgroundColor(Color.BLUE)
+        holder.itemView.setOnClickListener {
             selectedItems.add(position)
             selectedItems.forEach { selectedItem ->  // this forEach is required to refresh all the list
                 notifyItemChanged(selectedItem)
