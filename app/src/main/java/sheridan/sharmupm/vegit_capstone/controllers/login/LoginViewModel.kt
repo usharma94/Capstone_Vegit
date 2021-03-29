@@ -9,11 +9,12 @@ import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.models.login.LoggedInUserView
 import sheridan.sharmupm.vegit_capstone.models.login.LoginFormState
 import sheridan.sharmupm.vegit_capstone.models.login.LoginModel
+import sheridan.sharmupm.vegit_capstone.services.cache.CacheClient
 import sheridan.sharmupm.vegit_capstone.services.network.APIClient
 import sheridan.sharmupm.vegit_capstone.services.repository.LoginRepository
 import kotlin.coroutines.CoroutineContext
 
-class LoginViewModel :ViewModel(){
+class LoginViewModel : ViewModel(){
 
     private val parentJob = Job()
 
@@ -22,7 +23,7 @@ class LoginViewModel :ViewModel(){
 
     private val scope = CoroutineScope(coroutineContext)
 
-    private val repository : LoginRepository = LoginRepository(APIClient.apiInterface)
+    private val repository : LoginRepository = LoginRepository(APIClient.apiInterface, CacheClient.cache)
 
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = _loginForm
