@@ -1,5 +1,6 @@
 package sheridan.sharmupm.vegit_capstone.ui.dashboard
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
@@ -122,7 +123,4 @@ class ClassifyproductsFragment : Fragment() {
             ingredientLabelPicture?.setImageURI(data?.data)
         }
     }
-
-
-
 }
