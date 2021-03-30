@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -41,6 +42,7 @@ class LoginFragment : Fragment() {
         val loginButton = view.findViewById<Button>(R.id.btn_login)
         val skipSignUpButton = view.findViewById<Button>(R.id.btn_skip_sign_up)
         val signUpButton = view.findViewById<Button>(R.id.btn_sign_up)
+        val loadingProgressBar = view.findViewById<ProgressBar>(R.id.loading)
 
         loginViewModel.loginFormState.observe(viewLifecycleOwner,
             Observer { loginFormState ->
@@ -58,6 +60,7 @@ class LoginFragment : Fragment() {
 
         loginViewModel.loggedInUser.observe(viewLifecycleOwner,
             { user ->
+                loadingProgressBar.visibility = View.GONE
                 if (user != null) {
                     updateUiWithUser(user)
                 } else {
@@ -96,6 +99,7 @@ class LoginFragment : Fragment() {
         }
 
         loginButton.setOnClickListener {
+            loadingProgressBar.visibility = View.VISIBLE
             loginViewModel.loginUser(
                 emailEditText.text.toString(),
                 passwordEditText.text.toString()
