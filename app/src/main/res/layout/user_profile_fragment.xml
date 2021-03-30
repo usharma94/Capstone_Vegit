@@ -23,7 +23,7 @@
         android:layout_height="20dp" />
 
     <TextView
-        android:id="@+id/profile_name"
+        android:id="@+id/profile_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="User@email.com"
