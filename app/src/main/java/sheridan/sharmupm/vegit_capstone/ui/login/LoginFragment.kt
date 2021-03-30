@@ -7,10 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -37,9 +34,12 @@ class LoginFragment : Fragment() {
         loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
         // TODO: Use the ViewModel
 
+        loginViewModel.isUserLoggedIn()
+
         val emailEditText = view.findViewById<EditText>(R.id.et_email)
         val passwordEditText = view.findViewById<EditText>(R.id.et_password)
         val loginButton = view.findViewById<Button>(R.id.btn_login)
+        val rememberMe = view.findViewById<CheckBox>(R.id.saveLoginCheckBox)
         val skipSignUpButton = view.findViewById<Button>(R.id.btn_skip_sign_up)
         val signUpButton = view.findViewById<Button>(R.id.btn_sign_up)
         val loadingProgressBar = view.findViewById<ProgressBar>(R.id.loading)
@@ -61,6 +61,7 @@ class LoginFragment : Fragment() {
         loginViewModel.loggedInUser.observe(viewLifecycleOwner,
             { user ->
                 loadingProgressBar.visibility = View.GONE
+                loginButton.isEnabled = true
                 if (user != null) {
                     updateUiWithUser(user)
                 } else {
@@ -92,7 +93,8 @@ class LoginFragment : Fragment() {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 loginViewModel.loginUser(
                     emailEditText.text.toString(),
-                    passwordEditText.text.toString()
+                    passwordEditText.text.toString(),
+                    rememberMe.isChecked
                 )
             }
             false
@@ -100,9 +102,11 @@ class LoginFragment : Fragment() {
 
         loginButton.setOnClickListener {
             loadingProgressBar.visibility = View.VISIBLE
+            loginButton.isEnabled = false
             loginViewModel.loginUser(
                 emailEditText.text.toString(),
-                passwordEditText.text.toString()
+                passwordEditText.text.toString(),
+                rememberMe.isChecked
             )
         }
         val navController = findNavController()

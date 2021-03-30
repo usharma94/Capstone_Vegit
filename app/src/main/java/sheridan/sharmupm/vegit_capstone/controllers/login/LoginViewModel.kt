@@ -5,7 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
+import sheridan.sharmupm.vegit_capstone.App
 import sheridan.sharmupm.vegit_capstone.R
+import sheridan.sharmupm.vegit_capstone.helpers.isUserInRoom
+import sheridan.sharmupm.vegit_capstone.helpers.toLoggedInUserView
 import sheridan.sharmupm.vegit_capstone.models.login.LoggedInUserView
 import sheridan.sharmupm.vegit_capstone.models.login.LoginFormState
 import sheridan.sharmupm.vegit_capstone.models.login.LoginModel
@@ -23,21 +26,36 @@ class LoginViewModel : ViewModel(){
 
     private val scope = CoroutineScope(coroutineContext)
 
-    private val repository : LoginRepository = LoginRepository(APIClient.apiInterface, CacheClient.cache)
+    private val repository : LoginRepository = LoginRepository(APIClient.apiInterface, CacheClient.cache, App.db.userDao())
 
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = _loginForm
 
     val loggedInUser = MutableLiveData<LoggedInUserView>()
 
-    fun loginUser(email: String, password: String) {
+    fun loginUser(email: String, password: String, rememberMe: Boolean) {
         val login = LoginModel()
         login.email = email
         login.password = password
+        login.rememberMe = rememberMe
 
         scope.launch {
             val user = repository.loginUser(login)
             loggedInUser.postValue(user)
+        }
+    }
+
+    fun isUserLoggedIn() {
+        scope.launch {
+            val count = isUserInRoom()
+            if (count > 0) {
+                println("User already logged in, sending to home page")
+                // get user from room
+                val user = App.db.userDao().getUser().toLoggedInUserView()
+                // save user in cache
+                CacheClient.cache["user"] = user
+                loggedInUser.postValue(user)
+            }
         }
     }
 

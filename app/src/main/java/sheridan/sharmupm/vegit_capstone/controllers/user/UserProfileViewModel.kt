@@ -3,6 +3,8 @@ package sheridan.sharmupm.vegit_capstone.controllers.user
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
+import sheridan.sharmupm.vegit_capstone.App
+import sheridan.sharmupm.vegit_capstone.helpers.toLoggedInUserView
 import sheridan.sharmupm.vegit_capstone.models.login.LoggedInUserView
 import sheridan.sharmupm.vegit_capstone.services.cache.CacheClient
 import sheridan.sharmupm.vegit_capstone.services.network.APIClient
@@ -18,38 +20,40 @@ class UserProfileViewModel : ViewModel() {
 
     private val scope = CoroutineScope(coroutineContext)
 
-    private val repository : UserRepository = UserRepository(APIClient.apiInterface, CacheClient.cache)
+    private val repository : UserRepository = UserRepository(APIClient.apiInterface, CacheClient.cache, App.db.userDao())
 
     val loggedInUser = MutableLiveData<LoggedInUserView>()
 
     fun fetchUser() {
         // fetch user from cache
-        var cachedUser = CacheClient.cache.get("user")
-        var userId = -1
-
+        val cachedUser = CacheClient.cache.get("user")
         if (cachedUser != null) {
-            cachedUser = cachedUser as LoggedInUserView
-            userId = cachedUser.id!!
+            loggedInUser.postValue(cachedUser as LoggedInUserView)
         } else {
             // fetch user from room
-            userId = -1
-        }
-
-        if (userId < 0) {
-            // no user logged in, should not be able to view user profile page
-            // ether disable user profile page if no logged in user or logout user here?
-            println("No user logged in from cache or room data")
-            return
-        }
-
-        scope.launch {
-            val user = repository.fetchUser(userId)
-            loggedInUser.postValue(user)
+            scope.launch {
+                val roomUser = App.db.userDao().getUser()
+                if (roomUser != null) {
+                    loggedInUser.postValue(roomUser.toLoggedInUserView())
+                } else {
+                    println("No user logged in from cache or room data")
+                }
+            }
+/*            scope.launch {
+                val user = repository.fetchUser(userId)
+                loggedInUser.postValue(user)
+            }*/
         }
     }
 
     fun logoutUser() {
+        // remove from cache
         CacheClient.cache.remove("user")
+
+        // remove from room
+        scope.launch {
+            App.db.userDao().deleteUser()
+        }
     }
 
     fun cancelRequest() = coroutineContext.cancel()

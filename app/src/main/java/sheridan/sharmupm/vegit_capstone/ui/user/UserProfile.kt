@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.controllers.user.UserProfileViewModel
+import sheridan.sharmupm.vegit_capstone.helpers.isUserCached
 import sheridan.sharmupm.vegit_capstone.models.login.LoggedInUserView
 
 class UserProfile : Fragment() {
@@ -32,7 +33,11 @@ class UserProfile : Fragment() {
         val email = view.findViewById<TextView>(R.id.profile_email)
         val logoutButton = view.findViewById<Button>(R.id.btnProfileLogout)
 
-        userProfileViewModel.fetchUser()
+        if (isUserCached()) {
+            userProfileViewModel.fetchUser()
+        } else {
+            // disable stuff here for non logged in users
+        }
 
         userProfileViewModel.loggedInUser.observe(viewLifecycleOwner,
             { user ->
