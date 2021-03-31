@@ -3,18 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".ui.user.UserProfile" >
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="25dp" />
+    android:fillViewport="true"
+    tools:context=".ui.user.UserProfile">
 
     <ImageView
         android:id="@+id/profile_img"
         android:layout_width="match_parent"
         android:layout_height="125dp"
+        android:layout_marginTop="20dp"
         android:background="#FFFFFF"
         android:src="@drawable/profile" />
 
@@ -31,9 +29,7 @@
         android:textSize="22sp"
         android:textStyle="bold" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="50dp" />
+
 
     <Button
         android:id="@+id/btnFAQ"
@@ -45,11 +41,9 @@
         android:text="FAQ"
         android:textSize="22sp"
         android:textStyle="bold" />
-
     <Space
         android:layout_width="match_parent"
         android:layout_height="10dp" />
-
     <Button
         android:id="@+id/btnHistory"
         android:layout_width="match_parent"
@@ -87,8 +81,51 @@
         android:layout_marginHorizontal="10dp"
         android:backgroundTint="@color/colorPrimaryDark"
         android:padding="10dp"
+        android:visibility="gone"
         android:text="Logout"
         android:textSize="22sp"
         android:textStyle="bold" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/upgradeAccountCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:orientation="vertical"
+        app:cardElevation="5dp"
+        app:cardUseCompatPadding="true"
+        android:backgroundTint="@color/alert_red"
+        app:contentPadding="10dp">
+
+
+        <RelativeLayout
+            android:id="@+id/layout"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/imgVegetarian"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_baseline_announcement_24" />
+
+            <TextView
+                android:id="@+id/txtUpgrade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@+id/imgVegetarian"
+                android:text="Create an Account to access these features!"
+                android:textSize="15sp"
+                android:textStyle="italic" />
+
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
 
 </LinearLayout>
