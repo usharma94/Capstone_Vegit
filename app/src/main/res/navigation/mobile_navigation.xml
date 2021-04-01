@@ -61,4 +61,9 @@
         android:name="sheridan.sharmupm.vegit_capstone.ui.login.SignUpFragment"
         android:label="Sign Up"
         tools:layout="@layout/fragment_signup" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="sheridan.sharmupm.vegit_capstone.ui.search.SearchFragment"
+        android:label="search_fragment"
+        tools:layout="@layout/search_fragment" />
 </navigation>

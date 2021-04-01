@@ -23,7 +23,7 @@ class UserRepository(private val api: ApiInterface,
             // room user is old and requires refreshing
             println("Fetching fresh user from database")
             val userResponse = safeApiCall(
-                call = {api.fetchUser(id).await()},
+                call = {api.fetchUserAsync(id).await()},
                 errorMessage = "Error fetching user"
             )
 

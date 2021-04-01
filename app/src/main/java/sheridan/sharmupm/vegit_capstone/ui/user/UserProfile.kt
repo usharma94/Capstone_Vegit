@@ -47,8 +47,9 @@ class UserProfile : Fragment() {
             updateAccountCard.isVisible = false
             scanHistoryButton.isEnabled = true
             customDietButton.isEnabled = true
-            userProfileViewModel.fetchUser()
             logoutUser(logoutButton)
+
+            userProfileViewModel.fetchUser()
         } else {
             // disable stuff here for non logged in users
             logoutButton.isVisible = false
@@ -56,8 +57,6 @@ class UserProfile : Fragment() {
             customDietButton.isEnabled = false
             email.isVisible = false
             profileImage.isVisible = false
-
-
         }
 
         userProfileViewModel.loggedInUser.observe(viewLifecycleOwner,
