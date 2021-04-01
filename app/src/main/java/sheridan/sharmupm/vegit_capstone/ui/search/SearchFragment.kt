@@ -1,9 +1,13 @@
 package sheridan.sharmupm.vegit_capstone.ui.search
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import sheridan.sharmupm.vegit_capstone.R
@@ -23,23 +27,64 @@ class SearchFragment : Fragment() {
         searchViewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
         // TODO: Use the ViewModel
 
-        // called via search button press
-        // set loading icon visible... disable search button while searching...
-        searchViewModel.searchIngredients("wool")
+        searchViewModel.getIngredientNames()
+
+        val searchText = view.findViewById<EditText>(R.id.search_bar)
+        val clearButton = view.findViewById<Button>(R.id.clear_text)
+
+        val afterTextChangedListener = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                // ignore
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                // ignore
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                searchViewModel.searchDataChanged(
+                        searchText.text.toString().trim()
+                )
+            }
+        }
+
+        searchText.addTextChangedListener(afterTextChangedListener)
+
+        searchViewModel.searchList.observe(viewLifecycleOwner,
+                { results ->
+                    if (results != null) {
+                        // UPMA UPMA UPMA UPMA UPMA UPMA UPMA
+                        // display results of search in UI as a list
+                        println(results)
+                    }
+                    else {
+                        println("No data found")
+                    }
+                })
+
+        // UPMA UPMA UPMA UPMA UPMA UPMA UPMA
+        // upon user tapping an ingredient item, call the below with given item name
+        //searchViewModel.searchIngredients("item name")
+        // also show a loading icon for better feedback
 
         searchViewModel.searchResult.observe(viewLifecycleOwner,
             { ingredient ->
-                // hide loading icon here...
-                // re-enable search button...
+                // UPMA UPMA UPMA UPMA UPMA UPMA UPMA
+                // hide loading icon here
+
                 if (ingredient != null) {
-                    // display results of search in UI
+                    // UPMA UPMA UPMA UPMA UPMA UPMA UPMA
+                    // display results of singular food item
                     println(ingredient)
                 }
                 else {
-                    // display no data found message to user in UI
-                    println("No data found")
+                    println("Error fetching ingredient")
                 }
             })
+
+        clearButton.setOnClickListener {
+            searchText.text.clear()
+        }
     }
 
 }

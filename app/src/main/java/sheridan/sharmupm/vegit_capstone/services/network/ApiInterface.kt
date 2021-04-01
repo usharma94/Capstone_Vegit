@@ -26,6 +26,9 @@ interface ApiInterface {
 
     // INGREDIENTS
 
+    @GET("ingredients/getnames")
+    fun fetchIngredientNamesAsync(): Deferred<Response<List<SearchSingle>>>
+
     @POST("ingredients/search/single")
     fun searchIngredientsAsync(@Body searchSingle: SearchSingle): Deferred<Response<Ingredient>>
 }

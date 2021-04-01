@@ -8,6 +8,7 @@ import kotlinx.coroutines.*
 import sheridan.sharmupm.vegit_capstone.App
 import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.helpers.isUserInRoom
+import sheridan.sharmupm.vegit_capstone.helpers.setUserInCache
 import sheridan.sharmupm.vegit_capstone.helpers.toLoggedInUserView
 import sheridan.sharmupm.vegit_capstone.models.login.LoggedInUserView
 import sheridan.sharmupm.vegit_capstone.models.login.LoginFormState
@@ -53,7 +54,8 @@ class LoginViewModel : ViewModel(){
                 // get user from room
                 val user = App.db.userDao().getUser().toLoggedInUserView()
                 // save user in cache
-                CacheClient.cache["user"] = user
+                setUserInCache(user)
+
                 loggedInUser.postValue(user)
             }
         }

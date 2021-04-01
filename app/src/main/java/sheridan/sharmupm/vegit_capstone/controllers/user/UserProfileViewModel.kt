@@ -4,11 +4,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
 import sheridan.sharmupm.vegit_capstone.App
+import sheridan.sharmupm.vegit_capstone.helpers.getUserFromCache
+import sheridan.sharmupm.vegit_capstone.helpers.removeUserFromCache
 import sheridan.sharmupm.vegit_capstone.helpers.toLoggedInUserView
 import sheridan.sharmupm.vegit_capstone.models.login.LoggedInUserView
-import sheridan.sharmupm.vegit_capstone.services.cache.CacheClient
-import sheridan.sharmupm.vegit_capstone.services.network.APIClient
-import sheridan.sharmupm.vegit_capstone.services.repository.UserRepository
 import kotlin.coroutines.CoroutineContext
 
 class UserProfileViewModel : ViewModel() {
@@ -20,13 +19,13 @@ class UserProfileViewModel : ViewModel() {
 
     private val scope = CoroutineScope(coroutineContext)
 
-    private val repository : UserRepository = UserRepository(APIClient.apiInterface, CacheClient.cache, App.db.userDao())
+    // private val repository : UserRepository = UserRepository(APIClient.apiInterface, CacheClient.cache, App.db.userDao())
 
     val loggedInUser = MutableLiveData<LoggedInUserView>()
 
     fun fetchUser() {
         // fetch user from cache
-        val cachedUser = CacheClient.cache.get("user")
+        val cachedUser = getUserFromCache()
         if (cachedUser != null) {
             loggedInUser.postValue(cachedUser as LoggedInUserView)
         } else {
@@ -48,7 +47,7 @@ class UserProfileViewModel : ViewModel() {
 
     fun logoutUser() {
         // remove from cache
-        CacheClient.cache.remove("user")
+        removeUserFromCache()
 
         // remove from room
         scope.launch {
