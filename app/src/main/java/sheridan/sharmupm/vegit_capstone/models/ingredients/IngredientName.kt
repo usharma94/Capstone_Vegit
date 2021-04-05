@@ -1,5 +1,5 @@
 package sheridan.sharmupm.vegit_capstone.models.ingredients
 
-data class SearchSingle(
+data class IngredientName(
         var name:String = ""
 )

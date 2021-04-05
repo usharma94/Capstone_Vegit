@@ -7,16 +7,13 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 import sheridan.sharmupm.vegit_capstone.models.ingredients.Ingredient
-import sheridan.sharmupm.vegit_capstone.models.ingredients.SearchSingle
+import sheridan.sharmupm.vegit_capstone.models.ingredients.IngredientName
 import sheridan.sharmupm.vegit_capstone.models.login.LoggedInUserView
 import sheridan.sharmupm.vegit_capstone.models.login.LoginModel
 
 interface ApiInterface {
 
     // USERS
-
-    //@GET("users/getall")
-    //fun fetchAllUsers(): Call<List<UserModel>>
 
     @GET("users/get/{id}")
     fun fetchUserAsync(@Path("id") id:Int): Deferred<Response<LoggedInUserView>>
@@ -27,8 +24,11 @@ interface ApiInterface {
     // INGREDIENTS
 
     @GET("ingredients/getnames")
-    fun fetchIngredientNamesAsync(): Deferred<Response<List<SearchSingle>>>
+    fun fetchIngredientNamesAsync(): Deferred<Response<List<IngredientName>>>
 
     @POST("ingredients/search/single")
-    fun searchIngredientsAsync(@Body searchSingle: SearchSingle): Deferred<Response<Ingredient>>
+    fun searchIngredientsAsync(@Body ingredientName: IngredientName): Deferred<Response<Ingredient>>
+
+    @POST("ingredients/search/list")
+    fun searchIngredientListAsync(@Body ingredientNames: List<IngredientName>): Deferred<Response<List<Ingredient>>>
 }

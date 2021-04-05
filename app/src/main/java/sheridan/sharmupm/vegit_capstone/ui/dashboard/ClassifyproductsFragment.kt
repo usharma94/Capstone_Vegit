@@ -1,6 +1,5 @@
 package sheridan.sharmupm.vegit_capstone.ui.dashboard
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
@@ -48,6 +47,18 @@ class ClassifyproductsFragment : Fragment() {
         val analyzeBtn = view.findViewById<Button>(R.id.takePicture)
         val scanResult = view.findViewById<TextView>(R.id.text_view)
 
+        // DEMO PURPOSE FOR Wang =========================================
+
+        // call this passing in ingredientName list
+        // you can move it to where you think is most appropriate in this class
+
+        //classifyproductsViewModel.searchIngredientList(ingredientName list...)
+
+        // observe the classifyproductsViewModel.ingredientResults live data for change
+        // and display results when it has data
+        // you can refer to login/search/user fragments for examples
+
+        // DEMO PURPOSE FOR Wang =========================================
 
         //Select picture from gallery, the picture is saved locally in my simulator now
         galleryBtn.setOnClickListener{

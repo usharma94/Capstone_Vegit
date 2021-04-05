@@ -4,7 +4,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import sheridan.sharmupm.vegit_capstone.App
 import sheridan.sharmupm.vegit_capstone.models.UserModel
-import sheridan.sharmupm.vegit_capstone.models.ingredients.SearchSingle
+import sheridan.sharmupm.vegit_capstone.models.ingredients.IngredientName
 import sheridan.sharmupm.vegit_capstone.models.login.LoggedInUserView
 import sheridan.sharmupm.vegit_capstone.services.cache.CacheClient
 import java.util.concurrent.TimeUnit
@@ -36,14 +36,14 @@ fun removeUserFromCache() {
     cache.remove("user")
 }
 
-fun setSearchIngredientList(names: List<SearchSingle>) {
+fun setSearchIngredientList(names: List<IngredientName>) {
     cache["searchList"] = names
 }
 
 fun getSearchIngredientList(): Any? {
     val list = cache.get("searchList")
     if (list != null) {
-        return list as List<SearchSingle>
+        return list as List<IngredientName>
     }
     return null
 }

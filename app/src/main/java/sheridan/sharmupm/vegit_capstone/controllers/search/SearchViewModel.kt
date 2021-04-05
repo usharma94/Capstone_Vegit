@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 import sheridan.sharmupm.vegit_capstone.helpers.getSearchIngredientList
 import sheridan.sharmupm.vegit_capstone.helpers.setSearchIngredientList
 import sheridan.sharmupm.vegit_capstone.models.ingredients.Ingredient
-import sheridan.sharmupm.vegit_capstone.models.ingredients.SearchSingle
+import sheridan.sharmupm.vegit_capstone.models.ingredients.IngredientName
 import sheridan.sharmupm.vegit_capstone.services.network.APIClient
 import sheridan.sharmupm.vegit_capstone.services.repository.IngredientRepository
 import kotlin.coroutines.CoroutineContext
@@ -27,14 +27,14 @@ class SearchViewModel : ViewModel() {
 
     val searchResult = MutableLiveData<Ingredient>()
 
-    private var ingredientNames: List<SearchSingle> = mutableListOf()
+    private var ingredientNames: List<IngredientName> = mutableListOf()
 
-    val searchList = MutableLiveData<List<SearchSingle>>()
+    val searchList = MutableLiveData<List<IngredientName>>()
 
     fun getIngredientNames() {
         val cachedNames = getSearchIngredientList()
         if (cachedNames != null) {
-            ingredientNames = cachedNames as List<SearchSingle>
+            ingredientNames = cachedNames as List<IngredientName>
         } else {
             // fetch names from API
             scope.launch {
@@ -57,7 +57,7 @@ class SearchViewModel : ViewModel() {
     }
 
     fun searchIngredients(name: String) {
-        val search = SearchSingle()
+        val search = IngredientName()
         search.name = name
 
         scope.launch {
