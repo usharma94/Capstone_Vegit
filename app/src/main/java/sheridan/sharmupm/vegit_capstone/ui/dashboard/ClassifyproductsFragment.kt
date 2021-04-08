@@ -2,11 +2,8 @@ package sheridan.sharmupm.vegit_capstone.ui.dashboard
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +16,6 @@ import com.google.android.gms.vision.Frame
 import com.google.android.gms.vision.text.TextRecognizer
 import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.controllers.classifyProducts.ClassifyproductsViewModel
-import sheridan.sharmupm.vegit_capstone.models.ingredients.IngredientName
 
 class ClassifyproductsFragment : Fragment() {
 
@@ -101,57 +97,23 @@ class ClassifyproductsFragment : Fragment() {
                 val frame = Frame.Builder().setBitmap(mBitmap).build()
                 val items = textRecognizer.detect(frame)
 
-                val sb = StringBuilder()
-                val ingredientNameList = arrayListOf<IngredientName>()
-                var mIngredientNameList = listOf<String>()
-                for (i in 0..items.size() - 1) {
-                    val myItem = items.valueAt(i).value
-                    sb.append(myItem)
-                    sb.append("\n")
-                    //ingredientName.name = myItem
-                    //ingredientNameList.add(ingredientName)
-
+                val ingredientList = classifyproductsViewModel.extractIngredientText(items)
+                if (ingredientList != null) {
+                    classifyproductsViewModel.searchIngredientList(ingredientList)
+                } else {
+                    // show error message that no data was extracted?
+                    println("No data able to be extracted!")
                 }
-
-                mIngredientNameList = sb.split(",", ";")
-
-                for (ingredient in mIngredientNameList){
-                    val ingredientName = IngredientName()
-                    ingredientName.name = ingredient
-                    ingredientNameList.add(ingredientName)
-                }
-                classifyproductsViewModel.searchIngredientList(ingredientNameList)
-//                classifyproductsViewModel.ingredientResults.observe(viewLifecycleOwner,
-//                    { results ->
-//                        if (results != null) {
-//                           val sb3 = StringBuilder()
-//                            for (i in 0..results.size-1){
-//                                sb3.append(results[i].name)
-//                            }
-//                            Toast.makeText(context?.applicationContext, sb3, Toast.LENGTH_LONG).show()
-//                        }
-//                        else {
-//                            println("No data found")
-//                        }
-//                    })
-
-//                val sb2 = StringBuilder()
-//                for (i in 0..ingredientNameList.size-1){
-//                    sb2.append(ingredientNameList[i].name)
-//
-//                }
-//                Toast.makeText(context?.applicationContext, sb2, Toast.LENGTH_LONG).show()
-
-
             }
-
         }
+
         classifyproductsViewModel.ingredientResults.observe(viewLifecycleOwner,
             { results ->
                 if (results != null) {
+                    // display results as outlined in wireframe UI for classify product
                     val sb3 = StringBuilder()
                     for (i in 0..results.size-1){
-                        sb3.append(results[i].name)
+                        sb3.append(results[i].name + " - " + results[i].diet_name + "\n")
                     }
                     Toast.makeText(context?.applicationContext, sb3, Toast.LENGTH_LONG).show()
                 }
