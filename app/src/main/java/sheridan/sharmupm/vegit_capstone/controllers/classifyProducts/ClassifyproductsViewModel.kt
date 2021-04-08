@@ -1,8 +1,10 @@
 package sheridan.sharmupm.vegit_capstone.controllers.classifyProducts
 
+import android.util.SparseArray
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.gms.vision.text.TextBlock
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -36,9 +38,47 @@ class ClassifyproductsViewModel : ViewModel() {
         scope.launch {
             val results = repository.searchIngredientList(ingredientNames)
             ingredientResults.postValue(results)
-
-            // showing results in log output
-            println(results)
         }
+    }
+
+    fun extractIngredientText(rawData: SparseArray<TextBlock>) : List<IngredientName>? {
+        val sb = StringBuilder()
+        var ingredientRaw = ""
+        val ingredientNameList: MutableList<IngredientName> = mutableListOf()
+
+        // creating single string from scanned text
+        for (i in 0 until rawData.size()) {
+            val myItem = rawData.valueAt(i).value
+            sb.append(myItem)
+        }
+
+        // grabbing text only after "ingredients:"
+        ingredientRaw = sb.substring(sb.indexOf(":") + 1)
+
+        // stopping at first occurance of a .
+        // may or may not be best way to extract up to end of ingredient text only
+        // From research, found most ingredients have a . at end of ingredients
+        ingredientRaw = ingredientRaw.substring(0, ingredientRaw.indexOf("."))
+
+        // remove special characters from string
+        ingredientRaw = ingredientRaw.replace(Regex("[*\"/]"), "")
+
+        // remove new line with space
+        ingredientRaw = ingredientRaw.replace(Regex("[\n\r]"), " ")
+
+        // split string by delimiters
+        val ingredientList = ingredientRaw.split(",", "(", ")", "[", "]", " and ", " or ")
+
+        // creating list of ingredient name objects
+        for (ingredient in ingredientList) {
+            if (ingredient.trim() != "") {
+                ingredientNameList.add(IngredientName(ingredient.trim()))
+            }
+        }
+
+        if (ingredientNameList.count() < 1) {
+            return null
+        }
+        return ingredientNameList
     }
 }

@@ -2,7 +2,6 @@ package sheridan.sharmupm.vegit_capstone.ui.dashboard
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.content.ContextCompat.checkSelfPermission
+import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.vision.Frame
@@ -20,7 +20,7 @@ import sheridan.sharmupm.vegit_capstone.controllers.classifyProducts.Classifypro
 class ClassifyproductsFragment : Fragment() {
 
     private lateinit var classifyproductsViewModel: ClassifyproductsViewModel
-    var ingredientLabelPicture: ImageView? = null
+    private lateinit var ingredientLabelPicture: ImageView
 
     companion object{
         private val IMAGE_PICK_CODE = 1000
@@ -61,6 +61,8 @@ class ClassifyproductsFragment : Fragment() {
         // DEMO PURPOSE FOR Wang =========================================
 
         //Select picture from gallery, the picture is saved locally in my simulator now
+
+
         galleryBtn.setOnClickListener{
             if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.M){
                 if (context?.applicationContext?.let { it1 -> checkSelfPermission(it1,android.Manifest.permission.READ_EXTERNAL_STORAGE) } ==PackageManager.PERMISSION_DENIED)
@@ -86,26 +88,39 @@ class ClassifyproductsFragment : Fragment() {
         //result if the food is safe to eat
         //**** the "analyze" is hard-code now***
         analyzeBtn.setOnClickListener {
-            val bitmap = BitmapFactory.decodeResource(context?.applicationContext?.resources, R.drawable.p)
+            val mBitmap = ingredientLabelPicture.getDrawable().toBitmap()
             val textRecognizer = TextRecognizer.Builder(context?.applicationContext).build()
             if (!textRecognizer.isOperational) {
                 Toast.makeText(context?.applicationContext, "Could not get the text", Toast.LENGTH_SHORT)
                     .show()
             } else {
-                val frame = Frame.Builder().setBitmap(bitmap).build()
+                val frame = Frame.Builder().setBitmap(mBitmap).build()
                 val items = textRecognizer.detect(frame)
-                val sb = StringBuilder()
-                for (i in 0..items.size() - 1) {
-                    val myItem = items.valueAt(i)
-                    sb.append(myItem.value)
-                    sb.append("\n")
+
+                val ingredientList = classifyproductsViewModel.extractIngredientText(items)
+                if (ingredientList != null) {
+                    classifyproductsViewModel.searchIngredientList(ingredientList)
+                } else {
+                    // show error message that no data was extracted?
+                    println("No data able to be extracted!")
                 }
-                Toast.makeText(context?.applicationContext, sb.toString(), Toast.LENGTH_LONG).show()
-                scanResult.setText("AVOID: Milk protein concentrate")
-
             }
-
         }
+
+        classifyproductsViewModel.ingredientResults.observe(viewLifecycleOwner,
+            { results ->
+                if (results != null) {
+                    // display results as outlined in wireframe UI for classify product
+                    val sb3 = StringBuilder()
+                    for (i in 0..results.size-1){
+                        sb3.append(results[i].name + " - " + results[i].diet_name + "\n")
+                    }
+                    Toast.makeText(context?.applicationContext, sb3, Toast.LENGTH_LONG).show()
+                }
+                else {
+                    println("No data found")
+                }
+            })
     }
 
     private fun pickImageFromGallery() {

@@ -57,8 +57,7 @@ class SearchViewModel : ViewModel() {
     }
 
     fun searchIngredients(name: String) {
-        val search = IngredientName()
-        search.name = name
+        val search = IngredientName(name)
 
         scope.launch {
             val ingredient = repository.searchIngredients(search)
