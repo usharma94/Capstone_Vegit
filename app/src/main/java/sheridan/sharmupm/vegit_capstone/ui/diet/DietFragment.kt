@@ -6,15 +6,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.databinding.DietCardviewBinding
 import sheridan.sharmupm.vegit_capstone.models.DietModel
-import kotlin.coroutines.coroutineContext
 
 
 
@@ -35,15 +32,14 @@ class DietFragment : Fragment() {
         val imgCustom =  R.drawable.custom
 
         dietList = listOf(
-            DietModel(false, imgVegetarian, "Vegetarian", vegDes),
-            DietModel(false, imgVegan, "Vegan", veganDes),
-            DietModel(false, imgCustom, "Custom", "Custom Diet")
+            DietModel(0, false, imgVegetarian, "Vegetarian", vegDes),
+            DietModel(1, false, imgVegan, "Vegan", veganDes),
+            DietModel(2, false, imgCustom, "Custom", "Custom Diet")
 
         )
         val recyclerView: RecyclerView = binding.dietRecyclerView
 
         val adapter = DietAdapter(dietList, DietAdapter.OnClickListener { selectedDiet ->
-
         })
         recyclerView.adapter = adapter
 

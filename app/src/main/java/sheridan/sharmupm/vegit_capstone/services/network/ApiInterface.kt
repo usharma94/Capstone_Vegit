@@ -10,6 +10,7 @@ import sheridan.sharmupm.vegit_capstone.models.ingredients.Ingredient
 import sheridan.sharmupm.vegit_capstone.models.ingredients.IngredientName
 import sheridan.sharmupm.vegit_capstone.models.login.LoggedInUserView
 import sheridan.sharmupm.vegit_capstone.models.login.LoginModel
+import sheridan.sharmupm.vegit_capstone.models.signup.SignUpModel
 
 interface ApiInterface {
 
@@ -20,6 +21,9 @@ interface ApiInterface {
 
     @POST("users/login")
     fun loginUserAsync(@Body loginModel: LoginModel): Deferred<Response<LoggedInUserView>>
+
+    @POST("users/add")
+    fun signUpUserAsync(@Body signUpModel: SignUpModel): Deferred<Response<LoggedInUserView>>
 
     // INGREDIENTS
 

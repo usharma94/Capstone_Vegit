@@ -1,14 +1,11 @@
 package sheridan.sharmupm.vegit_capstone.ui.diet
 
-import android.content.Context
 import android.graphics.Color
-import android.graphics.Color.*
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -43,6 +40,7 @@ class DietAdapter(
 
     var selectedItems = mutableListOf<Int>(-1)
 
+    // ******this should be refactored to be better organized********
     override fun onBindViewHolder(holder: DietViewHolder, position: Int) {
         val item: DietModel = dietList[position]
         holder.dietName.text = item.dietName
@@ -54,8 +52,8 @@ class DietAdapter(
             if (it == position) {
                 if (it != 2 ){
                     holder.itemView.setBackgroundColor(Color.argb(100, 0, 255, 0))
-                    println("UPMA SHARMA")
-                    print(position)
+                    //println("UPMA SHARMA")
+                    //print(position)
                 }
 //                holder.itemView.visibility = INVISIBLE
             }
