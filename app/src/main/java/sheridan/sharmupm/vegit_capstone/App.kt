@@ -1,16 +1,16 @@
 package sheridan.sharmupm.vegit_capstone
 
 import android.app.Application
-import sheridan.sharmupm.vegit_capstone.services.room.UserDatabase
+import sheridan.sharmupm.vegit_capstone.services.room.VegitDatabase
 
 class App : Application() {
 
     companion object {
-        lateinit var db : UserDatabase
+        lateinit var db : VegitDatabase
     }
 
     override fun onCreate() {
         super.onCreate()
-        db = UserDatabase.getInstance(applicationContext)
+        db = VegitDatabase.getInstance(applicationContext)
     }
 }

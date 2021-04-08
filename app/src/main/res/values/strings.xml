@@ -11,7 +11,10 @@
     <string name="welcome">"Welcome!"</string>
     <string name="invalid_username">Not a valid Email</string>
     <string name="invalid_password">Password must be at least 3 characters</string>
+    <string name="invalid_firstName">First name must be at least 2 characters</string>
+    <string name="invalid_lastName">Last name must be at least 2 characters</string>
     <string name="login_failed">"Invalid Email or Password"</string>
+    <string name="sign_up_failed">"User with that email already exists"</string>
     <string name="e_mail">Email</string>
     <string name="tag">Make shopping easy!</string>
     <string name="swipe_right_to_login">Swipe Right to Login</string>

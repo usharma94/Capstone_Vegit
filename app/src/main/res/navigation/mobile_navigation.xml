@@ -58,7 +58,7 @@
     <action android:id="@+id/action_global_nav_login" app:destination="@id/loginFragment" app:popUpTo="@id/loginFragment" app:popUpToInclusive="true"/><action android:id="@+id/action_global_navigation_diet" app:destination="@id/navigation_diet" app:popUpTo="@id/navigation_home" app:popUpToInclusive="true"/>
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="sheridan.sharmupm.vegit_capstone.ui.login.SignUpFragment"
+        android:name="sheridan.sharmupm.vegit_capstone.ui.signup.SignUpFragment"
         android:label="Sign Up"
         tools:layout="@layout/fragment_signup" />
     <fragment
