@@ -37,7 +37,8 @@ class SearchAdapter(private val dataSet: List<IngredientName>) :
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.searchRes.text = dataSet[position].toString()
+        viewHolder.searchRes.text = dataSet[position].name
+
     }
 
     // Return the size of your dataset (invoked by the layout manager)
