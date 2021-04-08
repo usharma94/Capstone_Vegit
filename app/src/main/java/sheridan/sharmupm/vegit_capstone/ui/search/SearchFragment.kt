@@ -8,14 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.controllers.search.SearchViewModel
+import sheridan.sharmupm.vegit_capstone.ui.diet.DietAdapter
 
 class SearchFragment : Fragment() {
 
     private lateinit var searchViewModel: SearchViewModel
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -31,6 +35,7 @@ class SearchFragment : Fragment() {
 
         val searchText = view.findViewById<EditText>(R.id.search_bar)
         val clearButton = view.findViewById<Button>(R.id.clear_text)
+        val searchResult = view.findViewById<TextView>(R.id.search_result_text)
 
         val afterTextChangedListener = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
@@ -56,6 +61,14 @@ class SearchFragment : Fragment() {
                         // UPMA UPMA UPMA UPMA UPMA UPMA UPMA
                         // display results of search in UI as a list
                         println(results)
+//                        searchResult.text = results.toString()
+//                        val searchAdapter = SearchAdapter(results)
+                        val recyclerView: RecyclerView = view.findViewById(R.id.searchResult)
+
+                        val searchAdapter = SearchAdapter(results)
+                        recyclerView.adapter = searchAdapter
+
+
                     }
                     else {
                         println("No data found")
