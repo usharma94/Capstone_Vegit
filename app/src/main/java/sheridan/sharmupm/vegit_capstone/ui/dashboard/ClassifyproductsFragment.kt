@@ -102,6 +102,7 @@ class ClassifyproductsFragment : Fragment() {
                 if (ingredientList != null) {
                     classifyproductsViewModel.searchIngredientList(ingredientList)
                 } else {
+                    Toast.makeText(context?.applicationContext, "Failed to extract ingredients", Toast.LENGTH_SHORT).show()
                     // show error message that no data was extracted?
                     println("No data able to be extracted!")
                 }
@@ -113,8 +114,8 @@ class ClassifyproductsFragment : Fragment() {
                 if (results != null) {
                     // display results as outlined in wireframe UI for classify product
                     val sb3 = StringBuilder()
+                    val diet = getDietFromCache()
                     for (i in 0..results.size-1){
-                        val diet = getDietFromCache()
                         if (diet?.dietType == results[i].diet_type) {
                             sb3.append(results[i].name + " - " + results[i].diet_name + " - SAFE" + "\n")
                         } else {
