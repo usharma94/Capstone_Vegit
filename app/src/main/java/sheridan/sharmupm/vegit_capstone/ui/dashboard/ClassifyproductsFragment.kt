@@ -116,12 +116,55 @@ class ClassifyproductsFragment : Fragment() {
                         sb3.append(results[i].name + " - " + results[i].diet_name + "\n")
                     }
                     Toast.makeText(context?.applicationContext, sb3, Toast.LENGTH_LONG).show()
+                    val items = arrayOf(
+                        "Apple Apple Apple ",
+                        "Banana",
+                        "Orange",
+                        "Grapes",
+                        "Apple",
+                        "Banana",
+                        "Orange",
+                        "Grapes",
+                        "Apple",
+                        "Banana",
+                        "Orange",
+                        "Grapes",
+                        "Apple",
+                        "Banana",
+                        "Orange",
+                        "Grapes",
+                        "Apple",
+                        "Banana",
+                        "Orange",
+                        "Grapes"
+                    )
+                    var ingredientStringList = arrayListOf<String>()
+                    for (i in 0..results.size-1){
+                        ingredientStringList.add(results[i].name + " - " + results[i].diet_name + "\n")
+                    }
+                    //Toast.makeText(context?.applicationContext, ingredientStringList[0], Toast.LENGTH_LONG).show()
+
+                    val dataAdapter = DataAdapter(ingredientStringList, this)
+                    var customDialog = CustomListViewDialog(
+                        this@ClassifyproductsFragment,
+                        dataAdapter,
+                        requireContext()
+                    )
+
+                    //if we know that the particular variable not null any time ,we can assign !! (not null operator ), then  it won't check for null, if it becomes null, it willthrow exception
+                    customDialog!!.show()
+                    customDialog!!.setCanceledOnTouchOutside(false)
+
+
                 }
                 else {
                     println("No data found")
                 }
             })
+
     }
+
+
 
     private fun pickImageFromGallery() {
         val intent = Intent(Intent.ACTION_PICK)
