@@ -16,6 +16,8 @@ import com.google.android.gms.vision.Frame
 import com.google.android.gms.vision.text.TextRecognizer
 import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.controllers.classifyProducts.ClassifyproductsViewModel
+import sheridan.sharmupm.vegit_capstone.helpers.DietSafety
+import sheridan.sharmupm.vegit_capstone.helpers.determineSafety
 import sheridan.sharmupm.vegit_capstone.helpers.getDietFromCache
 
 class ClassifyproductsFragment : Fragment() {
@@ -47,22 +49,6 @@ class ClassifyproductsFragment : Fragment() {
         val galleryBtn = view.findViewById<ImageButton>(R.id.gallery)
         val analyzeBtn = view.findViewById<Button>(R.id.takePicture)
         val scanResult = view.findViewById<TextView>(R.id.text_view)
-
-        // DEMO PURPOSE FOR Wang =========================================
-
-        // call this passing in ingredientName list
-        // you can move it to where you think is most appropriate in this class
-
-        //classifyproductsViewModel.searchIngredientList(ingredientName list...)
-
-        // observe the classifyproductsViewModel.ingredientResults live data for change
-        // and display results when it has data
-        // you can refer to login/search/user fragments for examples
-
-        // DEMO PURPOSE FOR Wang =========================================
-
-        //Select picture from gallery, the picture is saved locally in my simulator now
-
 
         galleryBtn.setOnClickListener{
             if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.M){
@@ -115,14 +101,14 @@ class ClassifyproductsFragment : Fragment() {
                     // display results as outlined in wireframe UI for classify product
                     val sb3 = StringBuilder()
                     val diet = getDietFromCache()
-                    for (i in 0..results.size-1){
-                        if (diet?.dietType == results[i].diet_type) {
-                            sb3.append(results[i].name + " - " + results[i].diet_name + " - SAFE" + "\n")
-                        } else {
-                            sb3.append(results[i].name + " - " + results[i].diet_name + "\n")
-                        }
-                    }
-                    Toast.makeText(context?.applicationContext, sb3, Toast.LENGTH_LONG).show()
+//                    for (i in 0..results.size-1){
+//                        if (diet?.dietType == results[i].diet_type) {
+//                            sb3.append(results[i].name + " - " + results[i].diet_name + " - SAFE" + "\n")
+//                        } else {
+//                            sb3.append(results[i].name + " - " + results[i].diet_name + "\n")
+//                        }
+//                    }
+//                    Toast.makeText(context?.applicationContext, sb3, Toast.LENGTH_LONG).show()
                     val items = arrayOf(
                         "Apple Apple Apple ",
                         "Banana",
@@ -147,7 +133,12 @@ class ClassifyproductsFragment : Fragment() {
                     )
                     var ingredientStringList = arrayListOf<String>()
                     for (i in 0..results.size-1){
-                        ingredientStringList.add(results[i].name + " - " + results[i].diet_name + "\n")
+                        when (determineSafety(diet!!, results[i].diet_type!!)) {
+                            DietSafety.SAFE -> ingredientStringList.add(results[i].name + " - " + results[i].diet_name + " - SAFE" + "\n")
+                            DietSafety.CAUTION -> ingredientStringList.add(results[i].name + " - " + results[i].diet_name + " - CAUTION" + "\n")
+                            DietSafety.AVOID -> ingredientStringList.add(results[i].name + " - " + results[i].diet_name + " - AVOID" + "\n")
+                            else -> ingredientStringList.add(results[i].name + " - " + results[i].diet_name  + "\n")
+                        }
                     }
                     //Toast.makeText(context?.applicationContext, ingredientStringList[0], Toast.LENGTH_LONG).show()
 
