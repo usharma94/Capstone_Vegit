@@ -58,7 +58,12 @@ class ClassifyproductsViewModel : ViewModel() {
         // stopping at first occurance of a .
         // may or may not be best way to extract up to end of ingredient text only
         // From research, found most ingredients have a . at end of ingredients
-        ingredientRaw = ingredientRaw.substring(0, ingredientRaw.indexOf("."))
+        if (ingredientRaw.lastIndexOf(".") < 0) {
+            println("ERROR NO INGREDIENT DATA WAS ABLE TO BE EXTRACTED")
+            return null
+        }
+
+        ingredientRaw = ingredientRaw.substring(0, ingredientRaw.lastIndexOf("."))
 
         // remove special characters from string
         ingredientRaw = ingredientRaw.replace(Regex("[*\"/]"), "")

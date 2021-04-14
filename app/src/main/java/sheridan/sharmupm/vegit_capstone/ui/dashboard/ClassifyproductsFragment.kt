@@ -16,6 +16,7 @@ import com.google.android.gms.vision.Frame
 import com.google.android.gms.vision.text.TextRecognizer
 import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.controllers.classifyProducts.ClassifyproductsViewModel
+import sheridan.sharmupm.vegit_capstone.helpers.getDietFromCache
 
 class ClassifyproductsFragment : Fragment() {
 
@@ -101,6 +102,7 @@ class ClassifyproductsFragment : Fragment() {
                 if (ingredientList != null) {
                     classifyproductsViewModel.searchIngredientList(ingredientList)
                 } else {
+                    Toast.makeText(context?.applicationContext, "Failed to extract ingredients", Toast.LENGTH_SHORT).show()
                     // show error message that no data was extracted?
                     println("No data able to be extracted!")
                 }
@@ -112,16 +114,64 @@ class ClassifyproductsFragment : Fragment() {
                 if (results != null) {
                     // display results as outlined in wireframe UI for classify product
                     val sb3 = StringBuilder()
+                    val diet = getDietFromCache()
                     for (i in 0..results.size-1){
-                        sb3.append(results[i].name + " - " + results[i].diet_name + "\n")
+                        if (diet?.dietType == results[i].diet_type) {
+                            sb3.append(results[i].name + " - " + results[i].diet_name + " - SAFE" + "\n")
+                        } else {
+                            sb3.append(results[i].name + " - " + results[i].diet_name + "\n")
+                        }
                     }
                     Toast.makeText(context?.applicationContext, sb3, Toast.LENGTH_LONG).show()
+                    val items = arrayOf(
+                        "Apple Apple Apple ",
+                        "Banana",
+                        "Orange",
+                        "Grapes",
+                        "Apple",
+                        "Banana",
+                        "Orange",
+                        "Grapes",
+                        "Apple",
+                        "Banana",
+                        "Orange",
+                        "Grapes",
+                        "Apple",
+                        "Banana",
+                        "Orange",
+                        "Grapes",
+                        "Apple",
+                        "Banana",
+                        "Orange",
+                        "Grapes"
+                    )
+                    var ingredientStringList = arrayListOf<String>()
+                    for (i in 0..results.size-1){
+                        ingredientStringList.add(results[i].name + " - " + results[i].diet_name + "\n")
+                    }
+                    //Toast.makeText(context?.applicationContext, ingredientStringList[0], Toast.LENGTH_LONG).show()
+
+                    val dataAdapter = DataAdapter(ingredientStringList, this)
+                    var customDialog = CustomListViewDialog(
+                        this@ClassifyproductsFragment,
+                        dataAdapter,
+                        requireContext()
+                    )
+
+                    //if we know that the particular variable not null any time ,we can assign !! (not null operator ), then  it won't check for null, if it becomes null, it willthrow exception
+                    customDialog!!.show()
+                    customDialog!!.setCanceledOnTouchOutside(false)
+
+
                 }
                 else {
                     println("No data found")
                 }
             })
+
     }
+
+
 
     private fun pickImageFromGallery() {
         val intent = Intent(Intent.ACTION_PICK)

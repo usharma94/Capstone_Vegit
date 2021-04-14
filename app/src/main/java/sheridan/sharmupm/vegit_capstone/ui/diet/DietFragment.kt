@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.databinding.DietCardviewBinding
+import sheridan.sharmupm.vegit_capstone.helpers.DietTypes
 import sheridan.sharmupm.vegit_capstone.models.DietModel
 
 
@@ -32,9 +33,9 @@ class DietFragment : Fragment() {
         val imgCustom =  R.drawable.custom
 
         dietList = listOf(
-            DietModel(0, false, imgVegetarian, "Vegetarian", vegDes),
-            DietModel(1, false, imgVegan, "Vegan", veganDes),
-            DietModel(2, false, imgCustom, "Custom", "Custom Diet")
+            DietModel(0, false, imgVegetarian, "Vegetarian", vegDes, DietTypes.VEGETARIAN.value),
+            DietModel(1, false, imgVegan, "Vegan", veganDes, DietTypes.VEGAN.value),
+            DietModel(2, false, imgCustom, "Custom", "Custom Diet", -1)
 
         )
         val recyclerView: RecyclerView = binding.dietRecyclerView
