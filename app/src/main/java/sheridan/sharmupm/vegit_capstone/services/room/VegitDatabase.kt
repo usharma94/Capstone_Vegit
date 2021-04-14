@@ -9,7 +9,7 @@ import sheridan.sharmupm.vegit_capstone.models.UserModel
 import sheridan.sharmupm.vegit_capstone.services.roomDao.DietDao
 import sheridan.sharmupm.vegit_capstone.services.roomDao.UserDao
 
-@Database(entities = [UserModel::class, DietModel::class], version = 2)
+@Database(entities = [UserModel::class, DietModel::class], version = 3)
 abstract class VegitDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun dietDao(): DietDao

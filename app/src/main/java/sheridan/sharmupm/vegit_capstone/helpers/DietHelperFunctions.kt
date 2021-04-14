@@ -3,12 +3,24 @@ package sheridan.sharmupm.vegit_capstone.helpers
 import sheridan.sharmupm.vegit_capstone.models.DietModel
 import sheridan.sharmupm.vegit_capstone.services.cache.CacheClient
 
+enum class DietTypes(val value: Int) {
+    VEGAN(1),
+    VEGAN_CAUTION(2),
+    VEGETARIAN(3),
+    VEGETARIAN_CAUTION(4),
+    UNSPECIFIED(5),
+    NON_VEGETARIAN(6)
+}
+
 fun setDietInCache(diet: DietModel) {
     CacheClient.cache["diet"] = diet
 }
 
-fun getDietFromCache(): Any? {
-    return CacheClient.cache.get("diet")
+fun getDietFromCache(): DietModel? {
+    val diet = CacheClient.cache.get("diet")
+    if (diet != null)
+        return diet as DietModel
+    return null
 }
 
 fun removeDietFromCache() {

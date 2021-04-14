@@ -12,4 +12,5 @@ data class DietModel(
     var dietImage: Int?,
     var dietName: String? = null,
     var dietDescription: String? = null,
+    var dietType: Int?
 )

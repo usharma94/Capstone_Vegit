@@ -16,6 +16,7 @@ import com.google.android.gms.vision.Frame
 import com.google.android.gms.vision.text.TextRecognizer
 import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.controllers.classifyProducts.ClassifyproductsViewModel
+import sheridan.sharmupm.vegit_capstone.helpers.getDietFromCache
 
 class ClassifyproductsFragment : Fragment() {
 
@@ -113,7 +114,12 @@ class ClassifyproductsFragment : Fragment() {
                     // display results as outlined in wireframe UI for classify product
                     val sb3 = StringBuilder()
                     for (i in 0..results.size-1){
-                        sb3.append(results[i].name + " - " + results[i].diet_name + "\n")
+                        val diet = getDietFromCache()
+                        if (diet?.dietType == results[i].diet_type) {
+                            sb3.append(results[i].name + " - " + results[i].diet_name + " - SAFE" + "\n")
+                        } else {
+                            sb3.append(results[i].name + " - " + results[i].diet_name + "\n")
+                        }
                     }
                     Toast.makeText(context?.applicationContext, sb3, Toast.LENGTH_LONG).show()
                 }

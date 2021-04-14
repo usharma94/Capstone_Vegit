@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import sheridan.sharmupm.vegit_capstone.R
+import sheridan.sharmupm.vegit_capstone.helpers.setDietInCache
 import sheridan.sharmupm.vegit_capstone.models.DietModel
 
 
@@ -74,6 +75,8 @@ class DietAdapter(
                 notifyItemChanged(selectedItem)
             }
 
+            // TEMPORARY
+            setDietInCache(item)
         }
     }
 
