@@ -12,6 +12,13 @@ enum class DietTypes(val value: Int) {
     NON_VEGETARIAN(6)
 }
 
+enum class DietSafety() {
+    SAFE,
+    CAUTION,
+    AVOID,
+    UNKNOWN
+}
+
 fun setDietInCache(diet: DietModel) {
     CacheClient.cache["diet"] = diet
 }
@@ -25,6 +32,38 @@ fun getDietFromCache(): DietModel? {
 
 fun removeDietFromCache() {
     CacheClient.cache.remove("diet")
+}
+
+fun determineSafety(diet: DietModel, dietType: Int) : DietSafety {
+    if (diet.dietType == DietTypes.VEGAN.value) {
+        return when {
+            dietType == DietTypes.VEGAN.value -> {
+                DietSafety.SAFE
+            }
+            dietType == DietTypes.VEGAN_CAUTION.value -> {
+                DietSafety.CAUTION
+            }
+            else -> {
+                DietSafety.AVOID
+            }
+        }
+    }
+
+    if (diet.dietType == DietTypes.VEGETARIAN.value) {
+        return when {
+            dietType <= DietTypes.VEGETARIAN.value -> {
+                DietSafety.SAFE
+            }
+            dietType == DietTypes.VEGETARIAN_CAUTION.value -> {
+                DietSafety.CAUTION
+            }
+            else -> {
+                DietSafety.AVOID
+            }
+        }
+    }
+
+    return DietSafety.UNKNOWN
 }
 
 // temporary
