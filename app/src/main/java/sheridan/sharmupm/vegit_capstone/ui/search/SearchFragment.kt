@@ -79,10 +79,9 @@ class SearchFragment : Fragment() {
                                         // display results of singular food item
                                         println(ingredient)
                                         val ingredientDetail = ingredient.name + " - " + ingredient.diet_name
-                                        val dataAdapter = SearchDialogAdapter(ingredientDetail, this)
                                         var customDialog = SearchDialogFragment(
                                             this@SearchFragment,
-                                            dataAdapter,
+                                            ingredientDetail,
                                             requireContext()
                                         )
                                         //if we know that the particular variable not null any time ,we can assign !! (not null operator ), then  it won't check for null, if it becomes null, it willthrow exception

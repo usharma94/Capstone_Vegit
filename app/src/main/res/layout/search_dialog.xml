@@ -15,34 +15,29 @@
         android:textSize="30sp"
         android:gravity="center"
         />
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+
+    <TextView android:id="@+id/search_diet_detail"
+        android:layout_below="@id/search_dialog_title"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_below="@+id/search_dialog_title"
-        android:layout_gravity="center_horizontal"
+        android:layout_height="70dp"
+        android:text="Diet Detail"
+        android:textSize="30sp"
+        android:gravity="center"
         />
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/recycler_view"
+        android:layout_below="@id/search_diet_detail"
         android:orientation="horizontal">
 
-        <Button android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight=".5"
-            android:text="Cancel"
-            android:background="#046907"
-            android:textColor="#fff"
-            android:id="@+id/yes"
-            />
         <View android:layout_width="2dp" android:layout_height="match_parent"
             android:background="#fff"
             />
 
         <Button
-            android:id="@+id/no"
+            android:id="@+id/search_dialog_done"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_weight=".5"
