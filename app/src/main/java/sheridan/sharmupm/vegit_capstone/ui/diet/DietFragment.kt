@@ -1,70 +1,57 @@
 
 package sheridan.sharmupm.vegit_capstone.ui.diet
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sheridan.sharmupm.vegit_capstone.R
-import sheridan.sharmupm.vegit_capstone.controllers.classifyProducts.ClassifyproductsViewModel
 import sheridan.sharmupm.vegit_capstone.controllers.diet.DietViewModel
-import sheridan.sharmupm.vegit_capstone.databinding.DietCardviewBinding
-import sheridan.sharmupm.vegit_capstone.helpers.DietTypes
 import sheridan.sharmupm.vegit_capstone.models.DietModel
-
-
 
 class DietFragment : Fragment() {
 
-    private lateinit var binding: DietCardviewBinding
     private lateinit var dietViewModel: DietViewModel
-    private lateinit var dietList: List<DietModel>
+
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        dietViewModel =
-                ViewModelProvider(this).get(DietViewModel::class.java)
-        binding = DietCardviewBinding.inflate(inflater, container, false)
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.diet_cardview, container, false)
+    }
 
-        val vegDes: String = getString(R.string.vegetarian_desc)
-        val veganDes: String = getString(R.string.vegan_desc)
-        val imgVegetarian =  R.drawable.vegetarian
-        val imgVegan =  R.drawable.vegan
-        val imgCustom =  R.drawable.custom
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        dietViewModel = ViewModelProvider(this).get(DietViewModel::class.java)
+        val dietList = dietViewModel.populateDietList()
 
-        dietList = listOf(
-            DietModel(0, false, imgVegetarian, "Vegetarian", vegDes, DietTypes.VEGETARIAN.value),
-            DietModel(1, false, imgVegan, "Vegan", veganDes, DietTypes.VEGAN.value)
-//            DietModel(2, false, imgCustom, "Custom", "Custom Diet", -1)
+        val recyclerView: RecyclerView = view.findViewById(R.id.diet_recycler_view)
+        recyclerView.layoutManager = LinearLayoutManager(context)
 
-        )
-//        started to implement DietViewModel
-        dietViewModel.dietSelection.observe(viewLifecycleOwner,
-                {
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(activity)
+            adapter = DietAdapter(dietList) { diet: DietModel ->
+                if (!diet.isDisabled) {
+                    diet.isSelected = true
+                    dietViewModel.setSelectedDiet(diet)
 
+                    // un select the other diets
+                    for (_diet in dietList) {
+                        if (_diet.id !== diet.id) {
+                            _diet.isSelected = false
+                        }
+                    }
+                }
+            }
+        }
 
-                })
-        val recyclerView: RecyclerView = binding.dietRecyclerView
-
-        val adapter = DietAdapter(dietList, DietAdapter.OnClickListener { selectedDiet ->
-        })
-        recyclerView.adapter = adapter
-
-        val continueBtn = binding.btnContinue
-
+        val continueBtn = view.findViewById<Button>(R.id.btn_continue)
         continueBtn.setOnClickListener {
             this.findNavController().navigate(R.id.action_navigation_diet_to_navigation_classifyproducts)
         }
-
-        return binding.root
     }
-
 }
-

@@ -1,5 +1,6 @@
 package sheridan.sharmupm.vegit_capstone.helpers
 
+import sheridan.sharmupm.vegit_capstone.App
 import sheridan.sharmupm.vegit_capstone.models.DietModel
 import sheridan.sharmupm.vegit_capstone.services.cache.CacheClient
 
@@ -66,24 +67,25 @@ fun determineSafety(diet: DietModel, dietType: Int) : DietSafety {
     return DietSafety.UNKNOWN
 }
 
-// temporary
-//fun setDiet(diet: DietModel) {
-//    // save in cache
-//    setDietInCache(diet)
-//    // clear table
-//    App.db.dietDao().deleteDiet()
-//    // save to room
-//    App.db.dietDao().insertDiet(diet)
-//}
+fun setDiet(diet: DietModel) {
+    // save in cache
+    setDietInCache(diet)
+    // clear table
+    App.db.dietDao().deleteDiet()
+    // save to room
+    App.db.dietDao().insertDiet(diet)
+}
 
-// temporary
-//fun getDiet(): DietModel? {
-//    var diet = getDietFromCache()
-//    if (diet != null) {
-//        return diet as DietModel
-//    } else {
-//        diet = App.db.dietDao().getDiet()
-//        if (diet != null) return diet
-//        return null
-//    }
-//}
+fun getDiet(): DietModel? {
+    var diet = getDietFromCache()
+    if (diet != null) {
+        return diet
+    } else {
+        diet = App.db.dietDao().getDiet()
+        if (diet != null) {
+            setDietInCache(diet)
+            return diet
+        }
+        return null
+    }
+}
