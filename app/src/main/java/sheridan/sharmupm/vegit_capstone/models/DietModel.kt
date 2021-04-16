@@ -8,6 +8,7 @@ import androidx.room.PrimaryKey
 data class DietModel(
     @PrimaryKey var id:Int ?= 0,
     var isSelected: Boolean = false,
+    var isDisabled: Boolean = false,
     @DrawableRes
     var dietImage: Int?,
     var dietName: String? = null,
