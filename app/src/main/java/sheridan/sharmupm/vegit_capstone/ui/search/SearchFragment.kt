@@ -44,6 +44,7 @@ class SearchFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 // ignore
+
             }
 
             override fun afterTextChanged(s: Editable) {

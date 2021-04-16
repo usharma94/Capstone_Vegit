@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Please select diet:"
-        android:layout_marginStart="5dp"
+        android:textStyle="bold"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:textSize="20sp"
@@ -25,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/item_diet"
-            android:layout_marginBottom="200dp"
+            android:layout_marginBottom="250dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <Button
@@ -35,9 +36,8 @@
             android:layout_alignBottom="@id/diet_recycler_view"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="-60dp"
             android:background="@drawable/btn_custom"
             android:text="Scan Item"
             android:textColor="@android:color/white"

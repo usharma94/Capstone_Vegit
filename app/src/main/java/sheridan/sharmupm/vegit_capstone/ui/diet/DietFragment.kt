@@ -6,10 +6,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import sheridan.sharmupm.vegit_capstone.R
+import sheridan.sharmupm.vegit_capstone.controllers.classifyProducts.ClassifyproductsViewModel
+import sheridan.sharmupm.vegit_capstone.controllers.diet.DietViewModel
 import sheridan.sharmupm.vegit_capstone.databinding.DietCardviewBinding
 import sheridan.sharmupm.vegit_capstone.helpers.DietTypes
 import sheridan.sharmupm.vegit_capstone.models.DietModel
@@ -19,11 +23,14 @@ import sheridan.sharmupm.vegit_capstone.models.DietModel
 class DietFragment : Fragment() {
 
     private lateinit var binding: DietCardviewBinding
+    private lateinit var dietViewModel: DietViewModel
     private lateinit var dietList: List<DietModel>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        dietViewModel =
+                ViewModelProvider(this).get(DietViewModel::class.java)
         binding = DietCardviewBinding.inflate(inflater, container, false)
 
         val vegDes: String = getString(R.string.vegetarian_desc)
@@ -34,10 +41,16 @@ class DietFragment : Fragment() {
 
         dietList = listOf(
             DietModel(0, false, imgVegetarian, "Vegetarian", vegDes, DietTypes.VEGETARIAN.value),
-            DietModel(1, false, imgVegan, "Vegan", veganDes, DietTypes.VEGAN.value),
-            DietModel(2, false, imgCustom, "Custom", "Custom Diet", -1)
+            DietModel(1, false, imgVegan, "Vegan", veganDes, DietTypes.VEGAN.value)
+//            DietModel(2, false, imgCustom, "Custom", "Custom Diet", -1)
 
         )
+//        started to implement DietViewModel
+        dietViewModel.dietSelection.observe(viewLifecycleOwner,
+                {
+
+
+                })
         val recyclerView: RecyclerView = binding.dietRecyclerView
 
         val adapter = DietAdapter(dietList, DietAdapter.OnClickListener { selectedDiet ->

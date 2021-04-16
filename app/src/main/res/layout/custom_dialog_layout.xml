@@ -2,14 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:padding="5dp"
+    android:padding="10dp"
+    android:layout_margin="5dp"
     android:gravity="center"
     android:layout_height="match_parent">
     <TextView android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Ingredient List"
-        android:background="#ff7e22"
+        android:layout_height="70dp"
+        android:text="Diet Classification"
+        android:background="#F8C471"
         android:textColor="#fff"
         android:textSize="30sp"
         android:gravity="center"
@@ -17,7 +18,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="550dp"
         android:layout_below="@+id/title"
         android:layout_gravity="center_horizontal"
         />
@@ -39,15 +40,15 @@
         <View android:layout_width="2dp" android:layout_height="match_parent"
             android:background="#fff"
             />
+
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight=".5"
-            android:text="Done"
-            android:background="#046907"
-            android:textColor="#fff"
             android:id="@+id/no"
-            />
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_weight=".5"
+            android:backgroundTint="#FF0000"
+            android:text="Done"
+            android:textColor="#fff" />
 
     </LinearLayout>
 
