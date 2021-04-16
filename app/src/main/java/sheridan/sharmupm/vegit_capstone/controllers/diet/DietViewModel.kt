@@ -36,8 +36,8 @@ class DietViewModel : ViewModel() {
                     "This refers to a diet where egg and dairy products can be consumed", DietTypes.VEGETARIAN.value))
             dietList.add(DietModel(1, false, false, R.drawable.vegan, "Vegan",
                     "This refers to a diet where no animal products are consumed", DietTypes.VEGAN.value))
-            dietList.add(DietModel(2, false, true, R.drawable.custom, "Custom",
-                    "Custom Diet", -1))
+//            dietList.add(DietModel(2, false, true, R.drawable.custom, "Custom",
+//                    "Custom Diet", -1))
 
             val diet = getDiet()
             if (diet != null) {
