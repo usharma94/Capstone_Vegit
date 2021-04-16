@@ -9,24 +9,25 @@ import sheridan.sharmupm.vegit_capstone.R
 
 
 class SearchDialogAdapter(
-    private val mDataset: MutableList<String>,
+    private val mDataset: String,
     internal var recyclerViewItemClickListener: SearchFragment
 ) : RecyclerView.Adapter<SearchDialogAdapter.IngredientViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, i: Int): IngredientViewHolder {
 
         val v = LayoutInflater.from(parent.context).inflate(R.layout.ingredient_item, parent, false)
+
         return IngredientViewHolder(v)
 
     }
 
     override fun onBindViewHolder(ingredientViewHolder: IngredientViewHolder, i: Int) {
-        ingredientViewHolder.mTextView.text = mDataset[i]
+        ingredientViewHolder.mTextView.text = mDataset
 
     }
 
     override fun getItemCount(): Int {
-        return mDataset.size
+        return mDataset.length
     }
 
 

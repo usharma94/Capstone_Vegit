@@ -71,8 +71,6 @@ class SearchFragment : Fragment() {
                             searchViewModel.searchIngredients(it.name)
                             searchViewModel.searchResult.observe(viewLifecycleOwner,
                                 { ingredient ->
-                                    val ingredientStringList: MutableList<String> = mutableListOf<String>()
-                                    val dataAdapter = SearchDialogAdapter(ingredientStringList, this)
                                     // UPMA UPMA UPMA UPMA UPMA UPMA UPMA
                                     // hide loading icon here
 
@@ -80,9 +78,10 @@ class SearchFragment : Fragment() {
                                         // UPMA UPMA UPMA UPMA UPMA UPMA UPMA
                                         // display results of singular food item
                                         println(ingredient)
-                                        ingredientStringList.add(ingredient.name + " - " + ingredient.diet_name)
+                                        val ingredientDetail = ingredient.name + " - " + ingredient.diet_name
+                                        val dataAdapter = SearchDialogAdapter(ingredientDetail, this)
                                         var customDialog = SearchDialogFragment(
-                                            this,
+                                            this@SearchFragment,
                                             dataAdapter,
                                             requireContext()
                                         )
@@ -98,6 +97,8 @@ class SearchFragment : Fragment() {
 
 
                                 })
+//                            ingredientDetail.clear()
+                            recyclerView?.adapter?.notifyDataSetChanged()
 
 
                         })
