@@ -9,12 +9,12 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.controllers.search.SearchViewModel
-import sheridan.sharmupm.vegit_capstone.ui.diet.DietAdapter
 
 class SearchFragment : Fragment() {
 
@@ -36,6 +36,7 @@ class SearchFragment : Fragment() {
         val searchText = view.findViewById<EditText>(R.id.search_bar)
         val clearButton = view.findViewById<Button>(R.id.clear_text)
         val searchResult = view.findViewById<TextView>(R.id.search_result_text)
+        val recyclerView: RecyclerView = view.findViewById(R.id.searchResult)
 
         val afterTextChangedListener = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
@@ -44,6 +45,7 @@ class SearchFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 // ignore
+                recyclerView.isVisible = true;
 
             }
 
@@ -62,11 +64,43 @@ class SearchFragment : Fragment() {
                         // UPMA UPMA UPMA UPMA UPMA UPMA UPMA
                         // display results of search in UI as a list
                         println(results)
-//                        searchResult.text = results.toString()
-//                        val searchAdapter = SearchAdapter(results)
-                        val recyclerView: RecyclerView = view.findViewById(R.id.searchResult)
 
-                        val searchAdapter = SearchAdapter(results)
+//                        user clicks ingredient name
+                        val searchAdapter = SearchAdapter(results, SearchAdapter.OnClickListener{
+
+                            searchViewModel.searchIngredients(it.name)
+                            searchViewModel.searchResult.observe(viewLifecycleOwner,
+                                { ingredient ->
+                                    val ingredientStringList: MutableList<String> = mutableListOf<String>()
+                                    val dataAdapter = SearchDialogAdapter(ingredientStringList, this)
+                                    // UPMA UPMA UPMA UPMA UPMA UPMA UPMA
+                                    // hide loading icon here
+
+                                    if (ingredient != null) {
+                                        // UPMA UPMA UPMA UPMA UPMA UPMA UPMA
+                                        // display results of singular food item
+                                        println(ingredient)
+                                        ingredientStringList.add(ingredient.name + " - " + ingredient.diet_name)
+                                        var customDialog = SearchDialogFragment(
+                                            this,
+                                            dataAdapter,
+                                            requireContext()
+                                        )
+                                        //if we know that the particular variable not null any time ,we can assign !! (not null operator ), then  it won't check for null, if it becomes null, it willthrow exception
+                                        customDialog!!.show()
+                                        customDialog!!.setCanceledOnTouchOutside(false)
+
+                                    }
+                                    else {
+                                        println("Error fetching ingredient")
+                                    }
+
+
+
+                                })
+
+
+                        })
                         recyclerView.adapter = searchAdapter
 
 
@@ -81,23 +115,25 @@ class SearchFragment : Fragment() {
         //searchViewModel.searchIngredients("item name")
         // also show a loading icon for better feedback
 
-        searchViewModel.searchResult.observe(viewLifecycleOwner,
-            { ingredient ->
-                // UPMA UPMA UPMA UPMA UPMA UPMA UPMA
-                // hide loading icon here
-
-                if (ingredient != null) {
-                    // UPMA UPMA UPMA UPMA UPMA UPMA UPMA
-                    // display results of singular food item
-                    println(ingredient)
-                }
-                else {
-                    println("Error fetching ingredient")
-                }
-            })
+//        searchViewModel.searchResult.observe(viewLifecycleOwner,
+//            { ingredient ->
+//                // UPMA UPMA UPMA UPMA UPMA UPMA UPMA
+//                // hide loading icon here
+//
+//                if (ingredient != null) {
+//                    // UPMA UPMA UPMA UPMA UPMA UPMA UPMA
+//                    // display results of singular food item
+//                    println(ingredient)
+//                }
+//                else {
+//                    println("Error fetching ingredient")
+//                }
+//            })
 
         clearButton.setOnClickListener {
             searchText.text.clear()
+            recyclerView.isVisible = false
+
         }
     }
 

@@ -4,12 +4,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import sheridan.sharmupm.vegit_capstone.R
+import sheridan.sharmupm.vegit_capstone.models.DietModel
 import sheridan.sharmupm.vegit_capstone.models.ingredients.IngredientName
 
-class SearchAdapter(private val dataSet: List<IngredientName>) :
-        RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
+class SearchAdapter(private val dataSet: List<IngredientName>, private val onClickListener: OnClickListener) :
+    RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
     /**
      * Provide a reference to the type of views that you are using
@@ -27,7 +29,7 @@ class SearchAdapter(private val dataSet: List<IngredientName>) :
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         // Create a new view, which defines the UI of the list item
         val view = LayoutInflater.from(viewGroup.context)
-                .inflate(R.layout.item_search, viewGroup, false)
+            .inflate(R.layout.item_search, viewGroup, false)
 
         return ViewHolder(view)
     }
@@ -38,7 +40,14 @@ class SearchAdapter(private val dataSet: List<IngredientName>) :
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
         viewHolder.searchRes.text = dataSet[position].name
+        viewHolder.searchRes.setOnClickListener {
+            onClickListener.onClick(dataSet[position])
+        }
 
+    }
+
+    class OnClickListener(val clickListener: (ingredient: IngredientName) -> Unit) {
+        fun onClick(ingredient: IngredientName) = clickListener(ingredient)
     }
 
     // Return the size of your dataset (invoked by the layout manager)
