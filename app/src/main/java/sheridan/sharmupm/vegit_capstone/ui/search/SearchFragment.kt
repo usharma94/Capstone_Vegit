@@ -32,6 +32,7 @@ class SearchFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         searchViewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
         searchViewModel.getIngredientNames()
+        searchViewModel.getUserDiet()
 
         val searchText = view.findViewById<EditText>(R.id.search_bar)
         val clearButton = view.findViewById<Button>(R.id.clear_text)
@@ -87,16 +88,20 @@ class SearchFragment : Fragment() {
                     // hide loading icon here
 
                     if (ingredient != null) {
-                        // display results of singular food item
-                        val ingredientDetail = ingredient
-                        var customDialog = SearchDialogFragment(
-                                this@SearchFragment,
-                                ingredientDetail,
-                                requireContext()
-                        )
-                        //if we know that the particular variable not null any time ,we can assign !! (not null operator ), then  it won't check for null, if it becomes null, it willthrow exception
-                        customDialog!!.show()
-                        customDialog!!.setCanceledOnTouchOutside(false)
+                        searchViewModel.userDiet.observe(viewLifecycleOwner,
+                            {
+                                diet->
+                                    // display results of singular food item
+                                    var customDialog = SearchDialogFragment(
+                                            this@SearchFragment,
+                                            ingredient,
+                                            diet,
+                                            requireContext()
+                                    )
+                                    //if we know that the particular variable not null any time ,we can assign !! (not null operator ), then  it won't check for null, if it becomes null, it willthrow exception
+                                    customDialog!!.show()
+                                    customDialog!!.setCanceledOnTouchOutside(false)
+                            })
                     }
                     else {
                         println("Error fetching ingredient")

@@ -6,8 +6,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import sheridan.sharmupm.vegit_capstone.helpers.getDiet
 import sheridan.sharmupm.vegit_capstone.helpers.getSearchIngredientList
 import sheridan.sharmupm.vegit_capstone.helpers.setSearchIngredientList
+import sheridan.sharmupm.vegit_capstone.models.DietModel
 import sheridan.sharmupm.vegit_capstone.models.ingredients.Ingredient
 import sheridan.sharmupm.vegit_capstone.models.ingredients.IngredientName
 import sheridan.sharmupm.vegit_capstone.services.network.APIClient
@@ -30,6 +32,8 @@ class SearchViewModel : ViewModel() {
     private var ingredientNames: List<IngredientName> = mutableListOf()
 
     val searchList = MutableLiveData<List<IngredientName>>()
+
+    val userDiet = MutableLiveData<DietModel>()
 
     fun getIngredientNames() {
         val cachedNames = getSearchIngredientList()
@@ -65,4 +69,10 @@ class SearchViewModel : ViewModel() {
         }
     }
 
+    fun getUserDiet() {
+        scope.launch {
+            val diet = getDiet()
+            userDiet.postValue(diet)
+        }
+    }
 }
