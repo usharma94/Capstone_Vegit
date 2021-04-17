@@ -20,7 +20,7 @@ import sheridan.sharmupm.vegit_capstone.models.ingredients.Ingredient
 class SearchDialogFragment(
     var fragment: Fragment,
     var ingredientDetail: Ingredient,
-    val userDiet: DietModel,
+    val userDiet: DietModel?,
     context: Context
 ) : Dialog(context),
     View.OnClickListener {
