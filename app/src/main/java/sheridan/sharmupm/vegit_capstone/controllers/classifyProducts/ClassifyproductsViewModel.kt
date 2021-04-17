@@ -52,7 +52,7 @@ class ClassifyproductsViewModel : ViewModel() {
             sb.append(myItem)
         }
 
-        if (checkNull(ingredientRaw, ":", false)) return null
+        if (checkNull(sb.toString(), ":", false)) return null
 
         // grabbing text only after "ingredients:"
         ingredientRaw = sb.substring(sb.indexOf(":") + 1)
