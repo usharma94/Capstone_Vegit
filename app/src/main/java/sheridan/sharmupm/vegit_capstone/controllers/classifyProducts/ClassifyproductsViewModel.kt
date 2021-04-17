@@ -52,16 +52,15 @@ class ClassifyproductsViewModel : ViewModel() {
             sb.append(myItem)
         }
 
+        if (checkNull(ingredientRaw, ":", false)) return null
+
         // grabbing text only after "ingredients:"
         ingredientRaw = sb.substring(sb.indexOf(":") + 1)
 
         // stopping at first occurance of a .
         // may or may not be best way to extract up to end of ingredient text only
         // From research, found most ingredients have a . at end of ingredients
-        if (ingredientRaw.lastIndexOf(".") < 0) {
-            println("ERROR NO INGREDIENT DATA WAS ABLE TO BE EXTRACTED")
-            return null
-        }
+        if (checkNull(ingredientRaw, ".", true)) return null
 
         ingredientRaw = ingredientRaw.substring(0, ingredientRaw.lastIndexOf("."))
 
@@ -85,5 +84,20 @@ class ClassifyproductsViewModel : ViewModel() {
             return null
         }
         return ingredientNameList
+    }
+
+    private fun checkNull(rawString: String, delimiter: String, lastIndex: Boolean) : Boolean {
+        if (lastIndex) {
+            if (rawString.lastIndexOf(delimiter) < 0) {
+                println("ERROR NO INGREDIENT DATA WAS ABLE TO BE EXTRACTED")
+                return true
+            }
+        } else {
+            if (rawString.indexOf(delimiter) < 0) {
+                println("ERROR NO INGREDIENT DATA WAS ABLE TO BE EXTRACTED")
+                return true
+            }
+        }
+        return false
     }
 }

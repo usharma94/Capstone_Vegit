@@ -189,6 +189,5 @@ class ClassifyproductsFragment : Fragment() {
         if (resultCode== Activity.RESULT_OK && requestCode== IMAGE_PICK_CODE){
             ingredientLabelPicture?.setImageURI(data?.data)
         }
-        ingredientLabelPicture?.setImageResource(R.drawable.p2)
     }
 }
