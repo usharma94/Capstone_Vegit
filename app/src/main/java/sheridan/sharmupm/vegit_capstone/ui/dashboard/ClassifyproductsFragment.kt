@@ -217,7 +217,8 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
                             sb3.append(results[i].name + " - " + results[i].diet_name + "\n")
                         }
                     }
-                    Toast.makeText(context?.applicationContext, sb3, Toast.LENGTH_LONG).show()
+//                    only have this for testing ingredients. Comment out otherwise
+//                    Toast.makeText(context?.applicationContext, sb3, Toast.LENGTH_LONG).show()
 
                     var ingredientStringList = arrayListOf<String>()
                     for (i in 0..results.size-1){

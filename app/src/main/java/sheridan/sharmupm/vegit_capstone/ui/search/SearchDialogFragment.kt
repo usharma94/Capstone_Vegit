@@ -35,11 +35,25 @@ class SearchDialogFragment(
         val searchDialogDietDescription = findViewById<TextView>(R.id.search_diet_description)
 
 //        searchDialogTitle.setBackgroundColor(Color.argb(100, 0, 255, 0))
-        searchDialogTitle.setBackgroundColor(Color.parseColor("#bdbdbd"));
+//        searchDialogTitle.setBackgroundColor(Color.parseColor("#B5EB6B"));
         searchDialogIngredientName.text = ingredientDetail.name
         searchDialogDietType.text = ingredientDetail.diet_name
         searchDialogDietDescription.text = ingredientDetail.description
+        val diet = ingredientDetail.diet_name;
         findViewById<Button>(R.id.search_dialog_done).setOnClickListener(this)
+
+        if("Non-Vegetarian" == diet){
+            searchDialogTitle.setBackgroundColor(Color.parseColor("#F1948A"));
+            searchDialogTitle.text = "AVOID"
+        }else if("Vegetarian" == diet || "Vegan" == diet){
+            searchDialogTitle.setBackgroundColor(Color.parseColor("#ABEBC6"));
+            searchDialogTitle.text = "SAFE"
+        }else if("Caution" == diet){
+            searchDialogTitle.setBackgroundColor(Color.parseColor("#F9E79F"));
+            searchDialogTitle.text = "CAUTION"
+        }else{
+            println("no diet")
+        }
 
     }
 

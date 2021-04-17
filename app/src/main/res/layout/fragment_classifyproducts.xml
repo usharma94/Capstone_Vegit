@@ -34,13 +34,9 @@
             android:layout_alignParentBottom="true"
             android:layout_marginTop="5dp"
             android:gravity="center_horizontal"
-            android:text="This is a placeholder for ingredients."
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="20sp" />
-
-
-
 
 
         <RelativeLayout
@@ -48,8 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="60dp">
-
+            android:layout_marginBottom="70dp">
 
 
             <Button
@@ -64,6 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:backgroundTint="@color/colorPrimary"
                 android:src="@android:drawable/ic_menu_gallery" />
 
             <Button
@@ -71,9 +67,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                android:background="@drawable/takepicture_button"
                 android:layout_centerInParent="true"
-                />
+                android:background="@drawable/takepicture_button" />
 
         </RelativeLayout>
 
