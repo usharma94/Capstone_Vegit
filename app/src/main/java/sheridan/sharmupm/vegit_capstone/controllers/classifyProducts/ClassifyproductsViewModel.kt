@@ -1,7 +1,6 @@
 package sheridan.sharmupm.vegit_capstone.controllers.classifyProducts
 
 import android.util.SparseArray
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.vision.text.TextBlock
@@ -9,6 +8,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import sheridan.sharmupm.vegit_capstone.helpers.getDiet
+import sheridan.sharmupm.vegit_capstone.models.DietModel
 import sheridan.sharmupm.vegit_capstone.models.ingredients.Ingredient
 import sheridan.sharmupm.vegit_capstone.models.ingredients.IngredientName
 import sheridan.sharmupm.vegit_capstone.services.network.APIClient
@@ -28,10 +29,7 @@ class ClassifyproductsViewModel : ViewModel() {
 
     val ingredientResults = MutableLiveData<List<Ingredient>>()
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is dashboard Fragment"
-    }
-    val text: LiveData<String> = _text
+    val userDiet = MutableLiveData<DietModel>()
 
     // must pass in a list of IngredientName data objects
     fun searchIngredientList(ingredientNames: List<IngredientName>) {
@@ -52,16 +50,15 @@ class ClassifyproductsViewModel : ViewModel() {
             sb.append(myItem)
         }
 
+        if (checkNull(sb.toString(), ":", false)) return null
+
         // grabbing text only after "ingredients:"
         ingredientRaw = sb.substring(sb.indexOf(":") + 1)
 
         // stopping at first occurance of a .
         // may or may not be best way to extract up to end of ingredient text only
         // From research, found most ingredients have a . at end of ingredients
-        if (ingredientRaw.lastIndexOf(".") < 0) {
-            println("ERROR NO INGREDIENT DATA WAS ABLE TO BE EXTRACTED")
-            return null
-        }
+        if (checkNull(ingredientRaw, ".", true)) return null
 
         ingredientRaw = ingredientRaw.substring(0, ingredientRaw.lastIndexOf("."))
 
@@ -85,5 +82,27 @@ class ClassifyproductsViewModel : ViewModel() {
             return null
         }
         return ingredientNameList
+    }
+
+    fun getUserDiet() {
+        scope.launch {
+            val diet = getDiet()
+            userDiet.postValue(diet)
+        }
+    }
+
+    private fun checkNull(rawString: String, delimiter: String, lastIndex: Boolean) : Boolean {
+        if (lastIndex) {
+            if (rawString.lastIndexOf(delimiter) < 0) {
+                println("ERROR NO INGREDIENT DATA WAS ABLE TO BE EXTRACTED")
+                return true
+            }
+        } else {
+            if (rawString.indexOf(delimiter) < 0) {
+                println("ERROR NO INGREDIENT DATA WAS ABLE TO BE EXTRACTED")
+                return true
+            }
+        }
+        return false
     }
 }

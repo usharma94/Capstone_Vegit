@@ -13,6 +13,7 @@ android:orientation="vertical">
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp"
     android:layout_marginTop="24dp"
+    android:outlineSpotShadowColor="@color/colorPrimary"
     android:outlineAmbientShadowColor="@color/colorGrey"
     app:cardCornerRadius="10dp">
     <RelativeLayout
@@ -53,14 +54,24 @@ android:orientation="vertical">
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
-
     <TextView
         android:id="@+id/search_result_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:textSize="20sp"
-        android:text="This is a placeholder for search results"/>
+        android:textAlignment="textStart"
+        android:text="Instantly search from hundreds of ingredients"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/searchResult"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchText"
+        tools:listitem="@layout/item_search" />
 
 
 </LinearLayout>
