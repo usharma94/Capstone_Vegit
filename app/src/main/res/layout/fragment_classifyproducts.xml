@@ -8,6 +8,7 @@
 
     <FrameLayout
 
+        android:id="@+id/frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -19,51 +20,66 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="290dp"
+            android:layout_gravity="center"
             android:background="@drawable/camera_aperture"
 
             />
 
-
-
         <TextView
             android:id="@+id/text_view"
-            android:text="This is a placeholder for ingredients."
-            android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:layout_alignParentBottom="true"
             android:layout_marginTop="5dp"
+            android:gravity="center_horizontal"
+            android:text="This is a placeholder for ingredients."
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:gravity="center_horizontal" />
+            android:textSize="20sp" />
+
+
+
+
 
         <RelativeLayout
             android:id="@+id/action"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="60dp"
             android:layout_gravity="bottom"
-            >
+            android:layout_marginBottom="60dp">
+
+
 
             <Button
                 android:id="@+id/takePicture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="Analyze"/>
+                android:layout_alignParentRight="true"
+                android:text="Analyze" />
 
             <ImageButton
                 android:id="@+id/gallery"
-                android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:src="@android:drawable/ic_menu_gallery" />
+
+            <Button
+                android:id="@+id/capture_picture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:background="@drawable/takepicture_button"
+                android:layout_centerInParent="true"
+                />
 
         </RelativeLayout>
 
-
     </FrameLayout>
+
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

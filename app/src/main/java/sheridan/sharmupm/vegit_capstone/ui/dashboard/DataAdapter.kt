@@ -39,8 +39,9 @@ class DataAdapter(
             v.setOnClickListener(this)
         }
 
-        override fun onClick(v: View?) {
-            TODO("Not yet implemented")
+        override fun onClick(v: View) {
+            recyclerViewItemClickListener.clickOnItem(mDataset[this.adapterPosition])
+
         }
 
 
