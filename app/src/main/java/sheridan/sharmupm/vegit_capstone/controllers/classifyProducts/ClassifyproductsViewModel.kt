@@ -92,17 +92,10 @@ class ClassifyproductsViewModel : ViewModel() {
     }
 
     private fun checkNull(rawString: String, delimiter: String, lastIndex: Boolean) : Boolean {
-        if (lastIndex) {
-            if (rawString.lastIndexOf(delimiter) < 0) {
-                println("ERROR NO INGREDIENT DATA WAS ABLE TO BE EXTRACTED")
-                return true
-            }
-        } else {
-            if (rawString.indexOf(delimiter) < 0) {
-                println("ERROR NO INGREDIENT DATA WAS ABLE TO BE EXTRACTED")
-                return true
-            }
-        }
+        if (lastIndex)
+            if (rawString.lastIndexOf(delimiter) < 0) return true
+        else
+            if (rawString.indexOf(delimiter) < 0) return true
         return false
     }
 }

@@ -13,16 +13,12 @@ class DataAdapter(
 ) : RecyclerView.Adapter<DataAdapter.IngredientViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, i: Int): IngredientViewHolder {
-
         val v = LayoutInflater.from(parent.context).inflate(R.layout.ingredient_item, parent, false)
-
         return IngredientViewHolder(v)
-
     }
 
     override fun onBindViewHolder(ingredientViewHolder: IngredientViewHolder, i: Int) {
         ingredientViewHolder.mTextView.text = mDataset[i]
-
     }
 
     override fun getItemCount(): Int {
@@ -31,7 +27,6 @@ class DataAdapter(
 
 
     inner class IngredientViewHolder(v: View) : RecyclerView.ViewHolder(v), View.OnClickListener {
-
         var mTextView: TextView
 
         init {
@@ -41,10 +36,7 @@ class DataAdapter(
 
         override fun onClick(v: View) {
             recyclerViewItemClickListener.clickOnItem(mDataset[this.adapterPosition])
-
         }
-
-
     }
 
     interface RecyclerViewItemClickListener {

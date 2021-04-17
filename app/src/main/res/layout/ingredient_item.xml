@@ -7,13 +7,17 @@
     android:layout_margin="2dp"
 
     >
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:text="text"
-        android:padding="5dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
 
-        android:layout_height="wrap_content"/>
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:text="text"
+        android:textAlignment="viewStart" />
 
 </androidx.cardview.widget.CardView>
