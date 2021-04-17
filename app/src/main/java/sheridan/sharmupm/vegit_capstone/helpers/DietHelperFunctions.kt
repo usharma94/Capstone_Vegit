@@ -35,7 +35,9 @@ fun removeDietFromCache() {
     CacheClient.cache.remove("diet")
 }
 
-fun determineSafety(diet: DietModel, dietType: Int) : DietSafety {
+fun determineSafety(diet: DietModel?, dietType: Int) : DietSafety {
+    if (diet == null) return DietSafety.UNKNOWN
+
     if (diet.dietType == DietTypes.VEGAN.value) {
         return when {
             dietType == DietTypes.VEGAN.value -> {

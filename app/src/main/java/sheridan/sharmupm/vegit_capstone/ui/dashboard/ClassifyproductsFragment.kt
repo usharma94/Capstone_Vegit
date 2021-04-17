@@ -18,7 +18,6 @@ import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.controllers.classifyProducts.ClassifyproductsViewModel
 import sheridan.sharmupm.vegit_capstone.helpers.DietSafety
 import sheridan.sharmupm.vegit_capstone.helpers.determineSafety
-import sheridan.sharmupm.vegit_capstone.helpers.getDietFromCache
 
 class ClassifyproductsFragment : Fragment() {
 
@@ -98,9 +97,10 @@ class ClassifyproductsFragment : Fragment() {
         classifyproductsViewModel.ingredientResults.observe(viewLifecycleOwner,
             { results ->
                 if (results != null) {
+                    val diet = classifyproductsViewModel.getUserDiet()
+
                     // display results as outlined in wireframe UI for classify product
-                    val sb3 = StringBuilder()
-                    val diet = getDietFromCache()
+                    //val sb3 = StringBuilder()
 //                    for (i in 0..results.size-1){
 //                        if (diet?.dietType == results[i].diet_type) {
 //                            sb3.append(results[i].name + " - " + results[i].diet_name + " - SAFE" + "\n")
@@ -132,14 +132,19 @@ class ClassifyproductsFragment : Fragment() {
                         "Grapes"
                     )
                     var ingredientStringList = arrayListOf<String>()
-                    for (i in 0..results.size-1){
-                        when (determineSafety(diet!!, results[i].diet_type!!)) {
-                            DietSafety.SAFE -> ingredientStringList.add(results[i].name + " - " + results[i].diet_name + " - SAFE" + "\n")
-                            DietSafety.CAUTION -> ingredientStringList.add(results[i].name + " - " + results[i].diet_name + " - CAUTION" + "\n")
-                            DietSafety.AVOID -> ingredientStringList.add(results[i].name + " - " + results[i].diet_name + " - AVOID" + "\n")
-                            else -> ingredientStringList.add(results[i].name + " - " + results[i].diet_name  + "\n")
-                        }
-                    }
+                    classifyproductsViewModel.userDiet.observe(viewLifecycleOwner,
+                            {
+                                diet ->
+                                for (i in 0..results.size-1){
+                                    when (determineSafety(diet, results[i].diet_type!!)) {
+                                        DietSafety.SAFE -> ingredientStringList.add(results[i].name + " - " + results[i].diet_name + " - SAFE" + "\n")
+                                        DietSafety.CAUTION -> ingredientStringList.add(results[i].name + " - " + results[i].diet_name + " - CAUTION" + "\n")
+                                        DietSafety.AVOID -> ingredientStringList.add(results[i].name + " - " + results[i].diet_name + " - AVOID" + "\n")
+                                        else -> ingredientStringList.add(results[i].name + " - " + results[i].diet_name  + "\n")
+                                    }
+                                }
+                            })
+
                     //Toast.makeText(context?.applicationContext, ingredientStringList[0], Toast.LENGTH_LONG).show()
 
                     val dataAdapter = DataAdapter(ingredientStringList, this)
