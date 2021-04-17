@@ -32,7 +32,7 @@ class CustomListViewDialog(var fragment: Fragment, internal var adapter: Recycle
         recyclerView?.layoutManager = mLayoutManager
         recyclerView?.adapter = adapter
 
-        findViewById<Button>(R.id.yes).setOnClickListener(this)
+//        findViewById<Button>(R.id.yes).setOnClickListener(this)
         findViewById<Button>(R.id.no).setOnClickListener(this)
 
     }
@@ -40,8 +40,8 @@ class CustomListViewDialog(var fragment: Fragment, internal var adapter: Recycle
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.yes -> {
-            }
+//            R.id.yes -> {
+//            }
             R.id.no -> dismiss()
             else -> {
             }

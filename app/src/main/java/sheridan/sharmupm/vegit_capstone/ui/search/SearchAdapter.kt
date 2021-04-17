@@ -46,6 +46,7 @@ class SearchAdapter(private val dataSet: List<IngredientName>, private val onCli
 
     }
 
+
     class OnClickListener(val clickListener: (ingredient: IngredientName) -> Unit) {
         fun onClick(ingredient: IngredientName) = clickListener(ingredient)
     }
