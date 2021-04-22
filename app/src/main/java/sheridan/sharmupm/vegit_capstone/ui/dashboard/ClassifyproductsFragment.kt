@@ -22,6 +22,7 @@ import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.controllers.classifyProducts.ClassifyproductsViewModel
 import sheridan.sharmupm.vegit_capstone.helpers.DietSafety
 import sheridan.sharmupm.vegit_capstone.helpers.determineSafety
+import sheridan.sharmupm.vegit_capstone.models.ingredients.ClassifyIngredient
 import java.util.*
 
 
@@ -131,17 +132,17 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
                     // display results as outlined in wireframe UI for classify product
                     classifyproductsViewModel.getUserDiet()
 
-                    val ingredientStringList = arrayListOf<String>()
+                    val ingredientStringList = arrayListOf<ClassifyIngredient>()
 
                     classifyproductsViewModel.userDiet.observe(viewLifecycleOwner,
                             {
                                 diet ->
                                     for (i in 0..results.size-1){
                                         when (determineSafety(diet, results[i].diet_type!!)) {
-                                            DietSafety.SAFE -> ingredientStringList.add("%-20s - %s - %s".format(results[i].name, results[i].diet_name, "SAFE"))
-                                            DietSafety.CAUTION -> ingredientStringList.add("%-20s - %s - %s".format(results[i].name, results[i].diet_name, "CAUTION"))
-                                            DietSafety.AVOID -> ingredientStringList.add("%-20s - %s - %s".format(results[i].name, results[i].diet_name, "AVOID"))
-                                            else -> ingredientStringList.add(results[i].name + " - " + results[i].diet_name  + "\n")
+                                            DietSafety.SAFE -> ingredientStringList.add(ClassifyIngredient(results[i].name, results[i].diet_name, 1, "#ABEBC6"))
+                                            DietSafety.CAUTION -> ingredientStringList.add(ClassifyIngredient(results[i].name, results[i].diet_name, 2, "#F9E79F"))
+                                            DietSafety.AVOID -> ingredientStringList.add(ClassifyIngredient(results[i].name, results[i].diet_name, 3, "#F1948A"))
+                                            else -> ingredientStringList.add(ClassifyIngredient(results[i].name, results[i].diet_name, 4, "#F1948A"))
                                         }
                                     }
                             })

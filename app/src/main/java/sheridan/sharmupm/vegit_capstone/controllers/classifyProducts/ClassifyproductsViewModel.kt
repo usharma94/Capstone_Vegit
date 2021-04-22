@@ -50,6 +50,8 @@ class ClassifyproductsViewModel : ViewModel() {
             sb.append(myItem)
         }
 
+        println(sb.toString())
+
         if (checkNull(sb.toString(), ":", false)) return null
 
         // grabbing text only after "ingredients:"
@@ -81,6 +83,7 @@ class ClassifyproductsViewModel : ViewModel() {
         if (ingredientNameList.count() < 1) {
             return null
         }
+        println(ingredientNameList)
         return ingredientNameList
     }
 

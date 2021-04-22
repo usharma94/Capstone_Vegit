@@ -8,16 +8,30 @@
 
     >
 
-    <TextView
-        android:id="@+id/textView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:weightSum="1"
         android:gravity="center"
+        android:orientation="horizontal">
 
-        android:paddingLeft="10dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:text="text"
-        android:textAlignment="viewStart" />
+        <TextView
+            android:id="@+id/txtName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:padding="5dp"
+            android:text="name"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/txtClassification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6"
+            android:padding="5dp"
+            android:text="diet"
+            android:textAlignment="center" />
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>
