@@ -46,6 +46,9 @@ fun determineSafety(diet: DietModel?, dietType: Int) : DietSafety {
             dietType == DietTypes.VEGAN_CAUTION.value -> {
                 DietSafety.CAUTION
             }
+            dietType == DietTypes.UNSPECIFIED.value -> {
+                DietSafety.CAUTION
+            }
             else -> {
                 DietSafety.AVOID
             }
@@ -58,6 +61,9 @@ fun determineSafety(diet: DietModel?, dietType: Int) : DietSafety {
                 DietSafety.SAFE
             }
             dietType == DietTypes.VEGETARIAN_CAUTION.value -> {
+                DietSafety.CAUTION
+            }
+            dietType == DietTypes.UNSPECIFIED.value -> {
                 DietSafety.CAUTION
             }
             else -> {
