@@ -31,9 +31,8 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         searchViewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
-        // TODO: Use the ViewModel
-
         searchViewModel.getIngredientNames()
+        searchViewModel.getUserDiet()
 
         val searchText = view.findViewById<EditText>(R.id.search_bar)
         val clearButton = view.findViewById<Button>(R.id.clear_text)
@@ -70,20 +69,14 @@ class SearchFragment : Fragment() {
         searchViewModel.searchList.observe(viewLifecycleOwner,
                 { results ->
                     if (results != null) {
-                        // UPMA UPMA UPMA UPMA UPMA UPMA UPMA
                         // display results of search in UI as a list
                         println(results)
 
 //                        user clicks ingredient name
                         val searchAdapter = SearchAdapter(results, SearchAdapter.OnClickListener{
-
                             searchViewModel.searchIngredients(it.name)
-
-
                         })
                         recyclerView.adapter = searchAdapter
-
-
                     }
                     else {
                         println("No data found")
@@ -92,36 +85,32 @@ class SearchFragment : Fragment() {
 
         searchViewModel.searchResult.observe(viewLifecycleOwner,
                 { ingredient ->
-                    // UPMA UPMA UPMA UPMA UPMA UPMA UPMA
                     // hide loading icon here
 
                     if (ingredient != null) {
-                        // UPMA UPMA UPMA UPMA UPMA UPMA UPMA
-                        // display results of singular food item
-                        println(ingredient)
-                        val ingredientDetail = ingredient
-                        var customDialog = SearchDialogFragment(
-                                this@SearchFragment,
-                                ingredientDetail,
-                                requireContext()
-                        )
-                        //if we know that the particular variable not null any time ,we can assign !! (not null operator ), then  it won't check for null, if it becomes null, it willthrow exception
-                        customDialog!!.show()
-                        customDialog!!.setCanceledOnTouchOutside(false)
-
+                        searchViewModel.userDiet.observe(viewLifecycleOwner,
+                            {
+                                diet->
+                                    // display results of singular food item
+                                    var customDialog = SearchDialogFragment(
+                                            this@SearchFragment,
+                                            ingredient,
+                                            diet,
+                                            requireContext()
+                                    )
+                                    //if we know that the particular variable not null any time ,we can assign !! (not null operator ), then  it won't check for null, if it becomes null, it willthrow exception
+                                    customDialog!!.show()
+                                    customDialog!!.setCanceledOnTouchOutside(false)
+                            })
                     }
                     else {
                         println("Error fetching ingredient")
                     }
-
-
-
                 })
 
         clearButton.setOnClickListener {
             searchText.text.clear()
             recyclerView.isVisible = false
-
         }
     }
 

@@ -11,15 +11,16 @@ import android.view.Window
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.cancel
 import sheridan.sharmupm.vegit_capstone.R
-import sheridan.sharmupm.vegit_capstone.controllers.search.SearchViewModel
+import sheridan.sharmupm.vegit_capstone.helpers.DietSafety
+import sheridan.sharmupm.vegit_capstone.helpers.determineSafety
+import sheridan.sharmupm.vegit_capstone.models.DietModel
 import sheridan.sharmupm.vegit_capstone.models.ingredients.Ingredient
 
 class SearchDialogFragment(
     var fragment: Fragment,
     var ingredientDetail: Ingredient,
+    val userDiet: DietModel?,
     context: Context
 ) : Dialog(context),
     View.OnClickListener {
@@ -35,12 +36,31 @@ class SearchDialogFragment(
         val searchDialogDietDescription = findViewById<TextView>(R.id.search_diet_description)
 
 //        searchDialogTitle.setBackgroundColor(Color.argb(100, 0, 255, 0))
-        searchDialogTitle.setBackgroundColor(Color.parseColor("#bdbdbd"));
+//        searchDialogTitle.setBackgroundColor(Color.parseColor("#B5EB6B"));
         searchDialogIngredientName.text = ingredientDetail.name
         searchDialogDietType.text = ingredientDetail.diet_name
         searchDialogDietDescription.text = ingredientDetail.description
+
         findViewById<Button>(R.id.search_dialog_done).setOnClickListener(this)
 
+        when (determineSafety(userDiet, ingredientDetail.diet_type!!)) {
+            DietSafety.SAFE -> {
+                searchDialogTitle.setBackgroundColor(Color.parseColor("#ABEBC6"));
+                searchDialogTitle.text = "SAFE"
+            }
+            DietSafety.CAUTION -> {
+                searchDialogTitle.setBackgroundColor(Color.parseColor("#F9E79F"));
+                searchDialogTitle.text = "CAUTION"
+            }
+            DietSafety.AVOID -> {
+                searchDialogTitle.setBackgroundColor(Color.parseColor("#F1948A"));
+                searchDialogTitle.text = "AVOID"
+            }
+            else -> {
+                searchDialogTitle.setBackgroundColor(Color.parseColor("#F1948A"));
+                searchDialogTitle.text = "UNKNOWN"
+            }
+        }
     }
 
 

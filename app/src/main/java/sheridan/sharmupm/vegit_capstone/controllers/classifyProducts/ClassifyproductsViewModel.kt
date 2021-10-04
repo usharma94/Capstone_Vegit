@@ -50,6 +50,8 @@ class ClassifyproductsViewModel : ViewModel() {
             sb.append(myItem)
         }
 
+        println(sb.toString())
+
         if (checkNull(sb.toString(), ":", false)) return null
 
         // grabbing text only after "ingredients:"
@@ -81,6 +83,7 @@ class ClassifyproductsViewModel : ViewModel() {
         if (ingredientNameList.count() < 1) {
             return null
         }
+        println(ingredientNameList)
         return ingredientNameList
     }
 
@@ -92,17 +95,10 @@ class ClassifyproductsViewModel : ViewModel() {
     }
 
     private fun checkNull(rawString: String, delimiter: String, lastIndex: Boolean) : Boolean {
-        if (lastIndex) {
-            if (rawString.lastIndexOf(delimiter) < 0) {
-                println("ERROR NO INGREDIENT DATA WAS ABLE TO BE EXTRACTED")
-                return true
-            }
-        } else {
-            if (rawString.indexOf(delimiter) < 0) {
-                println("ERROR NO INGREDIENT DATA WAS ABLE TO BE EXTRACTED")
-                return true
-            }
-        }
+        if (lastIndex)
+            if (rawString.lastIndexOf(delimiter) < 0) return true
+        else
+            if (rawString.indexOf(delimiter) < 0) return true
         return false
     }
 }
