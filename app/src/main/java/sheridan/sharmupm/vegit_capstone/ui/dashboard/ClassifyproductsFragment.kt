@@ -22,10 +22,13 @@ import sheridan.sharmupm.vegit_capstone.controllers.classifyProducts.Classifypro
 import sheridan.sharmupm.vegit_capstone.helpers.getDietFromCache
 import android.hardware.Camera
 import android.os.Environment
+import android.os.SystemClock
 import android.provider.MediaStore
 import android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE
 import android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO
+import android.service.autofill.Validators.not
 import android.util.Log
+import androidx.fragment.app.FragmentTransaction
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -39,6 +42,8 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
     private lateinit var classifyproductsViewModel: ClassifyproductsViewModel
     private lateinit var ingredientLabelPicture: ImageView
     private lateinit var customDialog:CustomListViewDialog
+    private lateinit var analyzeBtn:Button
+    private var mLastClickTime:Long = 0
 
     private lateinit var camera: Camera
 
@@ -61,40 +66,36 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
                 ViewModelProvider(this).get(ClassifyproductsViewModel::class.java)
         val view = inflater.inflate(R.layout.fragment_classifyproducts, container, false)
 
+
+
         
         return view
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.clear()
+    }
+
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         ingredientLabelPicture = view.findViewById<ImageView>(R.id.imageView)
         val galleryBtn = view.findViewById<ImageButton>(R.id.gallery)
-        val analyzeBtn = view.findViewById<Button>(R.id.takePicture)
+        analyzeBtn = view.findViewById<Button>(R.id.takePicture)
         val scanResult = view.findViewById<TextView>(R.id.text_view)
         val framelayout = view.findViewById<FrameLayout>(R.id.frame_layout)
         val captureImage = view.findViewById<Button>(R.id.capture_picture)
 
-       // camera = Camera.open()
-        //showCamera = ShowCamera(context, camera)
-        //framelayout.addView(showCamera)
+        val args = this.arguments
+        if (args?.isEmpty == false){
+            val image = args?.get("bitmap")
+            ingredientLabelPicture.setImageBitmap(image as Bitmap?)
+            args.clear()
+        }
 
-        // Create an instance of Camera
-//        var mCamera = getCameraInstance()
-//
-//        var mPreview = mCamera?.let {
-//            // Create our Preview view
-//            CameraPreview(requireContext(), it)
-//        }
-//
-//        // Set the Preview view as the content of our activity.
-//        mPreview?.also {
-//            val preview: FrameLayout = framelayout
-//            preview.addView(it)
-//        }
-//        captureImage.setOnClickListener {
-//            // get an image from the camera
-//            mCamera?.takePicture(null, null, mPicture)
-//        }
 
 
 
@@ -138,13 +139,7 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
         }
 
         captureImage.setOnClickListener{
-//            if (framelayout.indexOfChild(showCamera)==-1){
-//                camera = Camera.open()
-//                showCamera = ShowCamera(context, camera)
-//                framelayout.addView(showCamera)
-//
-//
-//            }
+
 
             if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.M){
                 if (context?.applicationContext?.let { it1 -> checkSelfPermission(it1,android.Manifest.permission.CAMERA) } ==PackageManager.PERMISSION_DENIED)
@@ -176,31 +171,47 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
         //result if the food is safe to eat
         //**** the "analyze" is hard-code now***
         analyzeBtn.setOnClickListener {
-            if (ingredientLabelPicture.getDrawable()==null){
-                Toast.makeText(context?.applicationContext, "No Picture Detected!", Toast.LENGTH_SHORT)
-                    .show()
-            }
-            else{
-                val mBitmap = ingredientLabelPicture.getDrawable().toBitmap()
-                val textRecognizer = TextRecognizer.Builder(context?.applicationContext).build()
-                if (!textRecognizer.isOperational) {
-                    Toast.makeText(context?.applicationContext, "Could not get the text", Toast.LENGTH_SHORT)
-                        .show()
-                } else {
-                    val frame = Frame.Builder().setBitmap(mBitmap).build()
-                    val items = textRecognizer.detect(frame)
-
-                    val ingredientList = classifyproductsViewModel.extractIngredientText(items)
-                    if (ingredientList != null) {
-                        classifyproductsViewModel.searchIngredientList(ingredientList)
-                    } else {
-                        Toast.makeText(context?.applicationContext, "Failed to extract ingredients", Toast.LENGTH_SHORT).show()
-                        // show error message that no data was extracted?
-                        println("No data able to be extracted!")
-                    }
+            if (analyzeBtn.isClickable==true){
+                if(SystemClock.elapsedRealtime()-mLastClickTime<1000){
+                    analyzeBtn.isClickable=false
+                    //analyzeBtn.postDelayed(Runnable { kotlin.run { analyzeBtn.isClickable=false } },1000)
+                    //Toast.makeText(requireContext(),"The button is unclickable now",Toast.LENGTH_LONG).show()
                 }
+                else{
+
+                    if (ingredientLabelPicture.getDrawable()==null){
+                        Toast.makeText(context?.applicationContext, "No Picture Detected!", Toast.LENGTH_SHORT)
+                                .show()
+                    }
+                    else{
+                        val mBitmap = ingredientLabelPicture.getDrawable().toBitmap()
+                        val textRecognizer = TextRecognizer.Builder(context?.applicationContext).build()
+                        if (!textRecognizer.isOperational) {
+                            Toast.makeText(context?.applicationContext, "Could not get the text", Toast.LENGTH_SHORT)
+                                    .show()
+                        } else {
+                            val frame = Frame.Builder().setBitmap(mBitmap).build()
+                            val items = textRecognizer.detect(frame)
+
+                            val ingredientList = classifyproductsViewModel.extractIngredientText(items)
+                            if (ingredientList != null) {
+                                classifyproductsViewModel.searchIngredientList(ingredientList)
+                            } else {
+                                Toast.makeText(context?.applicationContext, "Failed to extract ingredients", Toast.LENGTH_SHORT).show()
+                                // show error message that no data was extracted?
+                                println("No data able to be extracted!")
+                            }
+                        }
+
+                    }
+
+                }
+                mLastClickTime=SystemClock.elapsedRealtime()
+                analyzeBtn.isClickable=true
 
             }
+
+
 
         }
 
@@ -217,7 +228,7 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
                             sb3.append(results[i].name + " - " + results[i].diet_name + "\n")
                         }
                     }
-                    Toast.makeText(context?.applicationContext, sb3, Toast.LENGTH_LONG).show()
+                    //Toast.makeText(context?.applicationContext, sb3, Toast.LENGTH_LONG).show()
 
                     var ingredientStringList = arrayListOf<String>()
                     for (i in 0..results.size-1){
@@ -244,6 +255,10 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
             })
 
     }
+
+
+
+
 
 
 
@@ -311,12 +326,18 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
 
 
     private fun captureImage(){
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        if (takePictureIntent.resolveActivity(requireContext().packageManager)!=null){
-            startActivityForResult(takePictureIntent,REQUEST_CODE)
-        }else{
-            Toast.makeText(context?.applicationContext,"Unable to Open Camera", Toast.LENGTH_SHORT).show()
-        }
+//        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+//        if (takePictureIntent.resolveActivity(requireContext().packageManager)!=null){
+//            startActivityForResult(takePictureIntent,REQUEST_CODE)
+//        }else{
+//            Toast.makeText(context?.applicationContext,"Unable to Open Camera", Toast.LENGTH_SHORT).show()
+//        }
+
+        val cameraFragment = CameraFragment()
+        val transaction:FragmentTransaction = requireFragmentManager().beginTransaction()
+        transaction.replace(R.id.classifyProductFragment,cameraFragment)
+        transaction.commit()
+
     }
 
     private fun pickImageFromGallery() {
@@ -367,4 +388,9 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
 
         }
     }
+
+
+
+
+
 }
