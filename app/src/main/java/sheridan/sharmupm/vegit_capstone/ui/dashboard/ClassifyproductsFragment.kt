@@ -1,12 +1,13 @@
 package sheridan.sharmupm.vegit_capstone.ui.dashboard
+
 import android.app.Activity
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-
+import android.hardware.Camera
 import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,26 +15,15 @@ import android.widget.*
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.vision.Frame
 import com.google.android.gms.vision.text.TextRecognizer
 import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.controllers.classifyProducts.ClassifyproductsViewModel
-import sheridan.sharmupm.vegit_capstone.helpers.getDietFromCache
-import android.hardware.Camera
-import android.os.Environment
-import android.os.SystemClock
-import android.provider.MediaStore
-import android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE
-import android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO
-import android.service.autofill.Validators.not
-import android.util.Log
-import androidx.fragment.app.FragmentTransaction
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
-import java.io.IOException
-import java.text.SimpleDateFormat
+import sheridan.sharmupm.vegit_capstone.helpers.DietSafety
+import sheridan.sharmupm.vegit_capstone.helpers.determineSafety
+import sheridan.sharmupm.vegit_capstone.models.ingredients.ClassifyIngredient
 import java.util.*
 
 
