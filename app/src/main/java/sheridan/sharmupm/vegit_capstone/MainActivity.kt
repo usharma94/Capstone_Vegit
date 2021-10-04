@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.searchFragment, R.id.navigation_classifyproducts, R.id.navigation_groceryList, R.id.navigation_diet, R.id.userProfile))
+                R.id.searchFragment, R.id.cameraFragment, R.id.navigation_groceryList, R.id.navigation_diet, R.id.userProfile))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         visibilityNavElements(navController, navView)
@@ -34,8 +34,8 @@ class MainActivity : AppCompatActivity() {
     private fun visibilityNavElements(navController: NavController, navigationView: BottomNavigationView) {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.loginFragment -> navigationView?.visibility = View.GONE
-                else -> navigationView?.visibility = View.VISIBLE
+                R.id.loginFragment -> navigationView.visibility = View.GONE
+                else -> navigationView.visibility = View.VISIBLE
             }
         }
     }

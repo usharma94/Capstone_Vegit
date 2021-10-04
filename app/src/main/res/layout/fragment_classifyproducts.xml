@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.dashboard.ClassifyproductsFragment">
+    tools:context=".ui.dashboard.ClassifyproductsFragment"
+    android:id="@+id/classifyProductFragment">
 
     <FrameLayout
 
@@ -34,18 +35,17 @@
             android:layout_alignParentBottom="true"
             android:layout_marginTop="5dp"
             android:gravity="center_horizontal"
+            android:text="This is a placeholder for ingredients."
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="20sp" />
-
 
         <RelativeLayout
             android:id="@+id/action"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="70dp">
-
+            android:layout_marginBottom="60dp">
 
             <Button
                 android:id="@+id/takePicture"
@@ -67,14 +67,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
+                android:background="@drawable/takepicture_button"
                 android:layout_centerInParent="true"
-                android:background="@drawable/takepicture_button" />
+                />
 
         </RelativeLayout>
 
     </FrameLayout>
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

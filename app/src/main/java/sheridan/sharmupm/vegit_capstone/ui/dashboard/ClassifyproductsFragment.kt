@@ -1,13 +1,12 @@
 package sheridan.sharmupm.vegit_capstone.ui.dashboard
-
 import android.app.Activity
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.hardware.Camera
+
 import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,9 +19,21 @@ import com.google.android.gms.vision.Frame
 import com.google.android.gms.vision.text.TextRecognizer
 import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.controllers.classifyProducts.ClassifyproductsViewModel
-import sheridan.sharmupm.vegit_capstone.helpers.DietSafety
-import sheridan.sharmupm.vegit_capstone.helpers.determineSafety
-import sheridan.sharmupm.vegit_capstone.models.ingredients.ClassifyIngredient
+import sheridan.sharmupm.vegit_capstone.helpers.getDietFromCache
+import android.hardware.Camera
+import android.os.Environment
+import android.os.SystemClock
+import android.provider.MediaStore
+import android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE
+import android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO
+import android.service.autofill.Validators.not
+import android.util.Log
+import androidx.fragment.app.FragmentTransaction
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -31,10 +42,14 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
     private lateinit var classifyproductsViewModel: ClassifyproductsViewModel
     private lateinit var ingredientLabelPicture: ImageView
     private lateinit var customDialog: CustomListViewDialog
+    private lateinit var analyzeBtn:Button
+    private var mLastClickTime:Long = 0
 
     private lateinit var camera: Camera
 
     var showCamera: ShowCamera? = null
+
+
 
     companion object{
         private val IMAGE_PICK_CODE = 1000
@@ -48,8 +63,15 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
             savedInstanceState: Bundle?
     ): View? {
         classifyproductsViewModel =
-             ViewModelProvider(this).get(ClassifyproductsViewModel::class.java)
-        return inflater.inflate(R.layout.fragment_classifyproducts, container, false)
+                ViewModelProvider(this).get(ClassifyproductsViewModel::class.java)
+        val view = inflater.inflate(R.layout.fragment_classifyproducts, container, false)
+
+        return view
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.clear()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -61,14 +83,19 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
         val framelayout = view.findViewById<FrameLayout>(R.id.frame_layout)
         val captureImage = view.findViewById<Button>(R.id.capture_picture)
 
+        val args = this.arguments
+        if (args?.isEmpty == false){
+            val image = args.get("bitmap")
+            ingredientLabelPicture.setImageBitmap(image as Bitmap?)
+            args.clear()
+        }
 
-        //Select picture from gallery, the picture is saved locally in my simulator now
         galleryBtn.setOnClickListener{
             framelayout.removeView(showCamera)
             if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.M){
                 if (context?.applicationContext?.let { it1 -> checkSelfPermission(it1,android.Manifest.permission.READ_EXTERNAL_STORAGE) } ==PackageManager.PERMISSION_DENIED)
                 {
-                    val permissions = arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE);
+                    val permissions = arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE)
                     requestPermissions(permissions, PERMISSION_CODE)
                 } else {
                     pickImageFromGallery()
@@ -78,12 +105,12 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
             }
         }
 
-        captureImage.setOnClickListener {
+        captureImage.setOnClickListener{
 
             if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.M){
                 if (context?.applicationContext?.let { it1 -> checkSelfPermission(it1,android.Manifest.permission.CAMERA) } ==PackageManager.PERMISSION_DENIED)
                 {
-                    val permissions = arrayOf(android.Manifest.permission.CAMERA);
+                    val permissions = arrayOf(android.Manifest.permission.CAMERA)
                     requestPermissions(permissions, REQUEST_CODE)
                 } else {
                     captureImage()
@@ -101,28 +128,41 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
         //result if the food is safe to eat
         //**** the "analyze" is hard-code now***
         analyzeBtn.setOnClickListener {
-            if (ingredientLabelPicture.drawable == null) {
-                Toast.makeText(context?.applicationContext, "No Picture Detected!", Toast.LENGTH_SHORT)
-                    .show()
-            } else {
-                val mBitmap = ingredientLabelPicture.drawable.toBitmap()
-                val textRecognizer = TextRecognizer.Builder(context?.applicationContext).build()
-                if (!textRecognizer.isOperational) {
-                    Toast.makeText(context?.applicationContext, "Could not get the text", Toast.LENGTH_SHORT)
-                        .show()
-                } else {
-                    val frame = Frame.Builder().setBitmap(mBitmap).build()
-                    val items = textRecognizer.detect(frame)
+            if (analyzeBtn.isClickable==true){
+                if(SystemClock.elapsedRealtime()-mLastClickTime<1000){
+                    analyzeBtn.isClickable=false
+                    //analyzeBtn.postDelayed(Runnable { kotlin.run { analyzeBtn.isClickable=false } },1000)
+                    //Toast.makeText(requireContext(),"The button is unclickable now",Toast.LENGTH_LONG).show()
+                }
+                else{
 
-                    val ingredientList = classifyproductsViewModel.extractIngredientText(items)
-                    if (ingredientList != null) {
-                        classifyproductsViewModel.searchIngredientList(ingredientList)
-                    } else {
-                        Toast.makeText(context?.applicationContext, "Failed to extract ingredients", Toast.LENGTH_SHORT).show()
-                        // show error message that no data was extracted?
-                        println("No data able to be extracted!")
+                    if (ingredientLabelPicture.drawable ==null){
+                        Toast.makeText(context?.applicationContext, "No Picture Detected!", Toast.LENGTH_SHORT)
+                                .show()
+                    }
+                    else{
+                        val mBitmap = ingredientLabelPicture.drawable.toBitmap()
+                        val textRecognizer = TextRecognizer.Builder(context?.applicationContext).build()
+                        if (!textRecognizer.isOperational) {
+                            Toast.makeText(context?.applicationContext, "Could not get the text", Toast.LENGTH_SHORT)
+                                    .show()
+                        } else {
+                            val frame = Frame.Builder().setBitmap(mBitmap).build()
+                            val items = textRecognizer.detect(frame)
+
+                            val ingredientList = classifyproductsViewModel.extractIngredientText(items)
+                            if (ingredientList != null) {
+                                classifyproductsViewModel.searchIngredientList(ingredientList)
+                            } else {
+                                Toast.makeText(context?.applicationContext, "Failed to extract ingredients", Toast.LENGTH_SHORT).show()
+                                // show error message that no data was extracted?
+                                println("No data able to be extracted!")
+                            }
+                        }
                     }
                 }
+                mLastClickTime=SystemClock.elapsedRealtime()
+                analyzeBtn.isClickable=true
             }
         }
 
@@ -155,8 +195,8 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
                     )
 
                     //if we know that the particular variable not null any time ,we can assign !! (not null operator ), then  it won't check for null, if it becomes null, it willthrow exception
-                    customDialog!!.show()
-                    customDialog!!.setCanceledOnTouchOutside(false)
+                    customDialog.show()
+                    customDialog.setCanceledOnTouchOutside(false)
                 }
                 else {
                     println("No data found")
@@ -225,13 +265,21 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
 //        }
 //    }
 
-    private fun captureImage() {
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        if (takePictureIntent.resolveActivity(requireContext().packageManager)!=null) {
-            startActivityForResult(takePictureIntent,REQUEST_CODE)
-        } else {
-            Toast.makeText(context?.applicationContext,"Unable to Open Camera", Toast.LENGTH_SHORT).show()
-        }
+
+
+    private fun captureImage(){
+//        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+//        if (takePictureIntent.resolveActivity(requireContext().packageManager)!=null){
+//            startActivityForResult(takePictureIntent,REQUEST_CODE)
+//        }else{
+//            Toast.makeText(context?.applicationContext,"Unable to Open Camera", Toast.LENGTH_SHORT).show()
+//        }
+
+        val cameraFragment = CameraFragment()
+        val transaction:FragmentTransaction = requireFragmentManager().beginTransaction()
+        transaction.replace(R.id.classifyProductFragment,cameraFragment)
+        transaction.commit()
+
     }
 
     private fun pickImageFromGallery() {
@@ -242,13 +290,14 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
 
     override fun clickOnItem(data: String) {
         //Synthetic property without calling findViewById() method and supports view caching to improve performance.
+
         if (customDialog != null) {
-            customDialog!!.dismiss()
+            customDialog.dismiss()
         }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        when(requestCode) {
+        when(requestCode){
             PERMISSION_CODE -> {
                 if(grantResults.size>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
                     pickImageFromGallery()
@@ -271,7 +320,7 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode== Activity.RESULT_OK && requestCode== IMAGE_PICK_CODE){
-            ingredientLabelPicture?.setImageURI(data?.data)
+            ingredientLabelPicture.setImageURI(data?.data)
         }
         else if (requestCode== REQUEST_CODE && resultCode == Activity.RESULT_OK){
             val takeImage = data?.extras?.get("data") as Bitmap
