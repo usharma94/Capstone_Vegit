@@ -164,7 +164,9 @@ class CameraFragment : Fragment() {
 
                 super.onCaptureSuccess(image)
             }
-
+            override fun onError(exception: ImageCaptureException) {
+                super.onError(exception)
+            }
         })
 
 //        imageCapture.takePicture(
@@ -226,7 +228,7 @@ class CameraFragment : Fragment() {
             }else{
                 Toast.makeText(context?.applicationContext,"Permissions not granted by the user",Toast.LENGTH_SHORT).show()
                 //finish()
-                activity?.fragmentManager?.popBackStack()
+                getActivity()?.getFragmentManager()?.popBackStack()
             }
         }
 

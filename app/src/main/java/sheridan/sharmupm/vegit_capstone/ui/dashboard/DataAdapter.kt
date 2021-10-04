@@ -10,7 +10,7 @@ import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.models.ingredients.ClassifyIngredient
 
 class DataAdapter(
-        private val mDataset: ArrayList<ClassifyIngredient>,
+        private val mDataset: ArrayList<String>,
         internal var recyclerViewItemClickListener: ClassifyproductsFragment
 ) : RecyclerView.Adapter<DataAdapter.IngredientViewHolder>() {
 
@@ -20,9 +20,10 @@ class DataAdapter(
     }
 
     override fun onBindViewHolder(ingredientViewHolder: IngredientViewHolder, i: Int) {
-        ingredientViewHolder.mTextView.text = mDataset[i].name
-        ingredientViewHolder.mDietView.text = mDataset[i].diet_name
-        ingredientViewHolder.itemView.setBackgroundColor(Color.parseColor(mDataset[i].color.toString()))
+        //ingredientViewHolder.mTextView.text = mDataset[i].name
+        //ingredientViewHolder.mDietView.text = mDataset[i].diet_name
+        //ingredientViewHolder.itemView.setBackgroundColor(Color.parseColor(mDataset[i].color.toString()))
+        ingredientViewHolder.mTextView.text = mDataset[i]
     }
 
     override fun getItemCount(): Int {
