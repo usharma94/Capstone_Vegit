@@ -7,7 +7,7 @@
         android:title="Search" />
 
     <item
-        android:id="@+id/navigation_camera"
+        android:id="@+id/navigation_classifyproducts"
         android:icon="@drawable/ic_camera"
         android:title="@string/title_classifyproducts" />
     <item
