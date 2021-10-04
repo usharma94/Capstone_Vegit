@@ -29,11 +29,9 @@ class DataAdapter(
         return mDataset.size
     }
 
-
     inner class IngredientViewHolder(v: View) : RecyclerView.ViewHolder(v), View.OnClickListener {
         var mTextView: TextView
         var mDietView: TextView
-        //TEST
 
         init {
             mTextView = v.findViewById(R.id.txtName)
