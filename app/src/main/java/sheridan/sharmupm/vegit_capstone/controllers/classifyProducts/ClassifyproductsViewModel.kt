@@ -12,6 +12,7 @@ import sheridan.sharmupm.vegit_capstone.helpers.getDiet
 import sheridan.sharmupm.vegit_capstone.models.DietModel
 import sheridan.sharmupm.vegit_capstone.models.ingredients.Ingredient
 import sheridan.sharmupm.vegit_capstone.models.ingredients.IngredientName
+import sheridan.sharmupm.vegit_capstone.models.login.ClassifyModel
 import sheridan.sharmupm.vegit_capstone.services.network.APIClient
 import sheridan.sharmupm.vegit_capstone.services.repository.IngredientRepository
 import kotlin.coroutines.CoroutineContext
@@ -32,9 +33,13 @@ class ClassifyproductsViewModel : ViewModel() {
     val userDiet = MutableLiveData<DietModel>()
 
     // must pass in a list of IngredientName data objects
-    fun searchIngredientList(ingredientNames: List<IngredientName>) {
+    fun searchIngredientList(itemName: String, ingredientNames: List<IngredientName>) {
         scope.launch {
-            val results = repository.searchIngredientList(ingredientNames)
+            val classifyModel = ClassifyModel()
+            classifyModel.itemName = itemName
+            classifyModel.searchList = ingredientNames
+
+            val results = repository.searchIngredientList(classifyModel)
             ingredientResults.postValue(results)
         }
     }
@@ -71,11 +76,11 @@ class ClassifyproductsViewModel : ViewModel() {
         ingredientRaw = ingredientRaw.replace(Regex("[\n\r]"), " ")
 
         // split string by delimiters
-        val ingredientList = ingredientRaw.split(",", "(", ")", "[", "]", " and ", " or ")
+        val ingredientList = ingredientRaw.split(",", "(", ")", "[", "]", " and ", " or ", ".", ":")
 
         // creating list of ingredient name objects
         for (ingredient in ingredientList) {
-            if (ingredient.trim() != "") {
+            if (ingredient.trim() != "" && ingredient.trim().length <= 40) {
                 ingredientNameList.add(IngredientName(ingredient.trim()))
             }
         }

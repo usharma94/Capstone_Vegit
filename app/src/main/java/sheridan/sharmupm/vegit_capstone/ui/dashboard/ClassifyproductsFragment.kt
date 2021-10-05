@@ -142,7 +142,7 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
 
                             val ingredientList = classifyproductsViewModel.extractIngredientText(items)
                             if (ingredientList != null) {
-                                classifyproductsViewModel.searchIngredientList(ingredientList)
+                                classifyproductsViewModel.searchIngredientList("unknown", ingredientList) // item name will come from barcode scan
                             } else {
                                 Toast.makeText(context?.applicationContext, "Failed to extract ingredients", Toast.LENGTH_SHORT).show()
                                 // show error message that no data was extracted?

@@ -36,12 +36,16 @@ fun LoggedInUserView.toUserModel() = UserModel(
     id = id,
     email = "$email",
     firstName = "$firstName",
-    lastName = "$lastName"
+    lastName = "$lastName",
+    manufacturer = manufacturer,
+    admin = admin
 )
 
 fun UserModel.toLoggedInUserView() = LoggedInUserView(
     id = id,
     email = "$email",
     firstName = "$firstName",
-    lastName = "$lastName"
+    lastName = "$lastName",
+    manufacturer = manufacturer,
+    admin = admin
 )

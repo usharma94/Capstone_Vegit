@@ -66,7 +66,40 @@
         android:layout_marginHorizontal="10dp"
         android:background="@drawable/btn_custom"
         android:padding="10dp"
+        android:visibility="gone"
         android:text="Add Custom Ingredient"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+
+    <Button
+        android:id="@+id/btnSubmitProduct"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginHorizontal="10dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:padding="10dp"
+        android:visibility="gone"
+        android:text="Submit Product"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+
+    <Button
+        android:id="@+id/btnAdminApprove"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginHorizontal="10dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:padding="10dp"
+        android:visibility="gone"
+        android:text="Approve Product"
         android:textSize="22sp"
         android:textStyle="bold" />
 
