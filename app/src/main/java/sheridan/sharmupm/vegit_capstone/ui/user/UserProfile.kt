@@ -37,16 +37,18 @@ class UserProfile : Fragment() {
         val email = view.findViewById<TextView>(R.id.profile_email)
         val logoutButton = view.findViewById<Button>(R.id.btnProfileLogout)
         val scanHistoryButton = view.findViewById<Button>(R.id.btnHistory)
-        val customDietButton = view.findViewById<Button>(R.id.btnCustomDiet)
+//        val customDietButton = view.findViewById<Button>(R.id.btnCustomDiet)
         val profileImage = view.findViewById<ImageView>(R.id.profile_img)
         val updateAccountCard = view.findViewById<CardView>(R.id.upgradeAccountCard)
+        val submitNewProductButton = view.findViewById<Button>(R.id.btnSubmitProduct)
+        val adminAcceptProductButton = view.findViewById<Button>(R.id.btnAdminApprove)
 
         if (isUserCached()) {
 //            enabling and disabling profile elements for logged in vs. logged out user. Will refactor later.
             logoutButton.isVisible = true
             updateAccountCard.isVisible = false
             scanHistoryButton.isEnabled = true
-            customDietButton.isEnabled = true
+//            customDietButton.isEnabled = true
             logoutUser(logoutButton)
 
             userProfileViewModel.fetchUser()
@@ -54,7 +56,7 @@ class UserProfile : Fragment() {
             // disable stuff here for non logged in users
             logoutButton.isVisible = false
             scanHistoryButton.isEnabled = false
-            customDietButton.isEnabled = false
+//            customDietButton.isEnabled = false
             email.isVisible = false
             profileImage.isVisible = false
         }
@@ -63,6 +65,14 @@ class UserProfile : Fragment() {
             { user ->
                 if (user != null) {
                     updateUiWithUser(email, user)
+
+                    if (user.manufacturer == true) {
+                        submitNewProductButton.isEnabled = true
+                        submitNewProductButton.isVisible = true
+                    } else if (user.admin == true) {
+                        adminAcceptProductButton.isEnabled = true
+                        adminAcceptProductButton.isVisible = true
+                    }
                 }
                 else {
                     println("error fetching user")
