@@ -2,15 +2,13 @@ package sheridan.sharmupm.vegit_capstone.services.network
 
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 import sheridan.sharmupm.vegit_capstone.models.ingredients.Ingredient
 import sheridan.sharmupm.vegit_capstone.models.ingredients.IngredientName
 import sheridan.sharmupm.vegit_capstone.models.login.ClassifyModel
 import sheridan.sharmupm.vegit_capstone.models.login.LoggedInUserView
 import sheridan.sharmupm.vegit_capstone.models.login.LoginModel
+import sheridan.sharmupm.vegit_capstone.models.products.Product
 import sheridan.sharmupm.vegit_capstone.models.signup.SignUpModel
 
 interface ApiInterface {
@@ -36,4 +34,15 @@ interface ApiInterface {
 
     @POST("ingredients/search/list")
     fun searchIngredientListAsync(@Body classifyModel: ClassifyModel): Deferred<Response<List<Ingredient>>>
+
+    // PRODUCTS
+
+    @GET("products/get-product-appoval")
+    fun fetchApproveProductsAsync(): Deferred<Response<List<Product>>>
+
+    @POST("products/approve/{id}")
+    fun acceptProductAsync(@Path("id") id:Int): Deferred<Response<Int>>
+
+    @DELETE("products/delete/{id}")
+    fun denyProductAsync(@Path("id") id:Int): Deferred<Response<Int>>
 }

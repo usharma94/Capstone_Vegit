@@ -72,17 +72,21 @@ class UserProfile : Fragment() {
                     } else if (user.admin == true) {
                         adminAcceptProductButton.isEnabled = true
                         adminAcceptProductButton.isVisible = true
+                        adminProduct(adminAcceptProductButton)
                     }
                 }
                 else {
                     println("error fetching user")
                 }
-
             })
-
-
-
     }
+
+    private fun adminProduct(adminAcceptProductButton: Button) {
+        adminAcceptProductButton.setOnClickListener {
+            this.findNavController().navigate(R.id.action_userProfile_to_adminProductFragment)
+        }
+    }
+
     private fun logoutUser(logoutButton: Button){
         logoutButton.setOnClickListener {
             userProfileViewModel.logoutUser()
