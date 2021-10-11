@@ -43,6 +43,9 @@
         <action
             android:id="@+id/action_userProfile_to_adminProductFragment"
             app:destination="@id/adminProductFragment" />
+        <action
+            android:id="@+id/action_userProfile_to_submitProduct"
+            app:destination="@id/submitProduct" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -89,6 +92,11 @@
         android:name="sheridan.sharmupm.vegit_capstone.ui.user.AdminProductFragment"
         android:label="admin_product_fragment"
         tools:layout="@layout/admin_product_fragment" />
+    <fragment
+        android:id="@+id/submitProduct"
+        android:name="sheridan.sharmupm.vegit_capstone.ui.market.SubmitProduct"
+        android:label="submit_product_fragment"
+        tools:layout="@layout/submit_product_fragment" />
 
 
 </navigation>
