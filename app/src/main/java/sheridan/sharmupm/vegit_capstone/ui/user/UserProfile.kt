@@ -65,25 +65,32 @@ class UserProfile : Fragment() {
             { user ->
                 if (user != null) {
                     updateUiWithUser(email, user)
-
                     if (user.manufacturer == true) {
-                        submitNewProductButton.isEnabled = true
-                        submitNewProductButton.isVisible = true
+                        submitProduct(submitNewProductButton)
+                        scanHistoryButton.isVisible = false
                     } else if (user.admin == true) {
-                        adminAcceptProductButton.isEnabled = true
-                        adminAcceptProductButton.isVisible = true
                         adminProduct(adminAcceptProductButton)
+                        scanHistoryButton.isVisible = false
                     }
-                }
-                else {
+                } else {
                     println("error fetching user")
                 }
             })
     }
 
     private fun adminProduct(adminAcceptProductButton: Button) {
+        adminAcceptProductButton.isEnabled = true
+        adminAcceptProductButton.isVisible = true
         adminAcceptProductButton.setOnClickListener {
             this.findNavController().navigate(R.id.action_userProfile_to_adminProductFragment)
+        }
+    }
+
+    private fun submitProduct(submitNewProductButton: Button) {
+        submitNewProductButton.isEnabled = true
+        submitNewProductButton.isVisible = true
+        submitNewProductButton.setOnClickListener {
+            this.findNavController().navigate(R.id.action_userProfile_to_submitProduct)
         }
     }
 
