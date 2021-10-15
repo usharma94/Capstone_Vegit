@@ -9,6 +9,7 @@ import sheridan.sharmupm.vegit_capstone.models.login.ClassifyModel
 import sheridan.sharmupm.vegit_capstone.models.login.LoggedInUserView
 import sheridan.sharmupm.vegit_capstone.models.login.LoginModel
 import sheridan.sharmupm.vegit_capstone.models.products.Product
+import sheridan.sharmupm.vegit_capstone.models.products.SubmitProduct
 import sheridan.sharmupm.vegit_capstone.models.signup.SignUpModel
 
 interface ApiInterface {
@@ -45,4 +46,7 @@ interface ApiInterface {
 
     @DELETE("products/delete/{id}")
     fun denyProductAsync(@Path("id") id:Int): Deferred<Response<Int>>
+
+    @POST("products/add/market-product")
+    fun submitMarketProductAsync(@Body submitProduct: SubmitProduct): Deferred<Response<Product>>
 }

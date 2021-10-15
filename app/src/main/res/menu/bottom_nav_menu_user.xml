@@ -2,10 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/searchFragment"
-        android:icon="@drawable/ic_baseline_search_24"
-        android:title="Search" />
-
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="Home" />
     <item
         android:id="@+id/navigation_camera"
         android:icon="@drawable/ic_camera"
@@ -13,14 +12,11 @@
     <item
         android:id="@+id/navigation_groceryList"
         android:icon="@drawable/ic_list"
-        android:title="Grocery list"
-        />
-
-
+        android:title="Grocery list" />
     <item
-        android:id="@+id/navigation_diet"
-        android:icon="@drawable/ic_baseline_restaurant_menu_24"
-        android:title="Diets" />
+        android:id="@+id/searchFragment"
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title="Search" />
     <item
         android:id="@+id/userProfile"
         android:icon="@drawable/ic_baseline_account_box_24"
