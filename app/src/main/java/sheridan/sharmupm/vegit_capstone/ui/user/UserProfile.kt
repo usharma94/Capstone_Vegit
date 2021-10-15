@@ -36,7 +36,7 @@ class UserProfile : Fragment() {
 
         val email = view.findViewById<TextView>(R.id.profile_email)
         val logoutButton = view.findViewById<Button>(R.id.btnProfileLogout)
-        val scanHistoryButton = view.findViewById<Button>(R.id.btnHistory)
+        val selectDietButton = view.findViewById<Button>(R.id.btnSelectDiet)
 //        val customDietButton = view.findViewById<Button>(R.id.btnCustomDiet)
         val profileImage = view.findViewById<ImageView>(R.id.profile_img)
         val updateAccountCard = view.findViewById<CardView>(R.id.upgradeAccountCard)
@@ -47,7 +47,6 @@ class UserProfile : Fragment() {
 //            enabling and disabling profile elements for logged in vs. logged out user. Will refactor later.
             logoutButton.isVisible = true
             updateAccountCard.isVisible = false
-            scanHistoryButton.isEnabled = true
 //            customDietButton.isEnabled = true
             logoutUser(logoutButton)
 
@@ -55,7 +54,6 @@ class UserProfile : Fragment() {
         } else {
             // disable stuff here for non logged in users
             logoutButton.isVisible = false
-            scanHistoryButton.isEnabled = false
 //            customDietButton.isEnabled = false
             email.isVisible = false
             profileImage.isVisible = false
@@ -67,15 +65,19 @@ class UserProfile : Fragment() {
                     updateUiWithUser(email, user)
                     if (user.manufacturer == true) {
                         submitProduct(submitNewProductButton)
-                        scanHistoryButton.isVisible = false
+                        selectDietButton.isVisible = false
                     } else if (user.admin == true) {
                         adminProduct(adminAcceptProductButton)
-                        scanHistoryButton.isVisible = false
+                        selectDietButton.isVisible = false
                     }
                 } else {
                     println("error fetching user")
                 }
             })
+
+        selectDietButton.setOnClickListener {
+            this.findNavController().navigate(R.id.action_userProfile_to_navigation_diet)
+        }
     }
 
     private fun adminProduct(adminAcceptProductButton: Button) {

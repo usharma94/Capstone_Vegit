@@ -45,13 +45,13 @@
         android:layout_width="match_parent"
         android:layout_height="10dp" />
     <Button
-        android:id="@+id/btnHistory"
+        android:id="@+id/btnSelectDiet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:background="@drawable/btn_custom"
         android:padding="10dp"
-        android:text="Scan History"
+        android:text="Change Diet"
         android:textSize="22sp"
         android:textStyle="bold" />
 
