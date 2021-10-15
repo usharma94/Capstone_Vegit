@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="sheridan.sharmupm.vegit_capstone.ui.home.HomeFragment"
-        android:label="Search"
+        android:label="Home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
@@ -41,11 +41,8 @@
         android:label="Profile"
         tools:layout="@layout/user_profile_fragment" >
         <action
-            android:id="@+id/action_userProfile_to_adminProductFragment"
-            app:destination="@id/adminProductFragment" />
-        <action
-            android:id="@+id/action_userProfile_to_submitProduct"
-            app:destination="@id/submitProduct" />
+            android:id="@+id/action_userProfile_to_navigation_diet"
+            app:destination="@id/navigation_diet" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -90,13 +87,23 @@
     <fragment
         android:id="@+id/adminProductFragment"
         android:name="sheridan.sharmupm.vegit_capstone.ui.user.AdminProductFragment"
-        android:label="admin_product_fragment"
+        android:label="Admin Approve Product"
         tools:layout="@layout/admin_product_fragment" />
     <fragment
         android:id="@+id/submitProduct"
         android:name="sheridan.sharmupm.vegit_capstone.ui.market.SubmitProduct"
-        android:label="submit_product_fragment"
+        android:label="Submit Product"
         tools:layout="@layout/submit_product_fragment" />
+    <fragment
+        android:id="@+id/approvedProduct"
+        android:name="sheridan.sharmupm.vegit_capstone.ui.market.ApprovedProduct"
+        android:label="Approved"
+        tools:layout="@layout/approved_product_fragment" />
+    <fragment
+        android:id="@+id/deniedProduct"
+        android:name="sheridan.sharmupm.vegit_capstone.ui.market.DeniedProduct"
+        android:label="Denied"
+        tools:layout="@layout/denied_product_fragment" />
 
 
 </navigation>
