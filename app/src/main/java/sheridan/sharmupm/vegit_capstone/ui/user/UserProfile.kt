@@ -42,6 +42,7 @@ class UserProfile : Fragment() {
         val updateAccountCard = view.findViewById<CardView>(R.id.upgradeAccountCard)
         val submitNewProductButton = view.findViewById<Button>(R.id.btnSubmitProduct)
         val adminAcceptProductButton = view.findViewById<Button>(R.id.btnAdminApprove)
+        val faqButton = view.findViewById<Button>(R.id.btnFAQ)
 
         if (isUserCached()) {
 //            enabling and disabling profile elements for logged in vs. logged out user. Will refactor later.
@@ -60,6 +61,7 @@ class UserProfile : Fragment() {
             email.isVisible = false
             profileImage.isVisible = false
         }
+        navFaq(faqButton)
 
         userProfileViewModel.loggedInUser.observe(viewLifecycleOwner,
             { user ->
@@ -84,6 +86,12 @@ class UserProfile : Fragment() {
     private fun adminProduct(adminAcceptProductButton: Button) {
         adminAcceptProductButton.setOnClickListener {
             this.findNavController().navigate(R.id.action_userProfile_to_adminProductFragment)
+        }
+    }
+
+    private fun navFaq(faqButton: Button) {
+        faqButton.setOnClickListener {
+            this.findNavController().navigate(R.id.action_userProfile_to_assistantActivity2)
         }
     }
 

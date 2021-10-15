@@ -43,6 +43,9 @@
         <action
             android:id="@+id/action_userProfile_to_adminProductFragment"
             app:destination="@id/adminProductFragment" />
+        <action
+            android:id="@+id/action_userProfile_to_assistantActivity2"
+            app:destination="@id/assistantActivity2" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -89,6 +92,11 @@
         android:name="sheridan.sharmupm.vegit_capstone.ui.user.AdminProductFragment"
         android:label="admin_product_fragment"
         tools:layout="@layout/admin_product_fragment" />
+    <activity
+        android:id="@+id/assistantActivity2"
+        android:name="sheridan.sharmupm.vegit_capstone.AssistantActivity"
+        android:label="activity_assistant"
+        tools:layout="@layout/activity_assistant" />
 
 
 </navigation>
