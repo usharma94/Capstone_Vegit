@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="Home" />
+    <item
+        android:id="@+id/approvedProduct"
+        android:icon="@drawable/ic_baseline_assignment_turned_in_24"
+        android:title="Approved" />
+    <item
+        android:id="@+id/deniedProduct"
+        android:icon="@drawable/ic_baseline_assignment_late_24"
+        android:title="Denied" />
+    <item
+        android:id="@+id/submitProduct"
+        android:icon="@drawable/ic_baseline_assignment_returned_24"
+        android:title="Submit" />
+    <item
+        android:id="@+id/userProfile"
+        android:icon="@drawable/ic_baseline_account_box_24"
+        android:title="Profile" />
+
+</menu>
