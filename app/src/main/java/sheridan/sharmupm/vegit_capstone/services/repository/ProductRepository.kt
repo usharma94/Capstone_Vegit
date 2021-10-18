@@ -5,6 +5,13 @@ import sheridan.sharmupm.vegit_capstone.models.products.SubmitProduct
 import sheridan.sharmupm.vegit_capstone.services.network.ApiInterface
 
 class ProductRepository(private val api: ApiInterface) : BaseRepository() {
+    suspend fun fetchAdvertisementProducts(diet: Int): List<Product>? {
+        return safeApiCall(
+            call = {api.fetchAdvertisementProductsAsync(diet).await()},
+            errorMessage = "No data found"
+        )
+    }
+
     suspend fun fetchApproveProducts(): List<Product>? {
         return safeApiCall(
                 call = {api.fetchApproveProductsAsync().await()},

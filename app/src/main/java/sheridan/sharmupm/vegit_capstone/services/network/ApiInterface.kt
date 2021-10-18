@@ -38,6 +38,9 @@ interface ApiInterface {
 
     // PRODUCTS
 
+    @GET("/products/advertising/{diet}")
+    fun fetchAdvertisementProductsAsync(@Path("diet") diet:Int): Deferred<Response<List<Product>>>
+
     @GET("products/get-product-appoval")
     fun fetchApproveProductsAsync(): Deferred<Response<List<Product>>>
 
