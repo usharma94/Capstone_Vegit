@@ -6,6 +6,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import sheridan.sharmupm.vegit_capstone.models.products.DenyProduct
 import sheridan.sharmupm.vegit_capstone.models.products.Product
 import sheridan.sharmupm.vegit_capstone.services.network.APIClient
 import sheridan.sharmupm.vegit_capstone.services.repository.ProductRepository
@@ -44,9 +45,13 @@ class AdminProductViewModel : ViewModel() {
         }
     }
 
-    fun denyProduct(product: Product) {
+    fun denyProduct(id: Int, reason: String) {
         scope.launch {
-            repository.denyProduct(product.id!!)
+            val deny = DenyProduct()
+            deny.id = id
+            deny.reason = reason
+
+            repository.denyProduct(deny)
             getApproveProducts()
         }
     }

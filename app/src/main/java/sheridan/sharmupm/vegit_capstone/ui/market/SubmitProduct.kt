@@ -38,6 +38,8 @@ class SubmitProduct : Fragment() {
 
         val nameEditText = view.findViewById<EditText>(R.id.et_name)
         val selectDiet = view.findViewById<Spinner>(R.id.diet_type)
+        val selectCategory = view.findViewById<Spinner>(R.id.category)
+        val imgEditText = view.findViewById<EditText>(R.id.et_img)
         val searchText = view.findViewById<EditText>(R.id.search_bar)
         val clearButton = view.findViewById<Button>(R.id.clear_text)
         val searchRecyclerView: RecyclerView = view.findViewById(R.id.searchIngredients)
@@ -58,6 +60,13 @@ class SubmitProduct : Fragment() {
             selectDiet.adapter = adapter
         }
 
+        ArrayAdapter.createFromResource(
+            view.context, R.array.category, android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            selectCategory.adapter = adapter
+        }
+
         submitViewModel.submitProductFormState.observe(viewLifecycleOwner,
             Observer { submitFormState ->
                 if (submitFormState == null) {
@@ -71,6 +80,13 @@ class SubmitProduct : Fragment() {
                     val appContext = context?.applicationContext ?: return@Observer
                     Toast.makeText(appContext, getString(it), Toast.LENGTH_SHORT).show()
                 }
+                submitFormState.categoryError?.let {
+                    val appContext = context?.applicationContext ?: return@Observer
+                    Toast.makeText(appContext, getString(it), Toast.LENGTH_SHORT).show()
+                }
+                submitFormState.imgError?.let {
+                    imgEditText.error = getString(it)
+                }
                 submitFormState.ingredientError?.let {
                     val appContext = context?.applicationContext ?: return@Observer
                     Toast.makeText(appContext, getString(it), Toast.LENGTH_SHORT).show()
@@ -81,6 +97,17 @@ class SubmitProduct : Fragment() {
             override fun onItemSelected(parentView: AdapterView<*>?, selectedItemView: View,
                 position: Int, id: Long) {
                 submitViewModel.submitProductDietChanged(position)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+//                code here
+            }
+        }
+
+        selectCategory.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onItemSelected(parentView: AdapterView<*>?, selectedItemView: View,
+                                        position: Int, id: Long) {
+                submitViewModel.submitProductCategoryChanged(position, selectCategory.selectedItem.toString())
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -150,7 +177,8 @@ class SubmitProduct : Fragment() {
         submitButton.setOnClickListener {
             submitButton.isEnabled = false
             submitViewModel.submitProductDataChanged(
-                nameEditText.text.toString()
+                nameEditText.text.toString(),
+                imgEditText.text.toString()
             )
         }
     }

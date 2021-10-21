@@ -37,6 +37,8 @@ class ClassifyproductsViewModel : ViewModel() {
         scope.launch {
             val classifyModel = ClassifyModel()
             classifyModel.itemName = itemName
+            classifyModel.category = "unknown"
+            classifyModel.img_url = "unknown"
             classifyModel.searchList = ingredientNames
 
             val results = repository.searchIngredientList(classifyModel)

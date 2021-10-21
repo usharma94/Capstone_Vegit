@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center|top"
+    android:orientation="vertical"
+    tools:context=".ui.user.ApproveDialogFragment"
+    app:layout_constraintCircleRadius="10dp">
+
+    <EditText
+        android:id="@+id/reason"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/login_custom_btn"
+        android:fontFamily="@font/roboto_regular"
+        android:hint="reason"
+        android:padding="15dp"
+        android:textSize="15sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/reason"
+        android:layout_margin="10dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/submit_reason"
+            android:layout_width="190dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:foregroundTint="#8BC34A"
+            android:enabled="false"
+            android:text="Submit"
+            android:textColor="#fff"
+            android:textSize="20dp" />
+
+    </LinearLayout>
+</RelativeLayout>

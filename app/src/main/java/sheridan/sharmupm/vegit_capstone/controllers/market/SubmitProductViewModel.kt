@@ -1,5 +1,6 @@
 package sheridan.sharmupm.vegit_capstone.controllers.market
 
+import android.webkit.URLUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -32,6 +33,8 @@ class SubmitProductViewModel : ViewModel() {
     private val _productForm = MutableLiveData<SubmitProductFormState>()
     val submitProductFormState: LiveData<SubmitProductFormState> = _productForm
     private var dietType: Int = 0
+    private var category: Int = 0
+    private var categoryName: String = ""
     private val ingredients: MutableList<Ingredient> = mutableListOf()
     private val selectedIngredientNames: MutableList<IngredientName> = mutableListOf()
     private var ingredientNames: List<IngredientName> = mutableListOf()
@@ -39,10 +42,12 @@ class SubmitProductViewModel : ViewModel() {
     val searchList = MutableLiveData<List<IngredientName>>()
     val productResponse = MutableLiveData<Product>()
 
-    private fun submitProduct(name: String) {
+    private fun submitProduct(name: String, url: String) {
         val product = SubmitProduct(
             name,
             dietType(),
+            categoryName,
+            url,
             "null",
             "null",
             ingredients.map { IngredientId(it.id) }.toList()
@@ -54,15 +59,19 @@ class SubmitProductViewModel : ViewModel() {
         }
     }
 
-    fun submitProductDataChanged(name: String) {
+    fun submitProductDataChanged(name: String, img: String) {
         if (!isNameValid(name)) {
             _productForm.value = SubmitProductFormState(nameError = R.string.invalid_name)
+        } else if (!isImgValid(img)) {
+            _productForm.value = SubmitProductFormState(imgError = R.string.invalid_url)
         } else if (dietType == 0) {
             _productForm.value = SubmitProductFormState(dietError = R.string.invalid_diet)
+        } else if (category == 0) {
+            _productForm.value = SubmitProductFormState(categoryError = R.string.invalid_category)
         } else if (ingredients.isEmpty()) {
             _productForm.value = SubmitProductFormState(ingredientError = R.string.invalid_ingredients)
         } else {
-             submitProduct(name)
+             submitProduct(name, img)
         }
     }
 
@@ -117,8 +126,17 @@ class SubmitProductViewModel : ViewModel() {
         return name.isNotBlank() && name.length > 2
     }
 
+    private fun isImgValid(url: String): Boolean {
+        return url.isNotBlank() && URLUtil.isValidUrl(url)
+    }
+
     fun submitProductDietChanged(position: Int) {
         dietType = position
+    }
+
+    fun submitProductCategoryChanged(position: Int, name: String) {
+        category = position
+        categoryName = name
     }
 
     private fun dietType(): Int {

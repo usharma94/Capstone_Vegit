@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.controllers.user.AdminProductViewModel
+import sheridan.sharmupm.vegit_capstone.ui.home.AdvertisementAdapter
 
 class AdminProductFragment : Fragment() {
 
@@ -42,7 +44,7 @@ class AdminProductFragment : Fragment() {
                     // display results of search in UI as a list
                     println(results)
 
-                    val searchAdapter = ProductAdapter(results, ProductAdapter.OnClickListener{
+                    val searchAdapter = AdvertisementAdapter(results, AdvertisementAdapter.OnClickListener{
                         adminProductViewModel.setApproveProduct(it)
                     })
                     recyclerView.adapter = searchAdapter
@@ -60,7 +62,7 @@ class AdminProductFragment : Fragment() {
                         {
                             product->
                             // display results of singular product
-                            var customDialog = ApproveDialogFragment(
+                            val customDialog = ApproveDialogFragment(
                                 this@AdminProductFragment,
                                 product,
                                 requireContext()
@@ -76,8 +78,20 @@ class AdminProductFragment : Fragment() {
                             }
                             val denyProductBtn = customDialog.findViewById<Button>(R.id.deny_dialog_accept)
                             denyProductBtn.setOnClickListener {
-                                adminProductViewModel.denyProduct(result)
-                                customDialog.dismiss()
+                                val denyDialog = DenyDialogFragment(
+                                    this@AdminProductFragment,
+                                    requireContext()
+                                )
+                                denyDialog.show()
+                                denyDialog.setCanceledOnTouchOutside(false)
+
+                                val submitReasonBtn = denyDialog.findViewById<Button>(R.id.submit_reason)
+                                val reason = denyDialog.findViewById<EditText>(R.id.reason)
+                                submitReasonBtn.setOnClickListener {
+                                    adminProductViewModel.denyProduct(result.id!!, reason.text.toString())
+                                    denyDialog.dismiss()
+                                    customDialog.dismiss()
+                                }
                             }
                         })
                 }
