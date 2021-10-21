@@ -8,6 +8,7 @@ import sheridan.sharmupm.vegit_capstone.models.ingredients.IngredientName
 import sheridan.sharmupm.vegit_capstone.models.login.ClassifyModel
 import sheridan.sharmupm.vegit_capstone.models.login.LoggedInUserView
 import sheridan.sharmupm.vegit_capstone.models.login.LoginModel
+import sheridan.sharmupm.vegit_capstone.models.products.DenyProduct
 import sheridan.sharmupm.vegit_capstone.models.products.Product
 import sheridan.sharmupm.vegit_capstone.models.products.SubmitProduct
 import sheridan.sharmupm.vegit_capstone.models.signup.SignUpModel
@@ -38,15 +39,30 @@ interface ApiInterface {
 
     // PRODUCTS
 
+    @GET("/products/advertising/{diet}")
+    fun fetchAdvertisementProductsAsync(@Path("diet") diet:Int): Deferred<Response<List<Product>>>
+
     @GET("products/get-product-appoval")
     fun fetchApproveProductsAsync(): Deferred<Response<List<Product>>>
+
+    @GET("products/get-product-appoved")
+    fun fetchApprovedProductsAsync(): Deferred<Response<List<Product>>>
+
+    @GET("products/get-product-denied")
+    fun fetchDeniedProductsAsync(): Deferred<Response<List<Product>>>
 
     @POST("products/approve/{id}")
     fun acceptProductAsync(@Path("id") id:Int): Deferred<Response<Int>>
 
-    @DELETE("products/delete/{id}")
-    fun denyProductAsync(@Path("id") id:Int): Deferred<Response<Int>>
+    @POST("products/deny")
+    fun denyProductAsync(@Body denyProduct: DenyProduct): Deferred<Response<Int>>
 
     @POST("products/add/market-product")
     fun submitMarketProductAsync(@Body submitProduct: SubmitProduct): Deferred<Response<Product>>
+
+    @POST("products/views/{id}")
+    fun viewProductAsync(@Path("id") id:Int): Deferred<Response<Int>>
+
+    @DELETE("products/delete/{id}")
+    fun deleteProductAsync(@Path("id") id:Int): Deferred<Response<Int>>
 }

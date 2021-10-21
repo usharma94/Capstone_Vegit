@@ -1,6 +1,6 @@
 
 
-package sheridan.sharmupm.vegit_capstone.ui.user
+package sheridan.sharmupm.vegit_capstone.ui.home
 
 import android.app.Dialog
 import android.content.Context
@@ -18,7 +18,7 @@ import com.squareup.picasso.Picasso
 import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.models.products.Product
 
-class ApproveDialogFragment(
+class AdvertisementDialogFragment(
     var fragment: Fragment,
     var productDetail: Product,
     context: Context
@@ -29,12 +29,12 @@ class ApproveDialogFragment(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(R.layout.approve_dialog)
-        val approveDialogProductName = findViewById<TextView>(R.id.approve_diet_detail)
-        val approveDialogDietType = findViewById<TextView>(R.id.approve_diet_type)
-        val approveCategory = findViewById<TextView>(R.id.approve_category)
-        val approveImg = findViewById<ImageView>(R.id.approve_img)
-        val recyclerView: RecyclerView = findViewById(R.id.approveProductIngredients)
+        setContentView(R.layout.product_dialog)
+        val advertisementDialogProductName = findViewById<TextView>(R.id.advertisement_diet_detail)
+        val advertisementDialogDietType = findViewById<TextView>(R.id.advertisement_diet_type)
+        val advertisementCategory = findViewById<TextView>(R.id.advertisement_category)
+        val advertisementImg = findViewById<ImageView>(R.id.advertisement_img)
+        val recyclerView: RecyclerView = findViewById(R.id.advertisementProductIngredients)
 
         recyclerView.addItemDecoration(
             DividerItemDecoration(
@@ -43,15 +43,16 @@ class ApproveDialogFragment(
             )
         )
 
-        approveDialogProductName.text = productDetail.name
-        approveDialogDietType.text = productDetail.diet_name
-        approveCategory.text = productDetail.category
-        Picasso.get().load(productDetail.img_url).placeholder(R.drawable.leaves).error(R.drawable.leaves).into(approveImg)
+        advertisementDialogProductName.text = productDetail.name
+        advertisementDialogDietType.text = productDetail.diet_name
+        advertisementCategory.text = productDetail.category
+        Picasso.get().load(productDetail.img_url).placeholder(R.drawable.leaves).error(R.drawable.leaves).into(advertisementImg)
 
-        val searchAdapter = IngredientAdapter(productDetail.ingredients)
-        recyclerView.adapter = searchAdapter
 
-        findViewById<Button>(R.id.approve_dialog_accept).setOnClickListener(this)
+        val ingredientsAdapter = AdvertisementIngredientAdapter(productDetail.ingredients)
+        recyclerView.adapter = ingredientsAdapter
+
+        findViewById<Button>(R.id.search_dialog_done).setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {

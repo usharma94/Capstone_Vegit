@@ -23,7 +23,7 @@ open class BaseRepository {
         return data
     }
 
-    private suspend fun <T: Any> safeApiResult(call: suspend ()-> Response<T>, errorMessage: String) : Result<T>{
+    private suspend fun <T: Any> safeApiResult(call: suspend ()-> Response<T>, errorMessage: String) : Result<T> {
         val response = call.invoke()
 
         if(response.isSuccessful) {

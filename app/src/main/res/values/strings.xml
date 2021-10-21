@@ -22,7 +22,9 @@
     <string name="re_type_password">Re-type Password</string>
     <string name="your_name">Full Name</string>
     <string name="invalid_name">Not a valid Product Name</string>
+    <string name="invalid_url">Not a valid Image URL</string>
     <string name="invalid_diet">Must select a diet type</string>
+    <string name="invalid_category">Must select a category type</string>
     <string name="invalid_ingredients">Product must have ingredients</string>
     <string name="submit_product_failed">"Something went wrong"</string>
     <string name="submit_product_success">"Product submitted successfully"</string>
@@ -38,5 +40,21 @@
         <item>Vegetarian</item>
         <item>Non-Vegetarian</item>
         <item>Other</item>
+    </string-array>
+    <string-array name="category">
+        <item>Select Category Type...</item>
+        <item>Animal Food</item>
+        <item>Aquatic Food</item>
+        <item>Snack Food</item>
+        <item>Canned Food</item>
+        <item>Frozen Food</item>
+        <item>Nut</item>
+        <item>Baby Food</item>
+        <item>Baking</item>
+        <item>Beverage</item>
+        <item>Cereal</item>
+        <item>Dairy</item>
+        <item>Fruit</item>
+        <item>Vegetable</item>
     </string-array>
 </resources>
