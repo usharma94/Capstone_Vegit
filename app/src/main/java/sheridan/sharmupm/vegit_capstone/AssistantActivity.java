@@ -45,12 +45,13 @@ public class AssistantActivity extends AppCompatActivity implements BotReply {
     private SessionsClient sessionsClient;
     private SessionName sessionName;
     private String uuid = UUID.randomUUID().toString();
-    private String TAG = "mainactivity";
+    private String TAG = "assistantactivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assistant);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         chatView = findViewById(R.id.chatView);
         editMessage = findViewById(R.id.editMessage);
         btnSend = findViewById(R.id.btnSend);
@@ -75,6 +76,12 @@ public class AssistantActivity extends AppCompatActivity implements BotReply {
         });
 
         setUpBot();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
     }
 
     private void setUpBot() {
