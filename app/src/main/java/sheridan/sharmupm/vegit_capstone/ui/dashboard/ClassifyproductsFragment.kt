@@ -24,6 +24,7 @@ import sheridan.sharmupm.vegit_capstone.controllers.classifyProducts.Classifypro
 import sheridan.sharmupm.vegit_capstone.helpers.DietSafety
 import sheridan.sharmupm.vegit_capstone.helpers.determineSafety
 import sheridan.sharmupm.vegit_capstone.models.ingredients.ClassifyIngredient
+import sheridan.sharmupm.vegit_capstone.models.ingredients.IngredientName
 import java.util.*
 
 
@@ -70,7 +71,7 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
         val analyzeBtn = view.findViewById<Button>(R.id.takePicture)
         val scanResult = view.findViewById<TextView>(R.id.text_view)
         val framelayout = view.findViewById<FrameLayout>(R.id.frame_layout)
-        val captureImage = view.findViewById<Button>(R.id.capture_picture)
+        val captureImage = view.findViewById<ImageButton>(R.id.capture_picture)
 
         val args = this.arguments
         if (args?.isEmpty == false){
@@ -119,28 +120,25 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
         //**** the "analyze" is hard-code now***
         analyzeBtn.setOnClickListener {
             if (analyzeBtn.isClickable==true){
-                if(SystemClock.elapsedRealtime()-mLastClickTime<1000){
-                    analyzeBtn.isClickable=false
-                    //analyzeBtn.postDelayed(Runnable { kotlin.run { analyzeBtn.isClickable=false } },1000)
-                    //Toast.makeText(requireContext(),"The button is unclickable now",Toast.LENGTH_LONG).show()
-                }
-                else{
+                analyzeBtn.isClickable=false
+                var ingredientList:List<IngredientName> = emptyList()
+
 
                     if (ingredientLabelPicture.drawable ==null){
                         Toast.makeText(context?.applicationContext, "No Picture Detected!", Toast.LENGTH_SHORT)
-                                .show()
+                            .show()
                     }
                     else{
                         val mBitmap = ingredientLabelPicture.drawable.toBitmap()
                         val textRecognizer = TextRecognizer.Builder(context?.applicationContext).build()
                         if (!textRecognizer.isOperational) {
                             Toast.makeText(context?.applicationContext, "Could not get the text", Toast.LENGTH_SHORT)
-                                    .show()
+                                .show()
                         } else {
                             val frame = Frame.Builder().setBitmap(mBitmap).build()
                             val items = textRecognizer.detect(frame)
 
-                            val ingredientList = classifyproductsViewModel.extractIngredientText(items)
+                            ingredientList = classifyproductsViewModel.extractIngredientText(items)!!
                             if (ingredientList != null) {
                                 classifyproductsViewModel.searchIngredientList("unknown", ingredientList) // item name will come from barcode scan
                             } else {
@@ -152,12 +150,10 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
 
                     }
 
-                }
-                mLastClickTime=SystemClock.elapsedRealtime()
-                analyzeBtn.isClickable=true
+
+
 
             }
-
 
 
         }
@@ -192,6 +188,9 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
 
                     //if we know that the particular variable not null any time ,we can assign !! (not null operator ), then  it won't check for null, if it becomes null, it willthrow exception
                     customDialog.show()
+                    if (customDialog.isShowing){
+                        analyzeBtn.isClickable=true
+                    }
                     customDialog.setCanceledOnTouchOutside(false)
                 }
                 else {
