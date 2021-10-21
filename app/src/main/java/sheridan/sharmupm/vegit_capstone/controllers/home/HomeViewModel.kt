@@ -28,7 +28,10 @@ class HomeViewModel : ViewModel() {
     val selectedProduct = MutableLiveData<Product>()
 
     fun setAdvertisementProduct(product: Product) {
-        selectedProduct.postValue(product)
+        scope.launch {
+            repository.viewProduct(product.id!!)
+            selectedProduct.postValue(product)
+        }
     }
 
     fun getAdvertisementProducts() {

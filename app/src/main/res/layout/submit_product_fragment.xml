@@ -2,14 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     tools:context="sheridan.sharmupm.vegit_capstone.ui.market.SubmitProduct">
-
     <Space
         android:id="@+id/spacer1"
         android:layout_width="match_parent"
-        android:layout_height="20dp" />
+        android:layout_height="10dp" />
 
     <EditText
         android:id="@+id/et_name"
@@ -19,17 +18,27 @@
         android:layout_below="@id/spacer1"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:layout_marginBottom="8dp"
         android:padding="15dp"
         android:inputType="text"
         android:fontFamily="@font/roboto_regular"
         android:background="@drawable/login_custom_btn"
         android:textSize="15sp" />
 
-    <Space
-        android:id="@+id/spacer2"
-        android:layout_below="@id/et_name"
+    <EditText
+        android:id="@+id/et_img"
         android:layout_width="match_parent"
-        android:layout_height="10dp" />
+        android:layout_height="50dp"
+        android:hint="Image URL"
+        android:layout_below="@id/et_name"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="8dp"
+        android:padding="15dp"
+        android:inputType="text"
+        android:fontFamily="@font/roboto_regular"
+        android:background="@drawable/login_custom_btn"
+        android:textSize="15sp" />
 
     <Spinner
         android:id="@+id/diet_type"
@@ -37,20 +46,57 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_below="@id/spacer2"
+        android:layout_marginBottom="8dp"
+        android:layout_below="@id/et_img"
         />
 
-    <Space
-        android:id="@+id/spacer3"
-        android:layout_below="@id/diet_type"
+    <Spinner
+        android:id="@+id/category"
         android:layout_width="match_parent"
-        android:layout_height="10dp" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="8dp"
+        android:layout_below="@id/diet_type"
+        />
+
+    <TextView
+        android:id="@+id/search_diet_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/category"
+        android:fontFamily="@font/roboto_regular"
+        android:layout_marginLeft="20dp"
+        android:gravity="left"
+        android:text="Ingredients"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/scrollIngredients"
+        android:layout_below="@id/search_diet_description">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/selectedIngredients"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/ingredient_product" />
+        </LinearLayout>
+    </ScrollView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/searchIngredient"
+        android:layout_below="@id/scrollIngredients"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/spacer3"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:outlineSpotShadowColor="@color/colorPrimary"
@@ -116,50 +162,17 @@
     </ScrollView>
 
     <Space
-        android:id="@+id/spacer4"
+        android:id="@+id/spacer6"
         android:layout_below="@id/scrollSearchIngredients"
         android:layout_width="match_parent"
         android:layout_height="20dp" />
-
-    <TextView
-        android:id="@+id/search_diet_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/spacer4"
-        android:fontFamily="@font/roboto_regular"
-        android:gravity="left"
-        android:padding="10dp"
-        android:text="Ingredients"
-        android:textSize="15sp"
-        android:textStyle="bold" />
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:id="@+id/scrollIngredients"
-        android:layout_below="@id/search_diet_description">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/selectedIngredients"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/ingredient_product" />
-        </LinearLayout>
-    </ScrollView>
 
     <Button
         android:id="@+id/btn_submit_product"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/scrollIngredients"
+        android:layout_below="@id/spacer6"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/btn_custom"
         android:fontFamily="@font/roboto_regular"
