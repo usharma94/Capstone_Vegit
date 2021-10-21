@@ -8,6 +8,10 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
 
+    packagingOptions {
+        exclude 'META-INF/INDEX.LIST'
+        exclude 'META-INF/DEPENDENCIES'
+    }
     defaultConfig {
         applicationId "sheridan.sharmupm.vegit_capstone"
         minSdkVersion 26
@@ -97,12 +101,14 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     testImplementation 'junit:junit:4.+'
 
-
-
     // CameraX
     implementation "androidx.camera:camera-camera2:1.1.0-alpha08"
     implementation "androidx.camera:camera-lifecycle:1.1.0-alpha08"
     implementation "androidx.camera:camera-view:1.0.0-alpha28"
+
+    //dialogFlow
+    implementation 'com.google.cloud:google-cloud-dialogflow:2.1.0'
+    implementation 'io.grpc:grpc-okhttp:1.30.0'
 
     // image from url
     implementation 'com.squareup.picasso:picasso:2.8'
