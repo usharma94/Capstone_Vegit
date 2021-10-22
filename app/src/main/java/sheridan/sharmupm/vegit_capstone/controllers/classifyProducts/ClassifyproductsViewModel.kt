@@ -117,10 +117,6 @@ class ClassifyproductsViewModel : ViewModel() {
         return ingredientNameList
     }
 
-    fun getUserDiet() {
-
-    }
-
     private fun checkNull(rawString: String, delimiter: String, lastIndex: Boolean) : Boolean {
         if (lastIndex)
             if (rawString.lastIndexOf(delimiter) < 0) return true
