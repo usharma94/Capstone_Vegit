@@ -21,9 +21,6 @@ import com.google.android.gms.vision.Frame
 import com.google.android.gms.vision.text.TextRecognizer
 import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.controllers.classifyProducts.ClassifyproductsViewModel
-import sheridan.sharmupm.vegit_capstone.helpers.DietSafety
-import sheridan.sharmupm.vegit_capstone.helpers.determineSafety
-import sheridan.sharmupm.vegit_capstone.models.ingredients.ClassifyIngredient
 import java.util.*
 
 
@@ -149,42 +146,29 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
                                 println("No data able to be extracted!")
                             }
                         }
-
                     }
-
                 }
                 mLastClickTime=SystemClock.elapsedRealtime()
                 analyzeBtn.isClickable=true
 
             }
-
-
-
         }
 
-        classifyproductsViewModel.ingredientResults.observe(viewLifecycleOwner,
+        classifyproductsViewModel.results.observe(viewLifecycleOwner,
             { results ->
                 if (results != null) {
-                    // display results as outlined in wireframe UI for classify product
-                    classifyproductsViewModel.getUserDiet()
+                    classifyproductsViewModel.parseResults(results)
+                }
+                else {
+                    println("No data found")
+                }
+            })
 
-                    val ingredientStringList = arrayListOf<ClassifyIngredient>()
-
-                    classifyproductsViewModel.userDiet.observe(viewLifecycleOwner,
-                            {
-                                diet ->
-                                    for (i in 0..results.size-1){
-                                        when (determineSafety(diet, results[i].diet_type!!)) {
-                                            DietSafety.SAFE -> ingredientStringList.add(ClassifyIngredient(results[i].name, results[i].diet_name, 1, "#ABEBC6"))
-                                            DietSafety.CAUTION -> ingredientStringList.add(ClassifyIngredient(results[i].name, results[i].diet_name, 2, "#F9E79F"))
-                                            DietSafety.AVOID -> ingredientStringList.add(ClassifyIngredient(results[i].name, results[i].diet_name, 3, "#F1948A"))
-                                            else -> ingredientStringList.add(ClassifyIngredient(results[i].name, results[i].diet_name, 4, "#F1948A"))
-                                        }
-                                    }
-                            })
-
-                    val dataAdapter = DataAdapter(ingredientStringList, this)
-                     customDialog = CustomListViewDialog(
+        classifyproductsViewModel.ingredientList.observe(viewLifecycleOwner,
+            { ingredients ->
+                if (ingredients != null) {
+                    val dataAdapter = DataAdapter(ingredients, this)
+                    customDialog = CustomListViewDialog(
                         this@ClassifyproductsFragment,
                         dataAdapter,
                         requireContext()

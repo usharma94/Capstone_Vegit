@@ -8,8 +8,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import sheridan.sharmupm.vegit_capstone.helpers.DietSafety
+import sheridan.sharmupm.vegit_capstone.helpers.determineSafety
 import sheridan.sharmupm.vegit_capstone.helpers.getDiet
-import sheridan.sharmupm.vegit_capstone.models.DietModel
+import sheridan.sharmupm.vegit_capstone.models.ingredients.ClassifyIngredient
 import sheridan.sharmupm.vegit_capstone.models.ingredients.Ingredient
 import sheridan.sharmupm.vegit_capstone.models.ingredients.IngredientName
 import sheridan.sharmupm.vegit_capstone.models.login.ClassifyModel
@@ -28,9 +30,8 @@ class ClassifyproductsViewModel : ViewModel() {
 
     private val repository : IngredientRepository = IngredientRepository(APIClient.apiInterface)
 
-    val ingredientResults = MutableLiveData<List<Ingredient>>()
-
-    val userDiet = MutableLiveData<DietModel>()
+    val results = MutableLiveData<List<Ingredient>>()
+    val ingredientList = MutableLiveData<ArrayList<ClassifyIngredient>>()
 
     // must pass in a list of IngredientName data objects
     fun searchIngredientList(itemName: String, ingredientNames: List<IngredientName>) {
@@ -41,8 +42,30 @@ class ClassifyproductsViewModel : ViewModel() {
             classifyModel.img_url = "unknown"
             classifyModel.searchList = ingredientNames
 
-            val results = repository.searchIngredientList(classifyModel)
-            ingredientResults.postValue(results)
+            val data = repository.searchIngredientList(classifyModel)
+            results.postValue(data)
+        }
+    }
+
+    fun parseResults(ingredients: List<Ingredient>) {
+        scope.launch {
+            val diet = getDiet()
+            if (diet != null) {
+                val ingredientStringList = arrayListOf<ClassifyIngredient>()
+
+                for (i in ingredients.indices){
+                    when (determineSafety(diet, ingredients[i].diet_type!!)) {
+                        DietSafety.SAFE -> ingredientStringList.add(ClassifyIngredient(ingredients[i].name, ingredients[i].diet_name, 1, "#ABEBC6"))
+                        DietSafety.CAUTION -> ingredientStringList.add(ClassifyIngredient(ingredients[i].name, ingredients[i].diet_name, 2, "#F9E79F"))
+                        DietSafety.AVOID -> ingredientStringList.add(ClassifyIngredient(ingredients[i].name, ingredients[i].diet_name, 3, "#F1948A"))
+                        else -> ingredientStringList.add(ClassifyIngredient(ingredients[i].name, ingredients[i].diet_name, 4, "#F1948A"))
+                    }
+                }
+
+                ingredientList.postValue(ingredientStringList)
+            } else {
+                println("something went wrong")
+            }
         }
     }
 
@@ -95,10 +118,7 @@ class ClassifyproductsViewModel : ViewModel() {
     }
 
     fun getUserDiet() {
-        scope.launch {
-            val diet = getDiet()
-            userDiet.postValue(diet)
-        }
+
     }
 
     private fun checkNull(rawString: String, delimiter: String, lastIndex: Boolean) : Boolean {

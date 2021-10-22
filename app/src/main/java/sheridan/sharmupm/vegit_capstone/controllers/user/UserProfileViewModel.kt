@@ -55,7 +55,6 @@ class UserProfileViewModel : ViewModel() {
         // remove from room
         scope.launch {
             App.db.userDao().deleteUser()
-            App.db.dietDao().deleteDiet()
         }
     }
 

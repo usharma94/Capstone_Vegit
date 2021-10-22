@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.controllers.user.AdminProductViewModel
+import sheridan.sharmupm.vegit_capstone.models.products.Product
 import sheridan.sharmupm.vegit_capstone.ui.home.AdvertisementAdapter
 
 class AdminProductFragment : Fragment() {
@@ -56,48 +57,50 @@ class AdminProductFragment : Fragment() {
             })
 
         adminProductViewModel.approveResult.observe(viewLifecycleOwner,
-            { result ->
-                if (result != null) {
-                    adminProductViewModel.approveResult.observe(viewLifecycleOwner,
-                        {
-                            product->
-                            // display results of singular product
-                            val customDialog = ApproveDialogFragment(
-                                this@AdminProductFragment,
-                                product,
-                                requireContext()
-                            )
-                            //if we know that the particular variable not null any time ,we can assign !! (not null operator ), then  it won't check for null, if it becomes null, it willthrow exception
-                            customDialog.show()
-                            customDialog.setCanceledOnTouchOutside(false)
-
-                            val acceptProductBtn = customDialog.findViewById<Button>(R.id.approve_dialog_accept)
-                            acceptProductBtn.setOnClickListener {
-                                adminProductViewModel.acceptProduct(result)
-                                customDialog.dismiss()
-                            }
-                            val denyProductBtn = customDialog.findViewById<Button>(R.id.deny_dialog_accept)
-                            denyProductBtn.setOnClickListener {
-                                val denyDialog = DenyDialogFragment(
-                                    this@AdminProductFragment,
-                                    requireContext()
-                                )
-                                denyDialog.show()
-                                denyDialog.setCanceledOnTouchOutside(false)
-
-                                val submitReasonBtn = denyDialog.findViewById<Button>(R.id.submit_reason)
-                                val reason = denyDialog.findViewById<EditText>(R.id.reason)
-                                submitReasonBtn.setOnClickListener {
-                                    adminProductViewModel.denyProduct(result.id!!, reason.text.toString())
-                                    denyDialog.dismiss()
-                                    customDialog.dismiss()
-                                }
-                            }
-                        })
-                }
-                else {
+            { product ->
+                if (product != null) {
+                    showProductDialog(product)
+                } else {
                     println("Error fetching product")
                 }
-            })
+        })
+    }
+
+    private fun showProductDialog(product: Product) {
+        val customDialog = ApproveDialogFragment(
+            this@AdminProductFragment,
+            product,
+            requireContext()
+        )
+
+        customDialog.show()
+        customDialog.setCanceledOnTouchOutside(false)
+
+        val acceptProductBtn = customDialog.findViewById<Button>(R.id.approve_dialog_accept)
+        acceptProductBtn.setOnClickListener {
+            adminProductViewModel.acceptProduct(product)
+            customDialog.dismiss()
+        }
+        val denyProductBtn = customDialog.findViewById<Button>(R.id.deny_dialog_accept)
+        denyProductBtn.setOnClickListener {
+            showDenyDialog(product.id!!)
+            customDialog.dismiss()
+        }
+    }
+
+    private fun showDenyDialog(id: Int) {
+        val denyDialog = DenyDialogFragment(
+            this@AdminProductFragment,
+            requireContext()
+        )
+        denyDialog.show()
+        denyDialog.setCanceledOnTouchOutside(false)
+
+        val submitReasonBtn = denyDialog.findViewById<Button>(R.id.submit_reason)
+        val reason = denyDialog.findViewById<EditText>(R.id.reason)
+        submitReasonBtn.setOnClickListener {
+            adminProductViewModel.denyProduct(id, reason.text.toString())
+            denyDialog.dismiss()
+        }
     }
 }
