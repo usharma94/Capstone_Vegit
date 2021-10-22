@@ -1,6 +1,6 @@
 package sheridan.sharmupm.vegit_capstone.models.products
 
-import sheridan.sharmupm.vegit_capstone.models.ingredients.IngredientId
+import sheridan.sharmupm.vegit_capstone.models.ingredients.IngredientName
 
 data class SubmitProduct(
         var name:String ?= "",
@@ -9,5 +9,5 @@ data class SubmitProduct(
         var img_url:String ?= "",
         var created_date:String ?= "",
         var updated_date:String ?= "",
-        var ingredientIds:List<IngredientId>
+        var ingredientNames:List<IngredientName>
 )
