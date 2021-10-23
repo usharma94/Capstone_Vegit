@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.models.ingredients.IngredientName
 
-class ProductIngredientAdapter(private val dataSet: List<IngredientName>, private val onClickListener: OnClickListener, private val type: Boolean) :
+class ProductIngredientAdapter(private var dataSet: List<IngredientName>, private val onClickListener: OnClickListener, private val type: Boolean) :
     RecyclerView.Adapter<ProductIngredientAdapter.ViewHolder>() {
 
     /**
@@ -62,5 +62,9 @@ class ProductIngredientAdapter(private val dataSet: List<IngredientName>, privat
 
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = dataSet.size
+
+    fun setItems(ingredientNames: List<IngredientName>) {
+        this.dataSet = ingredientNames
+    }
 
 }

@@ -1,21 +1,12 @@
 package sheridan.sharmupm.vegit_capstone.controllers.market
 
-import android.webkit.URLUtil
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
-import sheridan.sharmupm.vegit_capstone.R
-import sheridan.sharmupm.vegit_capstone.helpers.getSearchIngredientList
-import sheridan.sharmupm.vegit_capstone.helpers.setSearchIngredientList
-import sheridan.sharmupm.vegit_capstone.models.ingredients.Ingredient
-import sheridan.sharmupm.vegit_capstone.models.ingredients.IngredientId
 import sheridan.sharmupm.vegit_capstone.models.ingredients.IngredientName
 import sheridan.sharmupm.vegit_capstone.models.products.Product
 import sheridan.sharmupm.vegit_capstone.models.products.SubmitProduct
-import sheridan.sharmupm.vegit_capstone.models.products.SubmitProductFormState
 import sheridan.sharmupm.vegit_capstone.services.network.APIClient
-import sheridan.sharmupm.vegit_capstone.services.repository.IngredientRepository
 import sheridan.sharmupm.vegit_capstone.services.repository.ProductRepository
 import kotlin.coroutines.CoroutineContext
 
@@ -28,29 +19,18 @@ class SubmitProductViewModel : ViewModel() {
     private val scope = CoroutineScope(coroutineContext)
 
     private val productRepository : ProductRepository = ProductRepository(APIClient.apiInterface)
-    private val ingredientRepository : IngredientRepository = IngredientRepository(APIClient.apiInterface)
 
-    private val _productForm = MutableLiveData<SubmitProductFormState>()
-    val submitProductFormState: LiveData<SubmitProductFormState> = _productForm
-    private var dietType: Int = 0
-    private var category: Int = 0
-    private var categoryName: String = ""
-    private val ingredients: MutableList<Ingredient> = mutableListOf()
-    private val selectedIngredientNames: MutableList<IngredientName> = mutableListOf()
-    private var ingredientNames: List<IngredientName> = mutableListOf()
-    val ingredientList = MutableLiveData<List<IngredientName>>()
-    val searchList = MutableLiveData<List<IngredientName>>()
     val productResponse = MutableLiveData<Product>()
 
-    private fun submitProduct(name: String, url: String) {
+    fun submitProduct(name: String, url: String, dietType: Int, category: String, ingredients: String) {
         val product = SubmitProduct(
             name,
-            dietType(),
-            categoryName,
+            dietType(dietType),
+            category,
             url,
             "null",
             "null",
-            ingredients.map { IngredientId(it.id) }.toList()
+            extractIngredients(ingredients)
         )
 
         scope.launch {
@@ -59,91 +39,53 @@ class SubmitProductViewModel : ViewModel() {
         }
     }
 
-    fun submitProductDataChanged(name: String, img: String) {
-        if (!isNameValid(name)) {
-            _productForm.value = SubmitProductFormState(nameError = R.string.invalid_name)
-        } else if (!isImgValid(img)) {
-            _productForm.value = SubmitProductFormState(imgError = R.string.invalid_url)
-        } else if (dietType == 0) {
-            _productForm.value = SubmitProductFormState(dietError = R.string.invalid_diet)
-        } else if (category == 0) {
-            _productForm.value = SubmitProductFormState(categoryError = R.string.invalid_category)
-        } else if (ingredients.isEmpty()) {
-            _productForm.value = SubmitProductFormState(ingredientError = R.string.invalid_ingredients)
-        } else {
-             submitProduct(name, img)
-        }
-    }
-
-    fun getIngredientNames() {
-        val cachedNames = getSearchIngredientList()
-        if (cachedNames != null) {
-            ingredientNames = cachedNames as List<IngredientName>
-        } else {
-            // fetch names from API
-            scope.launch {
-                val names = ingredientRepository.fetchIngredientNames()
-                if (names != null) {
-                    ingredientNames = names
-
-                    // set list in cache
-                    setSearchIngredientList(names)
-                }
-            }
-        }
-    }
-
-    fun searchDataChanged(name: String) {
-        if (name.isNotEmpty()) {
-            val filtered = ingredientNames.filter { it.name.contains(name, ignoreCase = true) }
-            searchList.postValue(filtered)
-        }
-    }
-
-    fun addIngredient(name: String) {
-        if (ingredients.any { it.name == name }) return
-
-        val search = IngredientName(name)
-        scope.launch {
-            val ingredient = ingredientRepository.searchIngredients(search)
-            selectedIngredientNames.add(search)
-            ingredientList.postValue(selectedIngredientNames)
-
-            ingredients.add(ingredient!!)
-            println(ingredients)
-        }
-    }
-
-    fun removeIngredient(name: String) {
-        val selected = IngredientName(name)
-        selectedIngredientNames.remove(selected)
-        ingredientList.postValue(selectedIngredientNames)
-        ingredients.removeAll { it.name == name }
-        println(ingredients)
-    }
-
-    private fun isNameValid(name: String): Boolean {
-        return name.isNotBlank() && name.length > 2
-    }
-
-    private fun isImgValid(url: String): Boolean {
-        return url.isNotBlank() && URLUtil.isValidUrl(url)
-    }
-
-    fun submitProductDietChanged(position: Int) {
-        dietType = position
-    }
-
-    fun submitProductCategoryChanged(position: Int, name: String) {
-        category = position
-        categoryName = name
-    }
-
-    private fun dietType(): Int {
+    private fun dietType(dietType: Int): Int {
         if (dietType == 1) return 1
         if (dietType == 2) return 3
         if (dietType == 3) return 6
         return 5
+    }
+
+    private fun extractIngredients(ingredientsText: String): List<IngredientName> {
+        var ingredientRaw = ""
+        val ingredientNameList: MutableList<IngredientName> = mutableListOf()
+
+        if (!checkNull(ingredientsText, ":", false)) {
+            // grabbing text only after "ingredients:"
+            ingredientRaw = ingredientsText.substring(ingredientsText.indexOf(":") + 1)
+        }
+
+        ingredientRaw = ingredientRaw.toLowerCase()
+
+        // remove special characters from string
+        ingredientRaw = ingredientRaw.replace(Regex("[*\"/]"), "")
+
+        // remove new line with space
+        ingredientRaw = ingredientRaw.replace(Regex("[\n\r]"), " ")
+
+        // split string by delimiters
+        val ingredientList = ingredientRaw.split(",", "(", ")", "[", "]", " and ", " or ", ".", ":")
+
+        // creating list of ingredient name objects
+        for (ingredient in ingredientList) {
+            if (ingredient.trim() != "" && ingredient.trim().length <= 40) {
+                ingredientNameList.add(IngredientName(ingredient.trim()))
+            }
+        }
+
+        if (ingredientNameList.count() < 1) {
+            return emptyList()
+        }
+
+        return ingredientNameList
+    }
+
+    private fun checkNull(rawString: String, delimiter: String, lastIndex: Boolean) : Boolean {
+        if (lastIndex)
+            if (rawString.lastIndexOf(delimiter) < 0) return true
+            else
+                if (rawString.indexOf(delimiter) < 0) return true
+        return false
     }
 
     fun cancelRequest() = coroutineContext.cancel()

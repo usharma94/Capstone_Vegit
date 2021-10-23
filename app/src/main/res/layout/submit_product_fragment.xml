@@ -5,178 +5,186 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     tools:context="sheridan.sharmupm.vegit_capstone.ui.market.SubmitProduct">
-    <Space
-        android:id="@+id/spacer1"
+
+    <ernestoyaquello.com.verticalstepperform.VerticalStepperFormView
+        android:id="@+id/stepper_form"
         android:layout_width="match_parent"
-        android:layout_height="10dp" />
+        android:layout_height="match_parent"
+        app:form_circle_background_color="@color/colorPrimary"
+        app:form_next_button_background_color="@color/colorPrimary"
+        app:form_next_button_pressed_background_color="@color/colorPrimaryDark"/>
+<!--    <Space-->
+<!--        android:id="@+id/spacer1"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="10dp" />-->
 
-    <EditText
-        android:id="@+id/et_name"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Name"
-        android:layout_below="@id/spacer1"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="8dp"
-        android:padding="15dp"
-        android:inputType="text"
-        android:fontFamily="@font/roboto_regular"
-        android:background="@drawable/login_custom_btn"
-        android:textSize="15sp" />
+<!--    <EditText-->
+<!--        android:id="@+id/et_name"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:hint="Name"-->
+<!--        android:layout_below="@id/spacer1"-->
+<!--        android:layout_marginLeft="20dp"-->
+<!--        android:layout_marginRight="20dp"-->
+<!--        android:layout_marginBottom="8dp"-->
+<!--        android:padding="15dp"-->
+<!--        android:inputType="text"-->
+<!--        android:fontFamily="@font/roboto_regular"-->
+<!--        android:background="@drawable/login_custom_btn"-->
+<!--        android:textSize="15sp" />-->
 
-    <EditText
-        android:id="@+id/et_img"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Image URL"
-        android:layout_below="@id/et_name"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="8dp"
-        android:padding="15dp"
-        android:inputType="text"
-        android:fontFamily="@font/roboto_regular"
-        android:background="@drawable/login_custom_btn"
-        android:textSize="15sp" />
+<!--    <EditText-->
+<!--        android:id="@+id/et_img"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:hint="Image URL"-->
+<!--        android:layout_below="@id/et_name"-->
+<!--        android:layout_marginLeft="20dp"-->
+<!--        android:layout_marginRight="20dp"-->
+<!--        android:layout_marginBottom="8dp"-->
+<!--        android:padding="15dp"-->
+<!--        android:inputType="text"-->
+<!--        android:fontFamily="@font/roboto_regular"-->
+<!--        android:background="@drawable/login_custom_btn"-->
+<!--        android:textSize="15sp" />-->
 
-    <Spinner
-        android:id="@+id/diet_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="8dp"
-        android:layout_below="@id/et_img"
-        />
+<!--    <Spinner-->
+<!--        android:id="@+id/diet_type"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginLeft="20dp"-->
+<!--        android:layout_marginRight="20dp"-->
+<!--        android:layout_marginBottom="8dp"-->
+<!--        android:layout_below="@id/et_img"-->
+<!--        />-->
 
-    <Spinner
-        android:id="@+id/category"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="8dp"
-        android:layout_below="@id/diet_type"
-        />
+<!--    <Spinner-->
+<!--        android:id="@+id/category"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginLeft="20dp"-->
+<!--        android:layout_marginRight="20dp"-->
+<!--        android:layout_marginBottom="8dp"-->
+<!--        android:layout_below="@id/diet_type"-->
+<!--        />-->
 
-    <TextView
-        android:id="@+id/search_diet_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/category"
-        android:fontFamily="@font/roboto_regular"
-        android:layout_marginLeft="20dp"
-        android:gravity="left"
-        android:text="Ingredients"
-        android:textSize="15sp"
-        android:textStyle="bold" />
+<!--    <TextView-->
+<!--        android:id="@+id/search_diet_description"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@id/category"-->
+<!--        android:fontFamily="@font/roboto_regular"-->
+<!--        android:layout_marginLeft="20dp"-->
+<!--        android:gravity="left"-->
+<!--        android:text="Ingredients"-->
+<!--        android:textSize="15sp"-->
+<!--        android:textStyle="bold" />-->
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:id="@+id/scrollIngredients"
-        android:layout_below="@id/search_diet_description">
+<!--    <ScrollView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="100dp"-->
+<!--        android:id="@+id/scrollIngredients"-->
+<!--        android:layout_below="@id/search_diet_description">-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical" >-->
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/selectedIngredients"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/ingredient_product" />
-        </LinearLayout>
-    </ScrollView>
+<!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:id="@+id/selectedIngredients"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--                tools:listitem="@layout/ingredient_product" />-->
+<!--        </LinearLayout>-->
+<!--    </ScrollView>-->
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/searchIngredient"
-        android:layout_below="@id/scrollIngredients"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:outlineSpotShadowColor="@color/colorPrimary"
-        android:outlineAmbientShadowColor="@color/colorGrey">
-        <RelativeLayout
-            android:id="@+id/layout"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:orientation="vertical"
-            android:padding="10dp">
+<!--    <androidx.cardview.widget.CardView-->
+<!--        android:id="@+id/searchIngredient"-->
+<!--        android:layout_below="@id/scrollIngredients"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="10dp"-->
+<!--        android:layout_marginEnd="10dp"-->
+<!--        android:outlineSpotShadowColor="@color/colorPrimary"-->
+<!--        android:outlineAmbientShadowColor="@color/colorGrey">-->
+<!--        <RelativeLayout-->
+<!--            android:id="@+id/layout"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="60dp"-->
+<!--            android:orientation="vertical"-->
+<!--            android:padding="10dp">-->
 
-            <ImageView
-                android:id="@+id/imgSearch"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="3dp"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_baseline_search_24"
-                android:clickable="true"
-                android:focusable="true"
-                android:focusableInTouchMode="true"/>
+<!--            <ImageView-->
+<!--                android:id="@+id/imgSearch"-->
+<!--                android:layout_width="30dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:layout_marginTop="3dp"-->
+<!--                android:contentDescription="@string/app_name"-->
+<!--                android:src="@drawable/ic_baseline_search_24"-->
+<!--                android:clickable="true"-->
+<!--                android:focusable="true"-->
+<!--                android:focusableInTouchMode="true"/>-->
 
-            <EditText
-                android:id="@+id/search_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="5dp"
-                android:background="@color/white"
-                android:hint="Add ingredient by name..."
-                android:padding="8dp"
-                android:textSize="14sp" />
-            <Button
-                android:id="@+id/clear_text"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignEnd="@id/search_bar"
-                android:clickable="true"
-                android:background="@drawable/delete" />
+<!--            <EditText-->
+<!--                android:id="@+id/search_bar"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="30dp"-->
+<!--                android:layout_marginEnd="5dp"-->
+<!--                android:background="@color/white"-->
+<!--                android:hint="Add ingredient by name..."-->
+<!--                android:padding="8dp"-->
+<!--                android:textSize="14sp" />-->
+<!--            <Button-->
+<!--                android:id="@+id/clear_text"-->
+<!--                android:layout_width="30dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:layout_alignEnd="@id/search_bar"-->
+<!--                android:clickable="true"-->
+<!--                android:background="@drawable/delete" />-->
 
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+<!--        </RelativeLayout>-->
+<!--    </androidx.cardview.widget.CardView>-->
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:id="@+id/scrollSearchIngredients"
-        android:layout_below="@id/searchIngredient">
+<!--    <ScrollView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="100dp"-->
+<!--        android:id="@+id/scrollSearchIngredients"-->
+<!--        android:layout_below="@id/searchIngredient">-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical" >-->
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/searchIngredients"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/ingredient_product" />
+<!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:id="@+id/searchIngredients"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--                tools:listitem="@layout/ingredient_product" />-->
 
-        </LinearLayout>
-    </ScrollView>
+<!--        </LinearLayout>-->
+<!--    </ScrollView>-->
 
-    <Space
-        android:id="@+id/spacer6"
-        android:layout_below="@id/scrollSearchIngredients"
-        android:layout_width="match_parent"
-        android:layout_height="20dp" />
+<!--    <Space-->
+<!--        android:id="@+id/spacer6"-->
+<!--        android:layout_below="@id/scrollSearchIngredients"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="20dp" />-->
 
-    <Button
-        android:id="@+id/btn_submit_product"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/spacer6"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/btn_custom"
-        android:fontFamily="@font/roboto_regular"
-        android:text="submit"
-        android:textColor="@android:color/white" />
+<!--    <Button-->
+<!--        android:id="@+id/btn_submit_product"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@id/spacer6"-->
+<!--        android:layout_marginLeft="20dp"-->
+<!--        android:layout_marginRight="20dp"-->
+<!--        android:background="@drawable/btn_custom"-->
+<!--        android:fontFamily="@font/roboto_regular"-->
+<!--        android:text="submit"-->
+<!--        android:textColor="@android:color/white" />-->
 
 </RelativeLayout>
