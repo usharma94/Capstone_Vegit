@@ -38,7 +38,7 @@
         android:layout_marginHorizontal="10dp"
         android:background="@drawable/btn_custom"
         android:padding="10dp"
-        android:text="FAQ"
+        android:text="Veg-It Assistant"
         android:textSize="22sp"
         android:textStyle="bold" />
     <Space

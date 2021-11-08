@@ -21,10 +21,6 @@ import com.google.android.gms.vision.Frame
 import com.google.android.gms.vision.text.TextRecognizer
 import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.controllers.classifyProducts.ClassifyproductsViewModel
-import sheridan.sharmupm.vegit_capstone.helpers.DietSafety
-import sheridan.sharmupm.vegit_capstone.helpers.determineSafety
-import sheridan.sharmupm.vegit_capstone.models.ingredients.ClassifyIngredient
-import sheridan.sharmupm.vegit_capstone.models.ingredients.IngredientName
 import java.util.*
 
 
@@ -120,9 +116,12 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
         //**** the "analyze" is hard-code now***
         analyzeBtn.setOnClickListener {
             if (analyzeBtn.isClickable==true){
-                analyzeBtn.isClickable=false
-                var ingredientList:List<IngredientName> = emptyList()
-
+                if(SystemClock.elapsedRealtime()-mLastClickTime<1000){
+                    analyzeBtn.isClickable=false
+                    //analyzeBtn.postDelayed(Runnable { kotlin.run { analyzeBtn.isClickable=false } },1000)
+                    //Toast.makeText(requireContext(),"The button is unclickable now",Toast.LENGTH_LONG).show()
+                }
+                else{
 
                     if (ingredientLabelPicture.drawable ==null){
                         Toast.makeText(context?.applicationContext, "No Picture Detected!", Toast.LENGTH_SHORT)
@@ -138,7 +137,7 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
                             val frame = Frame.Builder().setBitmap(mBitmap).build()
                             val items = textRecognizer.detect(frame)
 
-                            ingredientList = classifyproductsViewModel.extractIngredientText(items)!!
+                            val ingredientList = classifyproductsViewModel.extractIngredientText(items)
                             if (ingredientList != null) {
                                 classifyproductsViewModel.searchIngredientList("unknown", ingredientList) // item name will come from barcode scan
                             } else {
@@ -147,40 +146,29 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
                                 println("No data able to be extracted!")
                             }
                         }
-
                     }
-
-
-
+                }
+                mLastClickTime=SystemClock.elapsedRealtime()
+                analyzeBtn.isClickable=true
 
             }
-
-
         }
 
-        classifyproductsViewModel.ingredientResults.observe(viewLifecycleOwner,
+        classifyproductsViewModel.results.observe(viewLifecycleOwner,
             { results ->
                 if (results != null) {
-                    // display results as outlined in wireframe UI for classify product
-                    classifyproductsViewModel.getUserDiet()
+                    classifyproductsViewModel.parseResults(results)
+                }
+                else {
+                    println("No data found")
+                }
+            })
 
-                    val ingredientStringList = arrayListOf<ClassifyIngredient>()
-
-                    classifyproductsViewModel.userDiet.observe(viewLifecycleOwner,
-                            {
-                                diet ->
-                                    for (i in 0..results.size-1){
-                                        when (determineSafety(diet, results[i].diet_type!!)) {
-                                            DietSafety.SAFE -> ingredientStringList.add(ClassifyIngredient(results[i].name, results[i].diet_name, 1, "#ABEBC6"))
-                                            DietSafety.CAUTION -> ingredientStringList.add(ClassifyIngredient(results[i].name, results[i].diet_name, 2, "#F9E79F"))
-                                            DietSafety.AVOID -> ingredientStringList.add(ClassifyIngredient(results[i].name, results[i].diet_name, 3, "#F1948A"))
-                                            else -> ingredientStringList.add(ClassifyIngredient(results[i].name, results[i].diet_name, 4, "#F1948A"))
-                                        }
-                                    }
-                            })
-
-                    val dataAdapter = DataAdapter(ingredientStringList, this)
-                     customDialog = CustomListViewDialog(
+        classifyproductsViewModel.ingredientList.observe(viewLifecycleOwner,
+            { ingredients ->
+                if (ingredients != null) {
+                    val dataAdapter = DataAdapter(ingredients, this)
+                    customDialog = CustomListViewDialog(
                         this@ClassifyproductsFragment,
                         dataAdapter,
                         requireContext()
