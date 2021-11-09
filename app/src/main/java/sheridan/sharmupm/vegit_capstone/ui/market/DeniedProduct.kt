@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.controllers.market.DeniedProductViewModel
-import sheridan.sharmupm.vegit_capstone.ui.home.AdvertisementDialogFragment
+import sheridan.sharmupm.vegit_capstone.ui.home.advertisement.AdvertisementDialogFragment
 
 class DeniedProduct : Fragment() {
 

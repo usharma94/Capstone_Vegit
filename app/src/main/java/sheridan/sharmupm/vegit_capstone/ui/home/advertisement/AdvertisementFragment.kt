@@ -1,4 +1,4 @@
-package sheridan.sharmupm.vegit_capstone.ui.market
+package sheridan.sharmupm.vegit_capstone.ui.home.advertisement
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,24 +10,23 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sheridan.sharmupm.vegit_capstone.R
-import sheridan.sharmupm.vegit_capstone.controllers.market.ApprovedProductViewModel
-import sheridan.sharmupm.vegit_capstone.ui.home.advertisement.AdvertisementDialogFragment
+import sheridan.sharmupm.vegit_capstone.controllers.home.AdvertisementViewModel
 
-class ApprovedProduct : Fragment() {
+class AdvertisementFragment : Fragment() {
 
-    private lateinit var approvedProductViewModel: ApprovedProductViewModel
+    private lateinit var advertisementViewModel: AdvertisementViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.approved_product_fragment, container, false)
+        return inflater.inflate(R.layout.fragment_advertisement, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        approvedProductViewModel = ViewModelProvider(this).get(ApprovedProductViewModel::class.java)
-        approvedProductViewModel.getApprovedProducts()
+        advertisementViewModel = ViewModelProvider(this).get(AdvertisementViewModel::class.java)
+        advertisementViewModel.getAdvertisementProducts()
 
-        val recyclerView: RecyclerView = view.findViewById(R.id.approvedProducts)
+        val recyclerView: RecyclerView = view.findViewById(R.id.advertisementProducts)
 
         recyclerView.addItemDecoration(
             DividerItemDecoration(
@@ -36,14 +35,14 @@ class ApprovedProduct : Fragment() {
             )
         )
 
-        approvedProductViewModel.productList.observe(viewLifecycleOwner,
+        advertisementViewModel.productList.observe(viewLifecycleOwner,
             { results ->
                 if (results != null) {
                     // display results of search in UI as a list
                     println(results)
 
-                    val searchAdapter = ApprovedAdapter(results, ApprovedAdapter.OnClickListener{
-                        approvedProductViewModel.setSelectedProduct(it)
+                    val searchAdapter = AdvertisementAdapter(results, AdvertisementAdapter.OnClickListener{
+                        advertisementViewModel.setAdvertisementProduct(it)
                     })
                     recyclerView.adapter = searchAdapter
                 }
@@ -53,12 +52,12 @@ class ApprovedProduct : Fragment() {
                 }
             })
 
-        approvedProductViewModel.selectedProduct.observe(viewLifecycleOwner,
+        advertisementViewModel.selectedProduct.observe(viewLifecycleOwner,
             {
                     product->
                 // display results of singular product
                 var customDialog = AdvertisementDialogFragment(
-                    this@ApprovedProduct,
+                    this@AdvertisementFragment,
                     product,
                     requireContext()
                 )

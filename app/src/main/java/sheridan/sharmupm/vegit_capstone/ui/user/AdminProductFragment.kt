@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.controllers.user.AdminProductViewModel
 import sheridan.sharmupm.vegit_capstone.models.products.Product
-import sheridan.sharmupm.vegit_capstone.ui.home.AdvertisementAdapter
+import sheridan.sharmupm.vegit_capstone.ui.home.advertisement.AdvertisementAdapter
 
 class AdminProductFragment : Fragment() {
 

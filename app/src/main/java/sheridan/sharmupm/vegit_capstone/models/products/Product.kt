@@ -12,5 +12,6 @@ data class Product(
         var img_url:String ?= "",
         var views:Int ?= 0,
         var reason:String ?= "",
+        var user_scan:Int ?= 0,
         var ingredients:List<Ingredient>
 )
