@@ -67,7 +67,7 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
         val analyzeBtn = view.findViewById<Button>(R.id.takePicture)
         val scanResult = view.findViewById<TextView>(R.id.text_view)
         val framelayout = view.findViewById<FrameLayout>(R.id.frame_layout)
-        val captureImage = view.findViewById<Button>(R.id.capture_picture)
+        val captureImage = view.findViewById<ImageButton>(R.id.capture_picture)
 
         val args = this.arguments
         if (args?.isEmpty == false){
@@ -125,14 +125,14 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
 
                     if (ingredientLabelPicture.drawable ==null){
                         Toast.makeText(context?.applicationContext, "No Picture Detected!", Toast.LENGTH_SHORT)
-                                .show()
+                            .show()
                     }
                     else{
                         val mBitmap = ingredientLabelPicture.drawable.toBitmap()
                         val textRecognizer = TextRecognizer.Builder(context?.applicationContext).build()
                         if (!textRecognizer.isOperational) {
                             Toast.makeText(context?.applicationContext, "Could not get the text", Toast.LENGTH_SHORT)
-                                    .show()
+                                .show()
                         } else {
                             val frame = Frame.Builder().setBitmap(mBitmap).build()
                             val items = textRecognizer.detect(frame)
@@ -176,6 +176,9 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
 
                     //if we know that the particular variable not null any time ,we can assign !! (not null operator ), then  it won't check for null, if it becomes null, it willthrow exception
                     customDialog.show()
+                    if (customDialog.isShowing){
+                        analyzeBtn.isClickable=true
+                    }
                     customDialog.setCanceledOnTouchOutside(false)
                 }
                 else {
