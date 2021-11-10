@@ -21,8 +21,6 @@ class HomeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
         tabAdapter = TabAdapter(this)
         viewPager = view.findViewById(R.id.homePage)
         viewPager.adapter = tabAdapter

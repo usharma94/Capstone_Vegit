@@ -26,7 +26,6 @@ class AdminProductFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         adminProductViewModel = ViewModelProvider(this).get(AdminProductViewModel::class.java)
         adminProductViewModel.getApproveProducts()
 

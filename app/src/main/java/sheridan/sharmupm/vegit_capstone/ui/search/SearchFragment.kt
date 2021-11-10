@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -29,14 +28,12 @@ class SearchFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         searchViewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
         searchViewModel.getIngredientNames()
         searchViewModel.getUserDiet()
 
         val searchText = view.findViewById<EditText>(R.id.search_bar)
         val clearButton = view.findViewById<Button>(R.id.clear_text)
-        val searchResult = view.findViewById<TextView>(R.id.search_result_text)
         val recyclerView: RecyclerView = view.findViewById(R.id.searchResult)
 
         recyclerView.addItemDecoration(
@@ -53,7 +50,7 @@ class SearchFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 // ignore
-                recyclerView.isVisible = true;
+                recyclerView.isVisible = true
 
             }
 
@@ -72,7 +69,7 @@ class SearchFragment : Fragment() {
                         // display results of search in UI as a list
                         println(results)
 
-//                        user clicks ingredient name
+//                      user clicks ingredient name
                         val searchAdapter = SearchAdapter(results, SearchAdapter.OnClickListener{
                             searchViewModel.searchIngredients(it.name)
                         })
@@ -92,15 +89,15 @@ class SearchFragment : Fragment() {
                             {
                                 diet->
                                     // display results of singular food item
-                                    var customDialog = SearchDialogFragment(
+                                    val customDialog = SearchDialogFragment(
                                             this@SearchFragment,
                                             ingredient,
                                             diet,
                                             requireContext()
                                     )
                                     //if we know that the particular variable not null any time ,we can assign !! (not null operator ), then  it won't check for null, if it becomes null, it willthrow exception
-                                    customDialog!!.show()
-                                    customDialog!!.setCanceledOnTouchOutside(false)
+                                    customDialog.show()
+                                    customDialog.setCanceledOnTouchOutside(false)
                             })
                     }
                     else {
@@ -113,5 +110,4 @@ class SearchFragment : Fragment() {
             recyclerView.isVisible = false
         }
     }
-
 }

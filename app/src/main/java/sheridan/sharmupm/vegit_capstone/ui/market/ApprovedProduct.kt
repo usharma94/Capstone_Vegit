@@ -23,7 +23,6 @@ class ApprovedProduct : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         approvedProductViewModel = ViewModelProvider(this).get(ApprovedProductViewModel::class.java)
         approvedProductViewModel.getApprovedProducts()
 

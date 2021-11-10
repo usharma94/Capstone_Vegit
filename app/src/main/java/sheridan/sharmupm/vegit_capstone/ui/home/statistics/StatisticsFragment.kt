@@ -24,10 +24,7 @@ class StatisticsFragment : Fragment() {
         return inflater.inflate(R.layout.statistics_fragment, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel = ViewModelProvider(this).get(StatisticsViewModel::class.java)
-        // TODO: Use the ViewModel
     }
-
 }

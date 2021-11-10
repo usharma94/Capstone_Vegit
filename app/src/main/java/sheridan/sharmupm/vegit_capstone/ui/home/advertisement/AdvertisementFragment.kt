@@ -22,7 +22,6 @@ class AdvertisementFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         advertisementViewModel = ViewModelProvider(this).get(AdvertisementViewModel::class.java)
         advertisementViewModel.getAdvertisementProducts()
 

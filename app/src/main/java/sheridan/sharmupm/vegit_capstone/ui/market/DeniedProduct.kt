@@ -23,7 +23,6 @@ class DeniedProduct : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         deniedProductViewModel = ViewModelProvider(this).get(DeniedProductViewModel::class.java)
         deniedProductViewModel.getDeniedProducts()
 
