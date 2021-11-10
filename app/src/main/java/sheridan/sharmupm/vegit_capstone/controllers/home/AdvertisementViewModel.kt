@@ -12,8 +12,7 @@ import sheridan.sharmupm.vegit_capstone.services.network.APIClient
 import sheridan.sharmupm.vegit_capstone.services.repository.ProductRepository
 import kotlin.coroutines.CoroutineContext
 
-class HomeViewModel : ViewModel() {
-
+class AdvertisementViewModel : ViewModel() {
     private val parentJob = Job()
 
     private val coroutineContext: CoroutineContext

@@ -45,19 +45,19 @@ class SearchDialogFragment(
 
         when (determineSafety(userDiet, ingredientDetail.diet_type!!)) {
             DietSafety.SAFE -> {
-                searchDialogTitle.setBackgroundColor(Color.parseColor("#ABEBC6"));
+                searchDialogTitle.setBackgroundColor(Color.parseColor("#ABEBC6"))
                 searchDialogTitle.text = "SAFE"
             }
             DietSafety.CAUTION -> {
-                searchDialogTitle.setBackgroundColor(Color.parseColor("#F9E79F"));
+                searchDialogTitle.setBackgroundColor(Color.parseColor("#F9E79F"))
                 searchDialogTitle.text = "CAUTION"
             }
             DietSafety.AVOID -> {
-                searchDialogTitle.setBackgroundColor(Color.parseColor("#F1948A"));
+                searchDialogTitle.setBackgroundColor(Color.parseColor("#F1948A"))
                 searchDialogTitle.text = "AVOID"
             }
             else -> {
-                searchDialogTitle.setBackgroundColor(Color.parseColor("#F1948A"));
+                searchDialogTitle.setBackgroundColor(Color.parseColor("#F1948A"))
                 searchDialogTitle.text = "UNKNOWN"
             }
         }
@@ -67,7 +67,6 @@ class SearchDialogFragment(
     override fun onClick(v: View) {
         when (v.id) {
             R.id.search_dialog_done -> dismiss()
-            R.id.search_dialog_done -> cancel()
             else -> {
             }
         }//Do Something

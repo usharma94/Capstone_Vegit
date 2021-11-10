@@ -25,7 +25,6 @@ class DietFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         dietViewModel = ViewModelProvider(this).get(DietViewModel::class.java)
         val dietList = dietViewModel.populateDietList()
 
