@@ -109,7 +109,8 @@ class LoginFragment : Fragment() {
                 rememberMe.isChecked
             )
         }
-        val navController = findNavController()
+
+        findNavController()
 
         signUpButton.setOnClickListener {
             this.findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
@@ -118,13 +119,6 @@ class LoginFragment : Fragment() {
         skipSignUpButton.setOnClickListener {
             this.findNavController().navigate(R.id.action_loginFragment_to_navigation_diet)
         }
-//        Upma: trying to prevent going back to backstack here
-
-//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-//            navController.popBackStack(R.id.loginFragment, true)
-//        }
-
-
     }
 
     private fun updateUiWithUser(model: LoggedInUserView) {

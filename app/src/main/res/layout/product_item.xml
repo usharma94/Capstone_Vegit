@@ -29,6 +29,15 @@
             android:padding="5dp"
             android:text="name"
             android:textAlignment="center" />
+
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imgCompany"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:layout_gravity="right"
+        android:visibility="gone"
+        app:srcCompat="@drawable/company" />
 
 </androidx.cardview.widget.CardView>
