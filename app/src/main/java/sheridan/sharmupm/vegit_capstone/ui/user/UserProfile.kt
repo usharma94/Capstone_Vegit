@@ -30,9 +30,7 @@ class UserProfile : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         userProfileViewModel = ViewModelProvider(this).get(UserProfileViewModel::class.java)
-        // TODO: Use the ViewModel
 
         val email = view.findViewById<TextView>(R.id.profile_email)
         val logoutButton = view.findViewById<Button>(R.id.btnProfileLogout)

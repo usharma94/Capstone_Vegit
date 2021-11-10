@@ -71,7 +71,6 @@ class ClassifyproductsViewModel : ViewModel() {
 
     fun extractIngredientText(rawData: SparseArray<TextBlock>) : List<IngredientName>? {
         val sb = StringBuilder()
-        var ingredientRaw = ""
         val ingredientNameList: MutableList<IngredientName> = mutableListOf()
 
         // creating single string from scanned text
@@ -85,7 +84,7 @@ class ClassifyproductsViewModel : ViewModel() {
         if (checkNull(sb.toString(), ":", false)) return null
 
         // grabbing text only after "ingredients:"
-        ingredientRaw = sb.substring(sb.indexOf(":") + 1)
+        var ingredientRaw: String = sb.substring(sb.indexOf(":") + 1)
 
         // stopping at first occurance of a .
         // may or may not be best way to extract up to end of ingredient text only

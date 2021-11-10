@@ -1,6 +1,6 @@
 
 
-package sheridan.sharmupm.vegit_capstone.ui.home
+package sheridan.sharmupm.vegit_capstone.ui.home.advertisement
 
 import android.app.Dialog
 import android.content.Context

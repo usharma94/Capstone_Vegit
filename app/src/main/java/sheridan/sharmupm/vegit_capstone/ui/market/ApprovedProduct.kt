@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.controllers.market.ApprovedProductViewModel
-import sheridan.sharmupm.vegit_capstone.ui.home.AdvertisementDialogFragment
+import sheridan.sharmupm.vegit_capstone.ui.home.advertisement.AdvertisementDialogFragment
 
 class ApprovedProduct : Fragment() {
 
@@ -23,7 +23,6 @@ class ApprovedProduct : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         approvedProductViewModel = ViewModelProvider(this).get(ApprovedProductViewModel::class.java)
         approvedProductViewModel.getApprovedProducts()
 
