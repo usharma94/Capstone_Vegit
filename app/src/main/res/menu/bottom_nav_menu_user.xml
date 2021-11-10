@@ -6,7 +6,7 @@
         android:icon="@drawable/ic_home_black_24dp"
         android:title="Home" />
     <item
-        android:id="@+id/navigation_camera"
+        android:id="@+id/navigation_barcodeScanner"
         android:icon="@drawable/ic_camera"
         android:title="@string/title_classifyproducts" />
     <item
