@@ -37,10 +37,22 @@ interface ApiInterface {
     @POST("ingredients/search/list")
     fun searchIngredientListAsync(@Body classifyModel: ClassifyModel): Deferred<Response<List<Ingredient>>>
 
+    @GET("ingredients/safe/{diet}")
+    fun fetchSafeIngredientsAsync(@Path("diet") diet:Int): Deferred<Response<List<Ingredient>>>
+
+    @GET("ingredients/not-safe/{diet}")
+    fun fetchNotSafeIngredientsAsync(@Path("diet") diet:Int): Deferred<Response<List<Ingredient>>>
+
     // PRODUCTS
 
     @GET("/products/advertising/{diet}")
     fun fetchAdvertisementProductsAsync(@Path("diet") diet:Int): Deferred<Response<List<Product>>>
+
+    @GET("/products/advertising-avoid/{diet}")
+    fun fetchAvoidProductsAsync(@Path("diet") diet:Int): Deferred<Response<List<Product>>>
+
+    @GET("/products/scan-history")
+    fun fetchScanHistoryAsync(): Deferred<Response<List<Product>>>
 
     @GET("products/get-product-appoval")
     fun fetchApproveProductsAsync(): Deferred<Response<List<Product>>>

@@ -28,6 +28,11 @@
     <string name="invalid_ingredients">Product must have ingredients</string>
     <string name="submit_product_failed">"Something went wrong"</string>
     <string name="submit_product_success">"Product submitted successfully"</string>
+    <string name="avoid_products">Products to <font color='#cc3300'>AVOID</font></string>
+    <string name="safe_ingredients">Common <font color='#00cc00'>SAFE</font> Ingredients</string>
+    <string name="not_safe_ingredients">Common <font color='#cc3300'>UNSAFE</font> Ingredients</string>
+    <string name="scan_history">Your <font color='#00cc00'>SCAN HISTORY</font></string>
+    <string name="ingredient_rank">#%1$d</string>
 
     <string name="vegetarian_desc">This refers to a diet where egg and dairy products can be consumed</string>
     <string name="vegan_desc">This refers to a diet where no animal products are consumed</string>
