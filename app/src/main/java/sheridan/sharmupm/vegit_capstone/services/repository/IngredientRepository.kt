@@ -26,4 +26,18 @@ class IngredientRepository(private val api: ApiInterface) : BaseRepository() {
                 errorMessage = "No data found"
         )
     }
+
+    suspend fun fetchSafeIngredients(diet: Int): List<Ingredient>? {
+        return safeApiCall(
+            call = {api.fetchSafeIngredientsAsync(diet).await()},
+            errorMessage = "No data found"
+        )
+    }
+
+    suspend fun fetchNotSafeIngredients(diet: Int): List<Ingredient>? {
+        return safeApiCall(
+            call = {api.fetchNotSafeIngredientsAsync(diet).await()},
+            errorMessage = "No data found"
+        )
+    }
 }
