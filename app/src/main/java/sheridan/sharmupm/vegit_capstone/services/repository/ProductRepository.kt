@@ -13,6 +13,20 @@ class ProductRepository(private val api: ApiInterface) : BaseRepository() {
         )
     }
 
+    suspend fun fetchAvoidProducts(diet: Int): List<Product>? {
+        return safeApiCall(
+            call = {api.fetchAvoidProductsAsync(diet).await()},
+            errorMessage = "No data found"
+        )
+    }
+
+    suspend fun fetchScanHistory(): List<Product>? {
+        return safeApiCall(
+            call = {api.fetchScanHistoryAsync().await()},
+            errorMessage = "No data found"
+        )
+    }
+
     suspend fun fetchApproveProducts(): List<Product>? {
         return safeApiCall(
                 call = {api.fetchApproveProductsAsync().await()},
