@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'org.jetbrains.kotlin.android.extensions'
 }
 
 android {
@@ -41,6 +42,10 @@ android {
     lintOptions {
         disable 'NullSafeMutableLiveData'
     }
+    androidExtensions {
+        experimental = true
+    }
+
 
 }
 

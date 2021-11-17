@@ -173,10 +173,12 @@ class BarcodeReaderFragment : Fragment() {
                         txtHighestPrice.setText(highestPrice.toString())
                         Picasso.get().load(Uri.parse(picture)).into(productImg)
                         barcodeBtn.setOnClickListener {
-                            fragmentManager?.beginTransaction()?.replace(R.id.nav_host_fragment,barcodeScannerFragment)?.commit()
+                            requireActivity().supportFragmentManager.beginTransaction()?.replace(R.id.nav_host_fragment,barcodeScannerFragment)?.commit()
+
+
                             bottomSheetDialog.dismiss()
                         }
-                        ingredientBtn.setOnClickListener { fragmentManager?.beginTransaction()?.replace(R.id.nav_host_fragment,cameraFragment)?.commit()
+                        ingredientBtn.setOnClickListener { requireActivity().supportFragmentManager.beginTransaction()?.replace(R.id.nav_host_fragment,cameraFragment)?.commit()
                             bottomSheetDialog.dismiss()
                         }
 

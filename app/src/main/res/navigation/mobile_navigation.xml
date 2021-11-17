@@ -47,7 +47,7 @@
         tools:layout="@layout/fragment_notifications" />
     <fragment
         android:id="@+id/navigation_groceryList"
-        android:name="sheridan.sharmupm.vegit_capstone.ui.groceryList.groceryListFragment"
+        android:name="sheridan.sharmupm.vegit_capstone.ui.groceryList.GroceryListFragment"
         android:label="Grocery List"
         tools:layout="@layout/fragment_grocery_list" />
     <fragment
