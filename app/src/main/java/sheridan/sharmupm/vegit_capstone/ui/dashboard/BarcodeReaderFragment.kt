@@ -2,6 +2,7 @@ package sheridan.sharmupm.vegit_capstone.ui.dashboard
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -15,6 +16,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.vision.Frame
 import com.google.android.gms.vision.barcode.BarcodeDetector
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -22,11 +24,14 @@ import com.squareup.picasso.Picasso
 import okhttp3.*
 import org.json.JSONObject
 import sheridan.sharmupm.vegit_capstone.R
+import sheridan.sharmupm.vegit_capstone.controllers.classifyProducts.ClassifyproductsViewModel
+import sheridan.sharmupm.vegit_capstone.models.ingredients.Item
 import java.io.IOException
 
 // TODO: Rename parameter arguments, choose names that match
 
 class BarcodeReaderFragment : Fragment() {
+    private lateinit var classifyproductsViewModel: ClassifyproductsViewModel
     private val client = OkHttpClient()
     private lateinit var bottomSheetDialog: BottomSheetDialog
     private lateinit var bottomSheetView:View
@@ -45,7 +50,10 @@ class BarcodeReaderFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        classifyproductsViewModel =
+            ViewModelProvider(this).get(ClassifyproductsViewModel::class.java)
         // Inflate the layout for this fragment
+//        this.fragmentManager?.executePendingTransactions()
         return inflater.inflate(R.layout.fragment_barcode_reader, container, false)
     }
 
@@ -150,6 +158,24 @@ class BarcodeReaderFragment : Fragment() {
                         val pictureArray = items.getJSONArray("images")
                         val picture = pictureArray.getString(0)
                         val upc = items.getString("upc")
+                       // val item = Item(title,category,picture)
+//                        var bundle = Bundle()
+//                        bundle.putParcelable("item",item)
+//                        val classifyproductsFragment = ClassifyproductsFragment()
+//                        classifyproductsFragment.setArguments(bundle)
+
+                        val sharedPref = activity!!.getSharedPreferences("myPref", Context.MODE_PRIVATE)
+                        val editor = sharedPref.edit()
+                        editor.apply{
+                            putString("title",title)
+                            putString("category",category)
+                            putString("imageUrl",picture)
+                            apply()
+                        }
+
+
+
+
                         //Toast.makeText(context,title,Toast.LENGTH_LONG).show()
                         bottomSheetDialog = BottomSheetDialog(requireContext(),R.style.BottomSheetDialogTheme)
                         bottomSheetView = LayoutInflater.from(context).inflate(R.layout.barcode_dialog_layout,

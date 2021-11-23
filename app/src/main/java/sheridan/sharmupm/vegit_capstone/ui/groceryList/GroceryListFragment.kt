@@ -7,23 +7,30 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.fragment_grocery_list.view.*
 import sheridan.sharmupm.vegit_capstone.R
+import sheridan.sharmupm.vegit_capstone.controllers.groceryList.GroceryListViewModel
 import sheridan.sharmupm.vegit_capstone.models.groceryList.Grocery
+import sheridan.sharmupm.vegit_capstone.models.groceryList.SubmitGrocery
+import sheridan.sharmupm.vegit_capstone.ui.search.SearchAdapter
 import java.util.*
 
 /**
  * A fragment representing a list of Items.
  */
-class GroceryListFragment : Fragment(), onDialogCloseListener{
+class GroceryListFragment : Fragment(), onDialogCloseListener,MygroceryItemRecyclerViewAdapter.OnItemClickListener{
+    private val viewModel:GroceryListViewModel by viewModels()
     private lateinit var recyclerView: RecyclerView
     private lateinit var floatActionButton:FloatingActionButton
     private lateinit var adapter:MygroceryItemRecyclerViewAdapter
-    private lateinit var mList: MutableList<Grocery>
-
-
+    private lateinit var mList: List<Grocery>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,43 +50,122 @@ class GroceryListFragment : Fragment(), onDialogCloseListener{
         floatActionButton = view.findViewById(R.id.floatingActionButton)
         recyclerView.setHasFixedSize(true)
         recyclerView.setLayoutManager(LinearLayoutManager(context))
+
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                context,
+                LinearLayoutManager.VERTICAL
+            )
+        )
         floatActionButton.setOnClickListener {
-            AddNewItem.newInstance()?.show(requireFragmentManager(), AddNewItem.TAG)
+            //AddNewItem.newInstance()?.show(requireFragmentManager(), AddNewItem.TAG)
+            val addItem = AddItem()
+            fragmentManager?.beginTransaction()?.replace(R.id.nav_host_fragment,addItem)?.commit()
 
         }
-        val grocery1:Grocery = Grocery("apple","21/10/2021",0)
-        val grocery2:Grocery = Grocery("cake","2021-11-20",1)
-        mList = mutableListOf()
-        mList.add(grocery1)
+       // mList = viewModel.getAllGroceryItems()
+//        Toast.makeText(context,mList[0].name,Toast.LENGTH_LONG).show()
+        adapter = MygroceryItemRecyclerViewAdapter(this)
+        adapter.notifyDataSetChanged()
+        recyclerView.adapter = adapter
+
+        viewModel.groceryList.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            if (it!=null ){
+                adapter.setList(it)
+            }
+             })
+        viewModel.getAllGroceryItems()
+
+
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT or ItemTouchHelper
+            .RIGHT){
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val item = adapter.groceryList[position]
+                //viewModel.deleteGrocery(item.id!!)
+                adapter.deleteItem(position)
+
+                Snackbar.make(view,"Deleted",Snackbar.LENGTH_LONG).apply { setAction("Undo"){
+                    viewModel.submitGrocery(item.name!!,item.due!!)
+
+                }
+                    show() }
+            }
+
+
+
+        }).attachToRecyclerView(view.recycerlview)
+
+
+
+
+
+//        viewModel.groceryList.observe(viewLifecycleOwner,
+//            { results ->
+//                if (results != null) {
+//                    println(results)
+//                    val adapter = MygroceryItemRecyclerViewAdapter(requireContext(),results)
+//                    adapter.groceryList=results.toMutableList()
+//
+//                    //recyclerView.adapter = adapter
+//                }
+//                else {
+//                    println("No data found")
+//                }
+//
+//
+//           // mList = viewModel.getAllGroceryItems()
+//
+//        })
+        //recyclerView.setAdapter(adapter)
+
         //Toast.makeText(context,mList[0].grocery,Toast.LENGTH_LONG).show()
-        showData()
-        adapter = MygroceryItemRecyclerViewAdapter(requireContext(), mList)
+       // showData()
+       // adapter = MygroceryItemRecyclerViewAdapter(requireContext(), mList)
 
-        Toast.makeText(context, "something", Toast.LENGTH_LONG).show()
+       // Toast.makeText(context, "something", Toast.LENGTH_LONG).show()
 
-        recyclerView.setAdapter(adapter)
+       // recyclerView.setAdapter(adapter)
         return view
     }
 
-    private fun showData(){
-        val bundle: Bundle? = getArguments()
-        if (bundle!=null){
-            var grocery = bundle?.getParcelable<Grocery>("grocery")
-            mList.add(grocery!!)
-            adapter.notifyDataSetChanged()
-            Toast.makeText(context, "something", Toast.LENGTH_LONG).show()
+    override fun onItemClick(position: Int) {
 
-        }else{
-            Toast.makeText(context, "nothing", Toast.LENGTH_LONG).show()
-        }
+        val item = adapter.groceryList[position]
+        val updateItem = UpdateItem()
+        val bundle = Bundle()
+        //bundle.putInt("position",item.id!!)
+        bundle.putParcelable("position",item)
+        bundle.putInt("Pos",position)
+        updateItem.setArguments(bundle)
+
+        fragmentManager?.beginTransaction()?.replace(R.id.nav_host_fragment,updateItem)?.commit()
+
+
     }
+
+
 
 
     override fun onDialogClose(dialogInterface: DialogInterface?) {
 
-        showData()
-
+        //showData()
+        adapter.clearList()
+        //adapter = MygroceryItemRecyclerViewAdapter()
         adapter.notifyDataSetChanged()
+        recyclerView.adapter = adapter
+
+        viewModel.groceryList.observe(viewLifecycleOwner, androidx.lifecycle.Observer { adapter.setList(it) })
+        viewModel.getAllGroceryItems()
+
     }
 
 

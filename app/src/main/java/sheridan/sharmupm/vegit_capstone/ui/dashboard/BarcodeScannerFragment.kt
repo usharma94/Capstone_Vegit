@@ -2,6 +2,7 @@ package sheridan.sharmupm.vegit_capstone.ui.dashboard
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
@@ -273,6 +274,15 @@ class BarcodeScannerFragment : Fragment() {
                         val pictureArray = items.getJSONArray("images")
                         val picture = pictureArray.getString(0)
                         val upc = items.getString("upc")
+
+                        val sharedPref = activity!!.getSharedPreferences("myPref", Context.MODE_PRIVATE)
+                        val editor = sharedPref.edit()
+                        editor.apply{
+                            putString("title",title)
+                            putString("category",category)
+                            putString("imageUrl",picture)
+                            apply()
+                        }
                         //Toast.makeText(context,title,Toast.LENGTH_LONG).show()
                         bottomSheetDialog = BottomSheetDialog(
                             requireContext(),

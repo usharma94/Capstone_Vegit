@@ -1,26 +1,47 @@
 package sheridan.sharmupm.vegit_capstone.ui.groceryList
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.each_task.view.*
 import sheridan.sharmupm.vegit_capstone.R
+import sheridan.sharmupm.vegit_capstone.controllers.groceryList.GroceryListViewModel
 import sheridan.sharmupm.vegit_capstone.models.groceryList.Grocery
 
 
-class MygroceryItemRecyclerViewAdapter: RecyclerView.Adapter<MygroceryItemRecyclerViewAdapter.ViewHolder> {
+class MygroceryItemRecyclerViewAdapter(private val listener:OnItemClickListener):
+    RecyclerView.Adapter<MygroceryItemRecyclerViewAdapter.ViewHolder>() {
+
+   // var groceryList = mutableListOf<Grocery>()
+   // private val context: Context
+
+//    constructor(context: Context, listGrocery: List<Grocery>) : super() {
+//        this.context = context
+//        groceryList.addAll(listGrocery)
+//    }
 
     var groceryList = mutableListOf<Grocery>()
-    private val context: Context
+    private var viewModel: GroceryListViewModel = GroceryListViewModel()
 
-    constructor(context: Context, listGrocery: MutableList<Grocery>) : super() {
-        this.context = context
-        groceryList.addAll(listGrocery)
+    fun clearList(){
+        groceryList.clear()
     }
+
+    fun setList(groceryList: List<Grocery>) {
+        this.groceryList = groceryList.toMutableList()
+        notifyDataSetChanged()
+
+    }
+
+    fun deleteItem(position: Int){
+        val grocery = groceryList.get(position)
+        viewModel.deleteGrocery(grocery.id!!)
+        groceryList.removeAt(position)
+        notifyItemRemoved(position)
+
+    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -30,9 +51,16 @@ class MygroceryItemRecyclerViewAdapter: RecyclerView.Adapter<MygroceryItemRecycl
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val grocery = groceryList.get(position)
-        holder.mCheckBox?.setText(grocery.grocery)
+        holder.mCheckBox?.setText(grocery.name)
         holder.mDueDateTv?.setText(grocery.due)
         holder.mCheckBox?.setChecked(toBoolean(grocery.status!!))
+        holder.mCheckBox.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                viewModel.flipGroceryStatus(grocery.id!!)
+            } else {
+                viewModel.flipGroceryStatus(grocery.id!!)
+            }
+        }
 
     }
 
@@ -44,18 +72,26 @@ class MygroceryItemRecyclerViewAdapter: RecyclerView.Adapter<MygroceryItemRecycl
         return groceryList.size
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),View.OnClickListener {
         var mDueDateTv = itemView.due_date_tv
         var mCheckBox = itemView.mcheckbox
 
+        init{
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            val position:Int = adapterPosition
+            if (position != RecyclerView.NO_POSITION){
+                listener.onItemClick(position)
+            }
+
+        }
 
 
-
-
-
-
-
-
+    }
+    interface OnItemClickListener{
+        fun onItemClick(position:Int)
     }
 
 }

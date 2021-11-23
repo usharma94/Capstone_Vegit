@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    tools:context=".ui.dashboard.BarcodeReaderFragment">
+    tools:context=".ui.dashboard.BarcodeReaderFragment"
+    android:background="@color/white">
 
     <ImageView
         android:id="@+id/barcode_view"

@@ -15,24 +15,22 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.controllers.groceryList.GroceryListViewModel
-import sheridan.sharmupm.vegit_capstone.models.groceryList.Grocery
-import sheridan.sharmupm.vegit_capstone.models.groceryList.SubmitGrocery
 import java.util.*
 
-class AddNewItem: BottomSheetDialogFragment() {
-    private val viewModel:GroceryListViewModel by viewModels()
+class AddItem: Fragment(){
+    private val viewModel: GroceryListViewModel by viewModels()
 
 
 
-    private lateinit var setDueDate: TextView
+    lateinit var setDueDate: TextView
     private lateinit var mTaskEdit: EditText
     private lateinit var mSaveBtn: Button
     private var dueDate = ""
-    private lateinit var myContext:Context
+    private lateinit var myContext: Context
     private var groceryListFragment: GroceryListFragment = GroceryListFragment()
 
 
@@ -106,48 +104,27 @@ class AddNewItem: BottomSheetDialogFragment() {
                 Toast.makeText(context, "Empty input not allowed", Toast.LENGTH_SHORT).show()
             }
             else{
-//                val groceryMap: MutableMap<String, Any> = HashMap()
-//                val groceryItem:Grocery = Grocery()
-//
-//                groceryMap["grocery"] = grocery
-//                groceryItem.grocery = grocery
-//                groceryMap["due"] = dueDate
-//                groceryItem.due = dueDate
-//                groceryMap.put("status", 0)
-//                groceryItem.status = 0
-//                val bundle:Bundle = Bundle()
-//                bundle.putParcelable("grocery",groceryItem)
-//                groceryListFragment.setArguments(bundle)
-//                //Toast.makeText(context,groceryItem.grocery,Toast.LENGTH_LONG).show()
-
-
-
                 if (grocery!="" && dueDate!=""){
                     viewModel.submitGrocery(grocery,dueDate)
-                    Toast.makeText(context,"successfully added",Toast.LENGTH_LONG).show()
+                    Toast.makeText(context,"successfully added", Toast.LENGTH_LONG).show()
+                    val groceryListFragment = GroceryListFragment()
+                    fragmentManager?.beginTransaction()?.replace(R.id.nav_host_fragment,groceryListFragment)?.commit()
+
 
                 }
                 else{
-                    Toast.makeText(context,"Please input grocery name and the date",Toast.LENGTH_LONG).show()
+                    Toast.makeText(context,"Please input grocery name and the date", Toast.LENGTH_LONG).show()
                 }
 
 
             }
-            dismiss()
+
         }
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         myContext = context
-    }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        val activity: Activity? = activity
-        if (activity is onDialogCloseListener) {
-            (activity as onDialogCloseListener?)?.onDialogClose(dialog)
-        }
     }
 
 

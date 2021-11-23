@@ -47,6 +47,20 @@ class ClassifyproductsViewModel : ViewModel() {
         }
     }
 
+    fun searchBarcodeIngredientList(itemName: String, ingredientNames: List<IngredientName>, category:String, imgUrl:String){
+        scope.launch {
+            val classifyModel = ClassifyModel()
+            classifyModel.itemName = itemName
+            classifyModel.category = category
+            classifyModel.img_url = imgUrl
+            classifyModel.searchList = ingredientNames
+
+            val data = repository.searchIngredientList(classifyModel)
+            results.postValue(data)
+        }
+
+    }
+
     fun parseResults(ingredients: List<Ingredient>) {
         scope.launch {
             val diet = getDiet()
