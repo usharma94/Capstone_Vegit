@@ -47,7 +47,8 @@ android:orientation="vertical">
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/safeIngredients"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="60dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -71,7 +72,8 @@ android:orientation="vertical">
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/notSafeIngredients"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="60dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -81,22 +83,4 @@ android:orientation="vertical">
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/txtHistory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
-        android:text="@string/scan_history" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/scanHistory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:listitem="@layout/product_item_horizontal" />
 </LinearLayout>

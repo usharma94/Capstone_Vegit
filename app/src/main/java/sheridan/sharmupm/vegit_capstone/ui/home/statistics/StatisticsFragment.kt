@@ -25,12 +25,10 @@ class StatisticsFragment : Fragment() {
         statisticsViewModel.getAvoidProducts()
         statisticsViewModel.getIngredientSafe()
         statisticsViewModel.getIngredientNotSafe()
-        statisticsViewModel.getScanHistory()
 
         val recyclerView: RecyclerView = view.findViewById(R.id.avoidProducts)
         val recyclerviewSafe: RecyclerView = view.findViewById(R.id.safeIngredients)
         val recyclerviewNotSafe: RecyclerView = view.findViewById(R.id.notSafeIngredients)
-        val recyclerviewScanHistory: RecyclerView = view.findViewById(R.id.scanHistory)
 
         statisticsViewModel.avoidProductList.observe(viewLifecycleOwner,
             { results ->
@@ -82,34 +80,6 @@ class StatisticsFragment : Fragment() {
                     recyclerviewNotSafe.adapter = null
                     println("No data found")
                 }
-            })
-
-        statisticsViewModel.scanHistoryList.observe(viewLifecycleOwner,
-            { results ->
-                if (results != null) {
-                    val searchAdapter = AvoidAdapter(results, AvoidAdapter.OnClickListener{
-                        statisticsViewModel.setProduct(it)
-                    })
-                    recyclerviewScanHistory.adapter = searchAdapter
-                }
-                else {
-                    recyclerviewScanHistory.adapter = null
-                    println("No data found")
-                }
-            })
-
-        statisticsViewModel.selectedScanHistoryProduct.observe(viewLifecycleOwner,
-            {
-                product->
-                // display results of singular product
-                var customDialog = AdvertisementDialogFragment(
-                    this@StatisticsFragment,
-                    product,
-                    requireContext()
-                )
-                //if we know that the particular variable not null any time ,we can assign !! (not null operator ), then  it won't check for null, if it becomes null, it willthrow exception
-                customDialog.show()
-                customDialog.setCanceledOnTouchOutside(false)
             })
     }
 }
