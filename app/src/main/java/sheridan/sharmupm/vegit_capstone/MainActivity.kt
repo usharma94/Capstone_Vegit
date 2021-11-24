@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity() {
                             setupNavBar(navController, navViewAdmin, setOf(
                                     R.id.navigation_home,
                                     R.id.adminProductFragment,
+                                    R.id.adminClassifyFragment,
                                     R.id.userProfile))
                         }
                         else -> {
