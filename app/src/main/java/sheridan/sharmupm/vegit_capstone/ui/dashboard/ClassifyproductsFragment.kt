@@ -22,7 +22,6 @@ import com.google.android.gms.vision.Frame
 import com.google.android.gms.vision.text.TextRecognizer
 import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.controllers.classifyProducts.ClassifyproductsViewModel
-import sheridan.sharmupm.vegit_capstone.models.ingredients.Item
 import java.util.*
 
 
@@ -188,6 +187,7 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
                     customDialog = CustomListViewDialog(
                         this@ClassifyproductsFragment,
                         dataAdapter,
+                        classifyproductsViewModel.similarProducts.value!!,
                         requireContext()
                     )
 

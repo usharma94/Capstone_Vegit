@@ -56,6 +56,9 @@ interface ApiInterface {
     @GET("/products/advertising/{diet}")
     fun fetchAdvertisementProductsAsync(@Path("diet") diet:Int): Deferred<Response<List<Product>>>
 
+    @GET("/products/similar/{category}/{name}/{diet}")
+    fun fetchSimilarProductsAsync(@Path("category") category:String, @Path("name") name:String, @Path("diet") diet:Int): Deferred<Response<List<Product>>>
+
     @GET("/products/advertising-avoid/{diet}")
     fun fetchAvoidProductsAsync(@Path("diet") diet:Int): Deferred<Response<List<Product>>>
 

@@ -13,6 +13,13 @@ class ProductRepository(private val api: ApiInterface) : BaseRepository() {
         )
     }
 
+    suspend fun fetchSimiliarProducts(category: String, name: String, diet: Int): List<Product>? {
+        return safeApiCall(
+            call = {api.fetchSimilarProductsAsync(category, name, diet).await()},
+            errorMessage = "No data found"
+        )
+    }
+
     suspend fun fetchAvoidProducts(diet: Int): List<Product>? {
         return safeApiCall(
             call = {api.fetchAvoidProductsAsync(diet).await()},

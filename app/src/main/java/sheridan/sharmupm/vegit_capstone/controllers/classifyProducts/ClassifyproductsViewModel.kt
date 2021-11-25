@@ -15,8 +15,10 @@ import sheridan.sharmupm.vegit_capstone.models.ingredients.ClassifyIngredient
 import sheridan.sharmupm.vegit_capstone.models.ingredients.Ingredient
 import sheridan.sharmupm.vegit_capstone.models.ingredients.IngredientName
 import sheridan.sharmupm.vegit_capstone.models.login.ClassifyModel
+import sheridan.sharmupm.vegit_capstone.models.products.Product
 import sheridan.sharmupm.vegit_capstone.services.network.APIClient
 import sheridan.sharmupm.vegit_capstone.services.repository.IngredientRepository
+import sheridan.sharmupm.vegit_capstone.services.repository.ProductRepository
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 
@@ -30,9 +32,12 @@ class ClassifyproductsViewModel : ViewModel() {
     private val scope = CoroutineScope(coroutineContext)
 
     private val repository : IngredientRepository = IngredientRepository(APIClient.apiInterface)
+    private val productRepository : ProductRepository = ProductRepository(APIClient.apiInterface)
 
     val results = MutableLiveData<List<Ingredient>>()
     val ingredientList = MutableLiveData<ArrayList<ClassifyIngredient>>()
+
+    val similarProducts = MutableLiveData<List<Product>>()
 
     // must pass in a list of IngredientName data objects
     fun searchIngredientList(itemName: String, ingredientNames: List<IngredientName>) {
@@ -50,6 +55,7 @@ class ClassifyproductsViewModel : ViewModel() {
 
     fun searchBarcodeIngredientList(itemName: String, ingredientNames: List<IngredientName>, category:String, imgUrl:String){
         scope.launch {
+            val diet = getDiet()
             val classifyModel = ClassifyModel()
             classifyModel.itemName = itemName
             classifyModel.category = extractCategory(category)
@@ -57,6 +63,14 @@ class ClassifyproductsViewModel : ViewModel() {
             classifyModel.searchList = ingredientNames
 
             val data = repository.searchIngredientList(classifyModel)
+            if (diet != null) {
+                val products = productRepository.fetchSimiliarProducts(extractCategory(category), itemName, diet.dietType!!)
+                similarProducts.postValue(products)
+            } else {
+                val products = productRepository.fetchSimiliarProducts(extractCategory(category), itemName, 1)
+                similarProducts.postValue(products)
+            }
+
             results.postValue(data)
         }
 
