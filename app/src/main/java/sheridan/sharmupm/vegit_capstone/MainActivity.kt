@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
                             navViewAdmin.visibility = View.INVISIBLE
                             setupNavBar(navController, navViewUser, setOf(
                                     R.id.navigation_home,
-                                    R.id.cameraFragment,
+                                    R.id.navigation_barcodeScanner,
                                     R.id.navigation_groceryList,
                                     R.id.searchFragment,
                                     R.id.userProfile))
