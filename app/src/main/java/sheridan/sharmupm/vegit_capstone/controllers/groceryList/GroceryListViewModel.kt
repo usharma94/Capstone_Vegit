@@ -1,16 +1,15 @@
 package sheridan.sharmupm.vegit_capstone.controllers.groceryList
 
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import sheridan.sharmupm.vegit_capstone.models.groceryList.Grocery
 import sheridan.sharmupm.vegit_capstone.models.groceryList.SubmitGrocery
-import sheridan.sharmupm.vegit_capstone.models.products.Product
-import sheridan.sharmupm.vegit_capstone.models.products.SubmitProduct
 import sheridan.sharmupm.vegit_capstone.services.network.APIClient
 import sheridan.sharmupm.vegit_capstone.services.repository.GroceryListRepository
-import sheridan.sharmupm.vegit_capstone.services.repository.IngredientRepository
 import kotlin.coroutines.CoroutineContext
 
 class GroceryListViewModel: ViewModel() {
@@ -33,18 +32,14 @@ class GroceryListViewModel: ViewModel() {
             val products = repository.getAllGroceryItems()
             groceryList.postValue(products)
         }
-
     }
 
     fun getGroceryItem(id:Int){
-
         scope.launch {
            val product = repository.getGroceryItem(id)
             grocery.postValue(product)
 
         }
-
-
     }
 
     fun deleteGrocery(id:Int){
@@ -82,12 +77,11 @@ class GroceryListViewModel: ViewModel() {
         scope.launch {
             val response = repository.addGroceryItem(grocery)
             if (response != null){
-                groceryList.postValue(listOf(response!!))
-            }else{
+                groceryList.postValue(listOf(response))
 
+                val products = repository.getAllGroceryItems()
+                groceryList.postValue(products)
             }
         }
     }
-
-
 }

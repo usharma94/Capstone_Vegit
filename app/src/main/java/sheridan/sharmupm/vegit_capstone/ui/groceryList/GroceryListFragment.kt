@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -18,27 +17,17 @@ import kotlinx.android.synthetic.main.fragment_grocery_list.view.*
 import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.controllers.groceryList.GroceryListViewModel
 import sheridan.sharmupm.vegit_capstone.models.groceryList.Grocery
-import sheridan.sharmupm.vegit_capstone.models.groceryList.SubmitGrocery
-import sheridan.sharmupm.vegit_capstone.ui.search.SearchAdapter
-import java.util.*
 
 /**
  * A fragment representing a list of Items.
  */
-class GroceryListFragment : Fragment(), onDialogCloseListener,MygroceryItemRecyclerViewAdapter.OnItemClickListener{
+class GroceryListFragment : Fragment(), onDialogCloseListener, MygroceryItemRecyclerViewAdapter.OnItemClickListener {
+
     private val viewModel:GroceryListViewModel by viewModels()
     private lateinit var recyclerView: RecyclerView
     private lateinit var floatActionButton:FloatingActionButton
     private lateinit var adapter:MygroceryItemRecyclerViewAdapter
     private lateinit var mList: List<Grocery>
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,7 +38,7 @@ class GroceryListFragment : Fragment(), onDialogCloseListener,MygroceryItemRecyc
         recyclerView = view.findViewById(R.id.recycerlview)
         floatActionButton = view.findViewById(R.id.floatingActionButton)
         recyclerView.setHasFixedSize(true)
-        recyclerView.setLayoutManager(LinearLayoutManager(context))
+        recyclerView.layoutManager = LinearLayoutManager(context)
 
         recyclerView.addItemDecoration(
             DividerItemDecoration(
@@ -57,12 +46,14 @@ class GroceryListFragment : Fragment(), onDialogCloseListener,MygroceryItemRecyc
                 LinearLayoutManager.VERTICAL
             )
         )
+
         floatActionButton.setOnClickListener {
             //AddNewItem.newInstance()?.show(requireFragmentManager(), AddNewItem.TAG)
             val addItem = AddItem()
             fragmentManager?.beginTransaction()?.replace(R.id.nav_host_fragment,addItem)?.commit()
 
         }
+
        // mList = viewModel.getAllGroceryItems()
 //        Toast.makeText(context,mList[0].name,Toast.LENGTH_LONG).show()
         adapter = MygroceryItemRecyclerViewAdapter(this)
@@ -75,7 +66,6 @@ class GroceryListFragment : Fragment(), onDialogCloseListener,MygroceryItemRecyc
             }
              })
         viewModel.getAllGroceryItems()
-
 
         ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT or ItemTouchHelper
             .RIGHT){
@@ -95,18 +85,10 @@ class GroceryListFragment : Fragment(), onDialogCloseListener,MygroceryItemRecyc
 
                 Snackbar.make(view,"Deleted",Snackbar.LENGTH_LONG).apply { setAction("Undo"){
                     viewModel.submitGrocery(item.name!!,item.due!!)
-
                 }
                     show() }
             }
-
-
-
         }).attachToRecyclerView(view.recycerlview)
-
-
-
-
 
 //        viewModel.groceryList.observe(viewLifecycleOwner,
 //            { results ->
@@ -145,15 +127,10 @@ class GroceryListFragment : Fragment(), onDialogCloseListener,MygroceryItemRecyc
         //bundle.putInt("position",item.id!!)
         bundle.putParcelable("position",item)
         bundle.putInt("Pos",position)
-        updateItem.setArguments(bundle)
+        updateItem.arguments = bundle
 
         fragmentManager?.beginTransaction()?.replace(R.id.nav_host_fragment,updateItem)?.commit()
-
-
     }
-
-
-
 
     override fun onDialogClose(dialogInterface: DialogInterface?) {
 
@@ -165,10 +142,5 @@ class GroceryListFragment : Fragment(), onDialogCloseListener,MygroceryItemRecyc
 
         viewModel.groceryList.observe(viewLifecycleOwner, androidx.lifecycle.Observer { adapter.setList(it) })
         viewModel.getAllGroceryItems()
-
     }
-
-
-
-
 }

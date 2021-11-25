@@ -1,9 +1,7 @@
 package sheridan.sharmupm.vegit_capstone.ui.groceryList
 
-import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
@@ -21,10 +19,9 @@ import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.controllers.groceryList.GroceryListViewModel
 import java.util.*
 
-class AddItem: Fragment(){
+class AddItem: Fragment() {
+
     private val viewModel: GroceryListViewModel by viewModels()
-
-
 
     lateinit var setDueDate: TextView
     private lateinit var mTaskEdit: EditText
@@ -33,16 +30,12 @@ class AddItem: Fragment(){
     private lateinit var myContext: Context
     private var groceryListFragment: GroceryListFragment = GroceryListFragment()
 
-
-    companion object{
-        public val TAG = "AddNewTask"
-        public fun newInstance(): AddNewItem? {
+    companion object {
+        val TAG = "AddNewTask"
+        fun newInstance(): AddNewItem? {
             return AddNewItem()
         }
-
     }
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,25 +53,23 @@ class AddItem: Fragment(){
 
         mTaskEdit.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                mSaveBtn.setEnabled(false)
+                mSaveBtn.isEnabled = false
 
                 mSaveBtn.setBackgroundColor(Color.GRAY)
             }
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (s.toString() == "") {
-                    mSaveBtn.setEnabled(false)
+                    mSaveBtn.isEnabled = false
 
                     mSaveBtn.setBackgroundColor(Color.GRAY)
                 } else {
-                    mSaveBtn.setEnabled(true)
+                    mSaveBtn.isEnabled = true
                     mSaveBtn.setBackgroundColor(resources.getColor(R.color.colorPrimary))
-
                 }
             }
 
             override fun afterTextChanged(s: Editable) {}
         })
-
 
         setDueDate.setOnClickListener {
             val calendar = Calendar.getInstance()
@@ -97,28 +88,20 @@ class AddItem: Fragment(){
             datePickerDialog.show()
         }
 
-
         mSaveBtn.setOnClickListener {
-            var grocery = mTaskEdit.getText().toString()
+            var grocery = mTaskEdit.text.toString()
             if (grocery.isEmpty()){
                 Toast.makeText(context, "Empty input not allowed", Toast.LENGTH_SHORT).show()
-            }
-            else{
+            } else{
                 if (grocery!="" && dueDate!=""){
                     viewModel.submitGrocery(grocery,dueDate)
                     Toast.makeText(context,"successfully added", Toast.LENGTH_LONG).show()
                     val groceryListFragment = GroceryListFragment()
                     fragmentManager?.beginTransaction()?.replace(R.id.nav_host_fragment,groceryListFragment)?.commit()
-
-
-                }
-                else{
+                } else{
                     Toast.makeText(context,"Please input grocery name and the date", Toast.LENGTH_LONG).show()
                 }
-
-
             }
-
         }
     }
 
@@ -126,7 +109,4 @@ class AddItem: Fragment(){
         super.onAttach(context)
         myContext = context
     }
-
-
-
 }

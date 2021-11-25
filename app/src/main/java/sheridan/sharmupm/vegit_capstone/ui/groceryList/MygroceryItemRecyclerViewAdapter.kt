@@ -31,7 +31,6 @@ class MygroceryItemRecyclerViewAdapter(private val listener:OnItemClickListener)
     fun setList(groceryList: List<Grocery>) {
         this.groceryList = groceryList.toMutableList()
         notifyDataSetChanged()
-
     }
 
     fun deleteItem(position: Int){
@@ -39,7 +38,6 @@ class MygroceryItemRecyclerViewAdapter(private val listener:OnItemClickListener)
         viewModel.deleteGrocery(grocery.id!!)
         groceryList.removeAt(position)
         notifyItemRemoved(position)
-
     }
 
 
@@ -51,9 +49,9 @@ class MygroceryItemRecyclerViewAdapter(private val listener:OnItemClickListener)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val grocery = groceryList.get(position)
-        holder.mCheckBox?.setText(grocery.name)
-        holder.mDueDateTv?.setText(grocery.due)
-        holder.mCheckBox?.setChecked(toBoolean(grocery.status!!))
+        holder.mCheckBox?.text = grocery.name
+        holder.mDueDateTv?.text = grocery.due
+        holder.mCheckBox?.isChecked = toBoolean(grocery.status!!)
         holder.mCheckBox.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 viewModel.flipGroceryStatus(grocery.id!!)
@@ -61,7 +59,6 @@ class MygroceryItemRecyclerViewAdapter(private val listener:OnItemClickListener)
                 viewModel.flipGroceryStatus(grocery.id!!)
             }
         }
-
     }
 
     private fun toBoolean(status: Int): Boolean {
@@ -85,13 +82,10 @@ class MygroceryItemRecyclerViewAdapter(private val listener:OnItemClickListener)
             if (position != RecyclerView.NO_POSITION){
                 listener.onItemClick(position)
             }
-
         }
-
-
     }
+
     interface OnItemClickListener{
         fun onItemClick(position:Int)
     }
-
 }

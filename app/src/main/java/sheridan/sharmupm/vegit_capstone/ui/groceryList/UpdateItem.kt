@@ -1,12 +1,10 @@
 package sheridan.sharmupm.vegit_capstone.ui.groceryList
 
 import android.app.DatePickerDialog
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +12,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.controllers.groceryList.GroceryListViewModel
@@ -22,6 +21,7 @@ import java.util.*
 
 
 class UpdateItem : Fragment(),MygroceryItemRecyclerViewAdapter.OnItemClickListener {
+
     private val viewModel: GroceryListViewModel by viewModels()
 
     lateinit var updateDueDate: TextView
@@ -36,12 +36,6 @@ class UpdateItem : Fragment(),MygroceryItemRecyclerViewAdapter.OnItemClickListen
 
     }
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,10 +44,9 @@ class UpdateItem : Fragment(),MygroceryItemRecyclerViewAdapter.OnItemClickListen
         return inflater.inflate(R.layout.fragment_update_item, container, false)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val bundle = this.getArguments()
+        val bundle = this.arguments
         updateDueDate = view.findViewById<TextView>(R.id.update_due_tv)
         mTaskEdit = view.findViewById<EditText>(R.id.update_edittext)
         mUpdateBtn = view.findViewById<Button>(R.id.update_btn)
@@ -69,32 +62,28 @@ class UpdateItem : Fragment(),MygroceryItemRecyclerViewAdapter.OnItemClickListen
 //                    updateDueDate.setText(results?.due)
 //
 //            })
-            mTaskEdit.setText(item?.name)
-            updateDueDate.setText(item?.due)
-
+            mTaskEdit.setText(item.name)
+            updateDueDate.text = item.due
 
             Toast.makeText(context,"id $id",Toast.LENGTH_LONG).show()
-
-        }
-        else{
+        } else {
             Toast.makeText(context,"none",Toast.LENGTH_LONG).show()
         }
 
-
-
         mTaskEdit.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                mUpdateBtn.setEnabled(false)
+                mUpdateBtn.isEnabled = false
 
                 mUpdateBtn.setBackgroundColor(Color.GRAY)
             }
+
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (s.toString() == "") {
-                    mUpdateBtn.setEnabled(false)
+                    mUpdateBtn.isEnabled = false
 
                     mUpdateBtn.setBackgroundColor(Color.GRAY)
                 } else {
-                    mUpdateBtn.setEnabled(true)
+                    mUpdateBtn.isEnabled = true
                     mUpdateBtn.setBackgroundColor(resources.getColor(R.color.colorPrimary))
 
                 }
@@ -120,42 +109,31 @@ class UpdateItem : Fragment(),MygroceryItemRecyclerViewAdapter.OnItemClickListen
             datePickerDialog.show()
         }
 
-
         mUpdateBtn.setOnClickListener {
-            var grocery = mTaskEdit.getText().toString()
+            val grocery = mTaskEdit.text.toString()
             if (grocery.isEmpty()){
                 Toast.makeText(context, "Empty input not allowed", Toast.LENGTH_SHORT).show()
-            }
-            else{
+            } else{
                 if (grocery!="" && dueDate!=""&& dueDate!=item.due){
-                    viewModel.updateGroceryItem(item?.id!!,grocery,dueDate,item?.status!!)
+                    viewModel.updateGroceryItem(item.id!!,grocery,dueDate, item.status!!)
                     adapter.notifyItemChanged(pos)
                     Toast.makeText(context,"successfully updated", Toast.LENGTH_LONG).show()
                     val groceryListFragment = GroceryListFragment()
                     fragmentManager?.beginTransaction()?.replace(R.id.nav_host_fragment,groceryListFragment)?.commit()
-
-
-                }
-                else if (dueDate==""){
-                    viewModel.updateGroceryItem(item?.id!!,grocery,item?.due!!,item?.status!!)
+                } else if (dueDate==""){
+                    viewModel.updateGroceryItem(item.id!!,grocery, item.due!!, item.status!!)
                     adapter.notifyItemChanged(pos)
                     Toast.makeText(context,"successfully updated", Toast.LENGTH_LONG).show()
                     val groceryListFragment = GroceryListFragment()
                     fragmentManager?.beginTransaction()?.replace(R.id.nav_host_fragment,groceryListFragment)?.commit()
-                }
-                else{
+                } else {
                     Toast.makeText(context,"Please input grocery name and the date", Toast.LENGTH_LONG).show()
                 }
-
-
             }
-
         }
     }
 
     override fun onItemClick(position: Int) {
         println("")
     }
-
-
 }

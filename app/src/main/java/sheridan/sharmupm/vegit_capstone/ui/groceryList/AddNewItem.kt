@@ -19,14 +19,10 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.controllers.groceryList.GroceryListViewModel
-import sheridan.sharmupm.vegit_capstone.models.groceryList.Grocery
-import sheridan.sharmupm.vegit_capstone.models.groceryList.SubmitGrocery
 import java.util.*
 
 class AddNewItem: BottomSheetDialogFragment() {
     private val viewModel:GroceryListViewModel by viewModels()
-
-
 
     private lateinit var setDueDate: TextView
     private lateinit var mTaskEdit: EditText
@@ -35,16 +31,12 @@ class AddNewItem: BottomSheetDialogFragment() {
     private lateinit var myContext:Context
     private var groceryListFragment: GroceryListFragment = GroceryListFragment()
 
-
-    companion object{
-        public val TAG = "AddNewTask"
-        public fun newInstance(): AddNewItem? {
+    companion object {
+        val TAG = "AddNewTask"
+        fun newInstance(): AddNewItem? {
             return AddNewItem()
         }
-
     }
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,22 +54,21 @@ class AddNewItem: BottomSheetDialogFragment() {
 
         mTaskEdit.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                mSaveBtn.setEnabled(false)
+                mSaveBtn.isEnabled = false
 
                 mSaveBtn.setBackgroundColor(Color.GRAY)
             }
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (s.toString() == "") {
-                    mSaveBtn.setEnabled(false)
+                    mSaveBtn.isEnabled = false
 
                     mSaveBtn.setBackgroundColor(Color.GRAY)
                 } else {
-                    mSaveBtn.setEnabled(true)
+                    mSaveBtn.isEnabled = true
                     mSaveBtn.setBackgroundColor(resources.getColor(R.color.colorPrimary))
 
                 }
             }
-
             override fun afterTextChanged(s: Editable) {}
         })
 
@@ -99,13 +90,11 @@ class AddNewItem: BottomSheetDialogFragment() {
             datePickerDialog.show()
         }
 
-
         mSaveBtn.setOnClickListener {
-            var grocery = mTaskEdit.getText().toString()
+            val grocery = mTaskEdit.text.toString()
             if (grocery.isEmpty()){
                 Toast.makeText(context, "Empty input not allowed", Toast.LENGTH_SHORT).show()
-            }
-            else{
+            } else {
 //                val groceryMap: MutableMap<String, Any> = HashMap()
 //                val groceryItem:Grocery = Grocery()
 //
@@ -120,18 +109,12 @@ class AddNewItem: BottomSheetDialogFragment() {
 //                groceryListFragment.setArguments(bundle)
 //                //Toast.makeText(context,groceryItem.grocery,Toast.LENGTH_LONG).show()
 
-
-
                 if (grocery!="" && dueDate!=""){
                     viewModel.submitGrocery(grocery,dueDate)
                     Toast.makeText(context,"successfully added",Toast.LENGTH_LONG).show()
-
-                }
-                else{
+                } else{
                     Toast.makeText(context,"Please input grocery name and the date",Toast.LENGTH_LONG).show()
                 }
-
-
             }
             dismiss()
         }
@@ -149,7 +132,4 @@ class AddNewItem: BottomSheetDialogFragment() {
             (activity as onDialogCloseListener?)?.onDialogClose(dialog)
         }
     }
-
-
-
 }
