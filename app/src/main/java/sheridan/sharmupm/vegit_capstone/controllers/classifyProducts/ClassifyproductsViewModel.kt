@@ -17,6 +17,7 @@ import sheridan.sharmupm.vegit_capstone.models.ingredients.IngredientName
 import sheridan.sharmupm.vegit_capstone.models.login.ClassifyModel
 import sheridan.sharmupm.vegit_capstone.services.network.APIClient
 import sheridan.sharmupm.vegit_capstone.services.repository.IngredientRepository
+import java.util.*
 import kotlin.coroutines.CoroutineContext
 
 class ClassifyproductsViewModel : ViewModel() {
@@ -51,7 +52,7 @@ class ClassifyproductsViewModel : ViewModel() {
         scope.launch {
             val classifyModel = ClassifyModel()
             classifyModel.itemName = itemName
-            classifyModel.category = category
+            classifyModel.category = extractCategory(category)
             classifyModel.img_url = imgUrl
             classifyModel.searchList = ingredientNames
 
@@ -59,6 +60,13 @@ class ClassifyproductsViewModel : ViewModel() {
             results.postValue(data)
         }
 
+    }
+
+    private fun extractCategory(category: String) : String {
+        if (category.contains(">")) {
+            return category.substringAfterLast(">").trim().toLowerCase(Locale.ROOT)
+        }
+        return category.trim()
     }
 
     fun parseResults(ingredients: List<Ingredient>) {
