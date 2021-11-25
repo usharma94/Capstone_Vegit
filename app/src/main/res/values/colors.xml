@@ -16,4 +16,7 @@
     <color name="green_secondary">#EBFBDB</color>
     <color name="disabled_btn">#D5DBDB</color>
     <color name="alert_red">#FBE6DB</color>
+    <color name="colorDividerView">#ECECEC</color>
+    <color name="green_blue">#0A3D62</color>
+
 </resources>

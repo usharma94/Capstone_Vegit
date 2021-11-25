@@ -16,6 +16,17 @@
         app:layout_constraintTop_toTopOf="parent">
     </androidx.camera.view.PreviewView>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Scan Ingredient Label"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <ImageButton
         android:id="@+id/btnTakePhoto"
@@ -28,18 +39,17 @@
         app:layout_constraintRight_toRightOf="parent"
         android:background="@drawable/ic_camerabtn" />
 
-            <ImageButton
-                android:id="@+id/mgallery"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginBottom="60dp"
-                app:layout_goneMarginLeft="10dp"
+    <ImageButton
+        android:id="@+id/mgallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginBottom="60dp"
+        app:layout_goneMarginLeft="10dp"
 
-                android:background="@drawable/ic_gallerybtn" />
-
+        android:background="@drawable/ic_gallerybtn" />
 
 
 

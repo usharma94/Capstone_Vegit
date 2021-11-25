@@ -1,6 +1,7 @@
 package sheridan.sharmupm.vegit_capstone.ui.dashboard
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -21,6 +22,7 @@ import com.google.android.gms.vision.Frame
 import com.google.android.gms.vision.text.TextRecognizer
 import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.controllers.classifyProducts.ClassifyproductsViewModel
+import sheridan.sharmupm.vegit_capstone.models.ingredients.Item
 import java.util.*
 
 
@@ -30,6 +32,9 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
     private lateinit var ingredientLabelPicture: ImageView
     private lateinit var customDialog:CustomListViewDialog
     private lateinit var analyzeBtn:Button
+    private lateinit var mItem:String
+    private lateinit var mCategory:String
+    private lateinit var mImageUrl:String
     private var mLastClickTime:Long = 0
 
     private lateinit var camera: Camera
@@ -42,6 +47,7 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
         private val IMAGE_PICK_CODE = 1000
         private val PERMISSION_CODE = 1001
         private val REQUEST_CODE = 42
+        val item = "item"
     }
 
     override fun onCreateView(
@@ -68,11 +74,21 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
         val scanResult = view.findViewById<TextView>(R.id.text_view)
         val framelayout = view.findViewById<FrameLayout>(R.id.frame_layout)
         val captureImage = view.findViewById<ImageButton>(R.id.capture_picture)
+        val sharedPref = requireActivity().getSharedPreferences("myPref", Context.MODE_PRIVATE)
+        mItem = sharedPref.getString("title",null)!!
+        mCategory = sharedPref.getString("category",null)!!
+        mImageUrl = sharedPref.getString("imageUrl",null)!!
+        println(mCategory)
+
 
         val args = this.arguments
         if (args?.isEmpty == false){
             val image = args.get("bitmap")
             ingredientLabelPicture.setImageBitmap(image as Bitmap?)
+//            val item = args.getParcelable<Item>("item")
+//            mItem = item?.name!!
+//            mCategory = item?.category
+//            mImageUrl = item.imageUrl
             args.clear()
         }
 
@@ -139,7 +155,8 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
 
                             val ingredientList = classifyproductsViewModel.extractIngredientText(items)
                             if (ingredientList != null) {
-                                classifyproductsViewModel.searchIngredientList("unknown", ingredientList) // item name will come from barcode scan
+                                //classifyproductsViewModel.searchIngredientList("unknown", ingredientList) // item name will come from barcode scan
+                                classifyproductsViewModel.searchBarcodeIngredientList(mItem,ingredientList,mCategory,mImageUrl)
                             } else {
                                 Toast.makeText(context?.applicationContext, "Failed to extract ingredients", Toast.LENGTH_SHORT).show()
                                 // show error message that no data was extracted?
@@ -309,5 +326,10 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
             ingredientLabelPicture.setImageBitmap(takeImage)
 
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        fragmentManager?.popBackStack()
     }
 }

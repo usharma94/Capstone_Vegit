@@ -11,6 +11,21 @@
         android:label="Home"
         tools:layout="@layout/fragment_home" />
 
+
+    <fragment
+        android:id="@+id/navigation_barcodeScanner"
+        android:name="sheridan.sharmupm.vegit_capstone.ui.dashboard.BarcodeScannerFragment"
+        android:label="@string/title_classifyproducts"
+        tools:layout="@layout/fragment_barcode_scanner" />
+
+    <fragment
+        android:id="@+id/navigation_barcodeReader"
+        android:name="sheridan.sharmupm.vegit_capstone.ui.dashboard.BarcodeReaderFragment"
+        android:label="@string/title_classifyproducts"
+        tools:layout="@layout/fragment_barcode_reader" />
+
+
+
     <fragment
         android:id="@+id/navigation_classifyproducts"
         android:name="sheridan.sharmupm.vegit_capstone.ui.dashboard.ClassifyproductsFragment"
@@ -32,7 +47,7 @@
         tools:layout="@layout/fragment_notifications" />
     <fragment
         android:id="@+id/navigation_groceryList"
-        android:name="sheridan.sharmupm.vegit_capstone.ui.groceryList.groceryListFragment"
+        android:name="sheridan.sharmupm.vegit_capstone.ui.groceryList.GroceryListFragment"
         android:label="Grocery List"
         tools:layout="@layout/fragment_grocery_list" />
     <fragment
@@ -83,10 +98,10 @@
         tools:layout="@layout/search_fragment" />
 
     <fragment
-        android:id="@+id/cameraFragment"
-        android:name="sheridan.sharmupm.vegit_capstone.ui.dashboard.CameraFragment"
+        android:id="@+id/barcodeFragment"
+        android:name="sheridan.sharmupm.vegit_capstone.ui.dashboard.BarcodeScannerFragment"
         android:label="Camera"
-        tools:layout="@layout/fragment_camera" />
+        tools:layout="@layout/fragment_barcode_scanner" />
     <fragment
         android:id="@+id/adminProductFragment"
         android:name="sheridan.sharmupm.vegit_capstone.ui.user.AdminProductFragment"

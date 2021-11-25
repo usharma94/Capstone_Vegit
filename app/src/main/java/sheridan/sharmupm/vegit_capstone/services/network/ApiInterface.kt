@@ -3,6 +3,8 @@ package sheridan.sharmupm.vegit_capstone.services.network
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.*
+import sheridan.sharmupm.vegit_capstone.models.groceryList.Grocery
+import sheridan.sharmupm.vegit_capstone.models.groceryList.SubmitGrocery
 import sheridan.sharmupm.vegit_capstone.models.ingredients.Ingredient
 import sheridan.sharmupm.vegit_capstone.models.ingredients.IngredientName
 import sheridan.sharmupm.vegit_capstone.models.login.ClassifyModel
@@ -83,4 +85,23 @@ interface ApiInterface {
 
     @DELETE("products/delete/{id}")
     fun deleteProductAsync(@Path("id") id:Int): Deferred<Response<Int>>
+
+    //Grocery List
+    @GET("/grocery/getall")
+    fun getAllGroceryItemsAsync():Deferred<Response<List<Grocery>>>
+
+    @GET("/grocery/get/{id}")
+    fun getGroceryItemAsync(@Path("id") id:Int):Deferred<Response<Grocery>>
+
+    @POST("/grocery/add")
+    fun addGroceryItemAsync(@Body submitGrocery: SubmitGrocery):Deferred<Response<Grocery>>
+
+    @GET("/grocery/check/{id}")
+    fun flipGroceryStatus(@Path("id") id:Int):Deferred<Response<Int>>
+
+    @DELETE("/grocery/delete/{id}")
+    fun deleteGroceryAsync(@Path("id") id:Int):Deferred<Response<Int>>
+
+    @PUT("/grocery/update/{id}")
+    fun updateGroceryItemAsync(@Path("id") id:Int, @Body submitGrocery: SubmitGrocery):Deferred<Response<Grocery>>
 }
