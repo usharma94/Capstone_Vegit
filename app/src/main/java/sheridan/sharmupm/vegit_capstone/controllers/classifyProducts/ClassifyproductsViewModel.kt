@@ -57,23 +57,34 @@ class ClassifyproductsViewModel : ViewModel() {
         scope.launch {
             val diet = getDiet()
             val classifyModel = ClassifyModel()
-            classifyModel.itemName = itemName
+            classifyModel.itemName = extractItemName(itemName)
             classifyModel.category = extractCategory(category)
             classifyModel.img_url = imgUrl
             classifyModel.searchList = ingredientNames
 
             val data = repository.searchIngredientList(classifyModel)
             if (diet != null) {
-                val products = productRepository.fetchSimiliarProducts(extractCategory(category), itemName, diet.dietType!!)
-                similarProducts.postValue(products)
+                scope.launch {
+                    val products = productRepository.fetchSimiliarProducts(extractCategory(category), extractItemName(itemName), diet.dietType!!)
+                    similarProducts.postValue(products)
+                }
+                results.postValue(data)
             } else {
-                val products = productRepository.fetchSimiliarProducts(extractCategory(category), itemName, 1)
-                similarProducts.postValue(products)
+                scope.launch {
+                    val products = productRepository.fetchSimiliarProducts(extractCategory(category), itemName, 1)
+                    similarProducts.postValue(products)
+                }
+                results.postValue(data)
             }
-
-            results.postValue(data)
         }
 
+    }
+
+    private fun extractItemName(name: String) : String {
+        if (name.contains(",")) {
+            return name.substringBefore(",").trim()
+        }
+        return name.trim()
     }
 
     private fun extractCategory(category: String) : String {

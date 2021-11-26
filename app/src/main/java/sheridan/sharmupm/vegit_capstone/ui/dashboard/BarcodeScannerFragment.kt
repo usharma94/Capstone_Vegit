@@ -11,7 +11,6 @@ import android.os.Build
 import android.os.Bundle
 import android.util.SparseArray
 import android.view.*
-import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -38,6 +37,8 @@ class BarcodeScannerFragment : Fragment() {
     private lateinit var bottomSheetDialog: BottomSheetDialog
     private lateinit var bottomSheetView:View
 
+    private var completed = false
+
 
     companion object{
         private val PERMISSION_CODE = 1001
@@ -60,17 +61,17 @@ class BarcodeScannerFragment : Fragment() {
         val galleryBtn = view.findViewById<ImageButton>(R.id.gallery_btn)
         surfaceView = view.findViewById(R.id.camera_preview)
 
+        completed = false
 
 
 
 
-
-        surfaceView.setVisibility(View.GONE)
+        surfaceView.visibility = View.GONE
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
             askForCameraPermission()
-            surfaceView.setVisibility(View.VISIBLE);
+            surfaceView.visibility = View.VISIBLE
         }else{
-            surfaceView.setVisibility(View.VISIBLE);
+            surfaceView.visibility = View.VISIBLE
             setupControls()
 
         }
@@ -260,12 +261,16 @@ class BarcodeScannerFragment : Fragment() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                if (response.isSuccessful) {
+                if (response.isSuccessful && !completed) {
                     activity?.runOnUiThread {
                         // Toast.makeText(this@MainActivity, response.body()?.string(), Toast.LENGTH_SHORT).show()
                         val jsonObject = JSONObject(response.body()?.string())
                         //val jsonObject = JSONObject(Gson().toJson(response.body()))
                         val itemsArr = jsonObject.getJSONArray("items")
+                        if (itemsArr.length() == 0) {
+                            return@runOnUiThread
+                        }
+                        completed = true
                         val items = itemsArr.getJSONObject(0)
                         val title = items.getString("title")
                         val category = items.getString("category")
@@ -309,17 +314,18 @@ class BarcodeScannerFragment : Fragment() {
                             bottomSheetView.findViewById<Button>(R.id.btn_scan_ingredient)
                         val barcodeScannerFragment = BarcodeScannerFragment()
                         val cameraFragment = CameraFragment()
-                        txtProductName.setText(title)
-                        txtProductCategory.setText(category)
-                        txtUPC.setText(upc)
-                        txtLowestPrice.setText(lowestPrice.toString())
-                        txtHighestPrice.setText(highestPrice.toString())
+                        txtProductName.text = title
+                        txtProductCategory.text = category
+                        txtUPC.text = upc
+                        txtLowestPrice.text = lowestPrice.toString()
+                        txtHighestPrice.text = highestPrice.toString()
                         Picasso.get().load(Uri.parse(picture)).into(productImg)
                         barcodeBtn.setOnClickListener {
                             fragmentManager?.beginTransaction()?.replace(
                                 R.id.nav_host_fragment,
                                 barcodeScannerFragment
                             )?.commit()
+                            completed = false
                             bottomSheetDialog.dismiss()
                         }
                         ingredientBtn.setOnClickListener {
@@ -327,6 +333,7 @@ class BarcodeScannerFragment : Fragment() {
                                 R.id.nav_host_fragment,
                                 cameraFragment
                             )?.commit()
+                            completed = false
                             bottomSheetDialog.dismiss()
                         }
 
