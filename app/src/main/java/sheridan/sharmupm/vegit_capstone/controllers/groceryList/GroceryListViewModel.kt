@@ -61,8 +61,7 @@ class GroceryListViewModel: ViewModel() {
             status
         )
         scope.launch {
-            val response = repository.updateGroceryItem(id,grocery)
-
+            repository.updateGroceryItem(id,grocery)
             val products = repository.getAllGroceryItems()
             groceryList.postValue(products)
         }
@@ -79,8 +78,6 @@ class GroceryListViewModel: ViewModel() {
         scope.launch {
             val response = repository.addGroceryItem(grocery)
             if (response != null){
-                groceryList.postValue(listOf(response))
-
                 val products = repository.getAllGroceryItems()
                 groceryList.postValue(products)
             }

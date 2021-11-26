@@ -183,20 +183,23 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
         classifyproductsViewModel.ingredientList.observe(viewLifecycleOwner,
             { ingredients ->
                 if (ingredients != null) {
-                    val dataAdapter = DataAdapter(ingredients, this)
-                    customDialog = CustomListViewDialog(
-                        this@ClassifyproductsFragment,
-                        dataAdapter,
-                        classifyproductsViewModel.similarProducts.value!!,
-                        requireContext()
-                    )
+                    classifyproductsViewModel.similarProducts.observe(viewLifecycleOwner,
+                        { products ->
+                            val dataAdapter = DataAdapter(ingredients, this)
+                            customDialog = CustomListViewDialog(
+                                this@ClassifyproductsFragment,
+                                dataAdapter,
+                                products,
+                                requireContext()
+                            )
 
-                    //if we know that the particular variable not null any time ,we can assign !! (not null operator ), then  it won't check for null, if it becomes null, it willthrow exception
-                    customDialog.show()
-                    if (customDialog.isShowing){
-                        analyzeBtn.isClickable=true
-                    }
-                    customDialog.setCanceledOnTouchOutside(false)
+                            //if we know that the particular variable not null any time ,we can assign !! (not null operator ), then  it won't check for null, if it becomes null, it willthrow exception
+                            customDialog.show()
+                            if (customDialog.isShowing){
+                                analyzeBtn.isClickable=true
+                            }
+                            customDialog.setCanceledOnTouchOutside(false)
+                        })
                 }
                 else {
                     println("No data found")

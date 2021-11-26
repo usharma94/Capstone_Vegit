@@ -34,6 +34,7 @@ class GroceryListFragment : Fragment(), onDialogCloseListener, MygroceryItemRecy
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_grocery_list, container, false)
+        viewModel.getAllGroceryItems()
 
         recyclerView = view.findViewById(R.id.recycerlview)
         floatActionButton = view.findViewById(R.id.floatingActionButton)
@@ -65,7 +66,6 @@ class GroceryListFragment : Fragment(), onDialogCloseListener, MygroceryItemRecy
                 adapter.setList(it)
             }
              })
-        viewModel.getAllGroceryItems()
 
         ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT or ItemTouchHelper
             .RIGHT){
@@ -133,7 +133,7 @@ class GroceryListFragment : Fragment(), onDialogCloseListener, MygroceryItemRecy
     }
 
     override fun onDialogClose(dialogInterface: DialogInterface?) {
-
+        viewModel.getAllGroceryItems()
         //showData()
         adapter.clearList()
         //adapter = MygroceryItemRecyclerViewAdapter()
@@ -141,6 +141,5 @@ class GroceryListFragment : Fragment(), onDialogCloseListener, MygroceryItemRecy
         recyclerView.adapter = adapter
 
         viewModel.groceryList.observe(viewLifecycleOwner, androidx.lifecycle.Observer { adapter.setList(it) })
-        viewModel.getAllGroceryItems()
     }
 }
