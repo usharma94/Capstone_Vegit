@@ -1,12 +1,19 @@
 package sheridan.sharmupm.vegit_capstone;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,6 +34,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import sheridan.sharmupm.vegit_capstone.databinding.ActivityMainBinding;
 import sheridan.sharmupm.vegit_capstone.ui.assistant.AssistantAdapter;
 import sheridan.sharmupm.vegit_capstone.ui.assistant.BotReply;
 import sheridan.sharmupm.vegit_capstone.ui.assistant.Message;
@@ -40,6 +48,7 @@ public class AssistantActivity extends AppCompatActivity implements BotReply {
     List<Message> messageList = new ArrayList<>();
     EditText editMessage;
     ImageButton btnSend;
+    ImageButton btnSpeak;
 
     //dialogFlow
     private SessionsClient sessionsClient;
@@ -51,13 +60,33 @@ public class AssistantActivity extends AppCompatActivity implements BotReply {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assistant);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         chatView = findViewById(R.id.chatView);
         editMessage = findViewById(R.id.editMessage);
         btnSend = findViewById(R.id.btnSend);
+        btnSpeak = findViewById(R.id.btnSpeak);
 
         chatAdapter = new AssistantAdapter(messageList, this);
         chatView.setAdapter(chatAdapter);
+        ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+
+                if(result.getResultCode() == RESULT_OK && result.getData()!=null){
+                    Intent data = result.getData();
+                    editMessage.setText(data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0));
+                }
+
+            }
+        });
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        btnSpeak.setOnClickListener(View -> {
+            Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+            intent.putExtra(RecognizerIntent.EXTRA_PROMPT,"Hi how can I help?");
+            launcher.launch(intent);
+        });
 
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
