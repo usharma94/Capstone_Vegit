@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.models.ingredients.Ingredient
 
-class IngredientAdapter(private val dataSet: List<Ingredient>) :
+class IngredientAdapter(private val dataSet: List<Ingredient>, private val onClickListener: OnClickListener) :
     RecyclerView.Adapter<IngredientAdapter.ViewHolder>() {
 
     /**
@@ -37,6 +37,13 @@ class IngredientAdapter(private val dataSet: List<Ingredient>) :
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         viewHolder.ingredientName.text = dataSet[position].name
         viewHolder.ingredientDiet.text = dataSet[position].diet_name
+        viewHolder.itemView.setOnClickListener {
+            onClickListener.onClick(dataSet[position])
+        }
+    }
+
+    class OnClickListener(val clickListener: (ingredient: Ingredient) -> Unit) {
+        fun onClick(ingredient: Ingredient) = clickListener(ingredient)
     }
 
     // Return the size of your dataset (invoked by the layout manager)

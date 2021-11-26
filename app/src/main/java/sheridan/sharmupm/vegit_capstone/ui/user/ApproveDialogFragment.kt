@@ -48,7 +48,7 @@ class ApproveDialogFragment(
         approveCategory.text = productDetail.category
         Picasso.get().load(productDetail.img_url).placeholder(R.drawable.leaves).error(R.drawable.leaves).into(approveImg)
 
-        val searchAdapter = IngredientAdapter(productDetail.ingredients)
+        val searchAdapter = IngredientAdapter(productDetail.ingredients, IngredientAdapter.OnClickListener{})
         recyclerView.adapter = searchAdapter
 
         findViewById<Button>(R.id.approve_dialog_accept).setOnClickListener(this)
