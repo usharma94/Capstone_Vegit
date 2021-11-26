@@ -61,7 +61,7 @@ class BarcodeScannerFragment : Fragment() {
         val galleryBtn = view.findViewById<ImageButton>(R.id.gallery_btn)
         surfaceView = view.findViewById(R.id.camera_preview)
 
-
+        completed = false
 
 
 
@@ -263,7 +263,6 @@ class BarcodeScannerFragment : Fragment() {
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful && !completed) {
                     activity?.runOnUiThread {
-                        completed = true
                         // Toast.makeText(this@MainActivity, response.body()?.string(), Toast.LENGTH_SHORT).show()
                         val jsonObject = JSONObject(response.body()?.string())
                         //val jsonObject = JSONObject(Gson().toJson(response.body()))
@@ -271,6 +270,7 @@ class BarcodeScannerFragment : Fragment() {
                         if (itemsArr.length() == 0) {
                             return@runOnUiThread
                         }
+                        completed = true
                         val items = itemsArr.getJSONObject(0)
                         val title = items.getString("title")
                         val category = items.getString("category")
