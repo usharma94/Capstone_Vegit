@@ -45,10 +45,19 @@ interface ApiInterface {
     @GET("ingredients/not-safe/{diet}")
     fun fetchNotSafeIngredientsAsync(@Path("diet") diet:Int): Deferred<Response<List<Ingredient>>>
 
+    @GET("ingredients/classify/get")
+    fun fetchIngredientsToClassifyAsync(): Deferred<Response<List<Ingredient>>>
+
+    @GET("ingredients/classify/update/{id}/{diet}")
+    fun updateClassificationAsync(@Path("id") id:Int, @Path("diet") diet:Int): Deferred<Response<Int>>
+
     // PRODUCTS
 
     @GET("/products/advertising/{diet}")
     fun fetchAdvertisementProductsAsync(@Path("diet") diet:Int): Deferred<Response<List<Product>>>
+
+    @GET("/products/similar/{category}/{name}/{diet}")
+    fun fetchSimilarProductsAsync(@Path("category") category:String, @Path("name") name:String, @Path("diet") diet:Int): Deferred<Response<List<Product>>>
 
     @GET("/products/advertising-avoid/{diet}")
     fun fetchAvoidProductsAsync(@Path("diet") diet:Int): Deferred<Response<List<Product>>>

@@ -127,6 +127,11 @@
         android:name="sheridan.sharmupm.vegit_capstone.AssistantActivity"
         android:label="activity_assistant"
         tools:layout="@layout/activity_assistant" />
+    <fragment
+        android:id="@+id/adminClassifyFragment"
+        android:name="sheridan.sharmupm.vegit_capstone.ui.user.AdminClassifyFragment"
+        android:label="Admin Classify Ingredients"
+        tools:layout="@layout/admin_classify_fragment" />
 
 
 </navigation>

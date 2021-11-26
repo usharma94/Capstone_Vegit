@@ -40,4 +40,18 @@ class IngredientRepository(private val api: ApiInterface) : BaseRepository() {
             errorMessage = "No data found"
         )
     }
+
+    suspend fun fetchIngredientsToClassify(): List<Ingredient>? {
+        return safeApiCall(
+            call = {api.fetchIngredientsToClassifyAsync().await()},
+            errorMessage = "No data found"
+        )
+    }
+
+    suspend fun updateClassificationAsync(id: Int, diet: Int): Int? {
+        return safeApiCall(
+            call = {api.updateClassificationAsync(id, diet).await()},
+            errorMessage = "Failed to update diet"
+        )
+    }
 }

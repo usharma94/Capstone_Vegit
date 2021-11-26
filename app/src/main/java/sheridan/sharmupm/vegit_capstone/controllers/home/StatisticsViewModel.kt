@@ -28,10 +28,8 @@ class StatisticsViewModel : ViewModel() {
     val avoidProductList = MutableLiveData<List<Product>>()
     val ingredientSafe = MutableLiveData<List<Ingredient>>()
     val ingredientNotSafe = MutableLiveData<List<Ingredient>>()
-    val scanHistoryList = MutableLiveData<List<Product>>()
 
     val selectedProduct = MutableLiveData<Product>()
-    val selectedScanHistoryProduct = MutableLiveData<Product>()
 
     fun getAvoidProducts() {
         scope.launch {
@@ -76,20 +74,6 @@ class StatisticsViewModel : ViewModel() {
                 val ingredients = ingredientRepository.fetchNotSafeIngredients(0)
                 ingredientNotSafe.postValue(ingredients)
             }
-        }
-    }
-
-    fun getScanHistory() {
-        scope.launch {
-            val products = repository.fetchScanHistory()
-            scanHistoryList.postValue(products)
-        }
-    }
-
-    fun setProduct(product: Product) {
-        scope.launch {
-            repository.viewProduct(product.id!!)
-            selectedScanHistoryProduct.postValue(product)
         }
     }
 }

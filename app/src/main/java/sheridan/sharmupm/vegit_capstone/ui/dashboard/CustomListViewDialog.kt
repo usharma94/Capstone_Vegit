@@ -1,6 +1,5 @@
 package sheridan.sharmupm.vegit_capstone.ui.dashboard
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
@@ -11,14 +10,17 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sheridan.sharmupm.vegit_capstone.R
+import sheridan.sharmupm.vegit_capstone.models.products.Product
+import sheridan.sharmupm.vegit_capstone.ui.home.statistics.AvoidAdapter
 
-class CustomListViewDialog(var fragment: Fragment, internal var adapter: RecyclerView.Adapter<*>,
+class CustomListViewDialog(var fragment: Fragment, internal var adapter: RecyclerView.Adapter<*>, var similarProducts: List<Product>,
                            context: Context
 ) : Dialog(context),
     View.OnClickListener {
     var dialog: Dialog? = null
 
     internal var recyclerView: RecyclerView? = null
+    internal var recyclerViewProducts: RecyclerView? = null
     private var mLayoutManager: RecyclerView.LayoutManager? = null
 
 
@@ -31,6 +33,11 @@ class CustomListViewDialog(var fragment: Fragment, internal var adapter: Recycle
         mLayoutManager = LinearLayoutManager(context)
         recyclerView?.layoutManager = mLayoutManager
         recyclerView?.adapter = adapter
+
+        recyclerViewProducts = findViewById(R.id.similarProducts)
+
+        val productsAdapter = AvoidAdapter(similarProducts, AvoidAdapter.OnClickListener{})
+        recyclerViewProducts?.adapter = productsAdapter
 
 //        findViewById<Button>(R.id.yes).setOnClickListener(this)
         findViewById<Button>(R.id.no).setOnClickListener(this)
