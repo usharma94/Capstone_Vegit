@@ -142,12 +142,15 @@ class ClassifyproductsViewModel : ViewModel() {
 
         // remove special characters from string
         ingredientRaw = ingredientRaw.replace(Regex("[*\"/]"), "")
+        ingredientRaw = ingredientRaw.replace(Regex("MADE FROM"), "")
+        ingredientRaw = ingredientRaw.replace(Regex("LESS OF"), "")
+        ingredientRaw = ingredientRaw.replace(Regex("CONTAINS \\d%"), "")
 
         // remove new line with space
         ingredientRaw = ingredientRaw.replace(Regex("[\n\r]"), " ")
 
         // split string by delimiters
-        val ingredientList = ingredientRaw.split(",", "(", ")", "[", "]", " and ", " or ", ".", ":")
+        val ingredientList = ingredientRaw.split(",", "(", ")", "[", "]", " and ", " or ", " AND ", " OR ", ".", ":")
 
         // creating list of ingredient name objects
         for (ingredient in ingredientList) {
