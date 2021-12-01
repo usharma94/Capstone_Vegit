@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:fillViewport="true"
-    tools:context=".ui.user.UserProfile">
+    tools:context=".ui.user.UserProfile"
+    android:background="@color/white">
 
     <ImageView
         android:id="@+id/profile_img"

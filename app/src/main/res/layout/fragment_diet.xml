@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.diet.DietFragment">
+    tools:context=".ui.diet.DietFragment"
+    android:background="@color/white">
     <TextView
         android:id="@+id/text_diet"
         android:layout_width="match_parent"
