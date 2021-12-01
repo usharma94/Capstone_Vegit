@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    tools:context="sheridan.sharmupm.vegit_capstone.ui.market.SubmitProduct">
+    tools:context="sheridan.sharmupm.vegit_capstone.ui.market.SubmitProduct"
+    android:background="@color/white">
 
     <ernestoyaquello.com.verticalstepperform.VerticalStepperFormView
         android:id="@+id/stepper_form"
