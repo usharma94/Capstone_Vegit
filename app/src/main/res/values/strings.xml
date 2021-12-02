@@ -48,18 +48,19 @@
     </string-array>
     <string-array name="category">
         <item>Select Category Type...</item>
-        <item>Animal Food</item>
-        <item>Aquatic Food</item>
-        <item>Snack Food</item>
-        <item>Canned Food</item>
-        <item>Frozen Food</item>
         <item>Nut</item>
-        <item>Baby Food</item>
+        <item>Pasta</item>
         <item>Baking</item>
         <item>Beverage</item>
         <item>Cereal</item>
         <item>Dairy</item>
         <item>Fruit</item>
         <item>Vegetable</item>
+        <item>Baby Food</item>
+        <item>Animal Food</item>
+        <item>Aquatic Food</item>
+        <item>Snack Food</item>
+        <item>Canned Food</item>
+        <item>Frozen Food</item>
     </string-array>
 </resources>
