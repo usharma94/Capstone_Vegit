@@ -22,9 +22,9 @@
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="290dp"
-            android:layout_gravity="center"
-            android:background="@drawable/camera_aperture"
+            android:layout_height="400dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_baseline_image_24"
 
             />
 

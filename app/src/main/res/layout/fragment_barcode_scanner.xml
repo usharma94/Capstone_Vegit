@@ -9,14 +9,24 @@
     <!-- TODO: Update blank fragment layout -->
 
 
-    <SurfaceView
-        android:id="@+id/camera_preview"
+<!--    <SurfaceView-->
+<!--        android:id="@+id/camera_preview"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent">-->
+
+
+<!--    </SurfaceView>-->
+
+    <androidx.camera.view.PreviewView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-
-    </SurfaceView>
+        android:id="@+id/viewFinder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </androidx.camera.view.PreviewView>
 
 
 
@@ -43,5 +53,16 @@
         android:layout_marginLeft="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
+    <ImageButton
+        android:id="@+id/btnTakePhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="@drawable/ic_camerabtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
