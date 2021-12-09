@@ -39,11 +39,11 @@ class UserProfile : Fragment() {
         val profileImage = view.findViewById<ImageView>(R.id.profile_img)
         val updateAccountCard = view.findViewById<CardView>(R.id.upgradeAccountCard)
         val faqButton = view.findViewById<Button>(R.id.btnFAQ)
+        updateAccountCard.isVisible = false
 
         if (isUserCached()) {
 //            enabling and disabling profile elements for logged in vs. logged out user. Will refactor later.
             logoutButton.isVisible = true
-            updateAccountCard.isVisible = false
 //            customDietButton.isEnabled = true
             logoutUser(logoutButton)
 
