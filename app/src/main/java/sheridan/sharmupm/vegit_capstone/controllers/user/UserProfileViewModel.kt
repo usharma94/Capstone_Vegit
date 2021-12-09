@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
 import sheridan.sharmupm.vegit_capstone.App
 import sheridan.sharmupm.vegit_capstone.helpers.getUserFromCache
-import sheridan.sharmupm.vegit_capstone.helpers.removeDietFromCache
 import sheridan.sharmupm.vegit_capstone.helpers.removeUserFromCache
 import sheridan.sharmupm.vegit_capstone.helpers.toLoggedInUserView
 import sheridan.sharmupm.vegit_capstone.models.login.LoggedInUserView
@@ -50,7 +49,7 @@ class UserProfileViewModel : ViewModel() {
         // remove from cache
         removeUserFromCache()
         // clear diet
-        removeDietFromCache()
+//        removeDietFromCache()
 
         // remove from room
         scope.launch {

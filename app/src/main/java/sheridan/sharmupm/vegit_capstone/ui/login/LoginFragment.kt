@@ -40,7 +40,7 @@ class LoginFragment : Fragment() {
         val passwordEditText = view.findViewById<EditText>(R.id.et_password)
         val loginButton = view.findViewById<Button>(R.id.btn_login)
         val rememberMe = view.findViewById<CheckBox>(R.id.saveLoginCheckBox)
-        val skipSignUpButton = view.findViewById<Button>(R.id.btn_skip_sign_up)
+//        val skipSignUpButton = view.findViewById<Button>(R.id.btn_skip_sign_up)
         val signUpButton = view.findViewById<Button>(R.id.btn_sign_up)
         val loadingProgressBar = view.findViewById<ProgressBar>(R.id.loading)
 
@@ -116,9 +116,9 @@ class LoginFragment : Fragment() {
             this.findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
         }
 
-        skipSignUpButton.setOnClickListener {
-            this.findNavController().navigate(R.id.action_loginFragment_to_navigation_diet)
-        }
+//        skipSignUpButton.setOnClickListener {
+//            this.findNavController().navigate(R.id.action_loginFragment_to_navigation_diet)
+//        }
     }
 
     private fun updateUiWithUser(model: LoggedInUserView) {
@@ -126,7 +126,13 @@ class LoginFragment : Fragment() {
         // TODO : initiate successful logged in experience
         val appContext = context?.applicationContext ?: return
         Toast.makeText(appContext, welcome, Toast.LENGTH_LONG).show()
-        this.findNavController().navigate(R.id.navigation_home)
+        if (model.admin == true) {
+            this.findNavController().navigate(R.id.adminProductFragment)
+        } else if (model.manufacturer == true) {
+            this.findNavController().navigate(R.id.approvedProduct)
+        } else {
+            this.findNavController().navigate(R.id.action_loginFragment_to_navigation_diet)
+        }
     }
 
     private fun showLoginFailed() {

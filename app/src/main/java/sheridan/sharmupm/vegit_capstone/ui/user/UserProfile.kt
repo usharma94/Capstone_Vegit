@@ -63,6 +63,7 @@ class UserProfile : Fragment() {
                     updateUiWithUser(email, user)
                     if (user.manufacturer == true || user.admin == true) {
                         selectDietButton.isVisible = false
+                        faqButton.isVisible = false
                     }
                 } else {
                     println("error fetching user")
