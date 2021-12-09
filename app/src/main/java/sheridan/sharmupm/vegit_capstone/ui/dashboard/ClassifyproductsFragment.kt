@@ -84,6 +84,7 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
         if (args?.isEmpty == false){
             val image = args.get("bitmap")
             ingredientLabelPicture.setImageBitmap(image as Bitmap?)
+            //ingredientLabelPicture.animate().rotation(90.0f).start()
 //            val item = args.getParcelable<Item>("item")
 //            mItem = item?.name!!
 //            mCategory = item?.category

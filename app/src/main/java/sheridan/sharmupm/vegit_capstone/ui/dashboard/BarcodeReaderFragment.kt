@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Matrix
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -67,8 +68,11 @@ class BarcodeReaderFragment : Fragment() {
         val args = this.arguments
         if (args?.isEmpty == false){
             val image = args.get("bitmap")
+
             barcodeImageView.setImageBitmap(image as Bitmap?)
+
             args.clear()
+            //barcodeImageView.animate().rotation(90.0f).start()
         }
 
         galleryBtn.setOnClickListener {
@@ -122,6 +126,8 @@ class BarcodeReaderFragment : Fragment() {
             }
         }
     }
+
+
 
     private fun pickImageFromGallery() {
         val intent = Intent(Intent.ACTION_PICK)

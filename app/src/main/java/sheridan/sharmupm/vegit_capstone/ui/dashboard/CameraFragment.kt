@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.media.Image
 import android.net.Uri
 import android.os.Build
@@ -104,6 +105,10 @@ class CameraFragment : Fragment() {
 
 
     }
+    fun Bitmap.rotate(degrees: Float): Bitmap {
+        val matrix = Matrix().apply { postRotate(degrees) }
+        return Bitmap.createBitmap(this, 0, 0, width, height, matrix, true)
+    }
 
     private fun pickImageFromGallery(){
         val intent = Intent(Intent.ACTION_PICK)
@@ -152,10 +157,11 @@ class CameraFragment : Fragment() {
             override fun onCaptureSuccess(image: ImageProxy) {
                 //get bitmap from image
                 val bitmap = imageProxyToBitmap(image)
+                val rotateBitmap = bitmap.rotate(90f)
                 val classifyproductsFragment = ClassifyproductsFragment()
 
                 val bundle = Bundle()
-                bundle.putParcelable("bitmap",bitmap)
+                bundle.putParcelable("bitmap",rotateBitmap)
                 classifyproductsFragment.arguments = bundle
                 fragmentManager?.beginTransaction()?.replace(R.id.nav_host_fragment,classifyproductsFragment)?.commit()
 

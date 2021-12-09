@@ -65,7 +65,7 @@ class UpdateItem : Fragment(),MygroceryItemRecyclerViewAdapter.OnItemClickListen
             mTaskEdit.setText(item.name)
             updateDueDate.text = item.due
 
-            Toast.makeText(context,"id $id",Toast.LENGTH_LONG).show()
+           // Toast.makeText(context,"id $id",Toast.LENGTH_LONG).show()
         } else {
             Toast.makeText(context,"none",Toast.LENGTH_LONG).show()
         }
@@ -114,7 +114,7 @@ class UpdateItem : Fragment(),MygroceryItemRecyclerViewAdapter.OnItemClickListen
             if (grocery.isEmpty()){
                 Toast.makeText(context, "Empty input not allowed", Toast.LENGTH_SHORT).show()
             } else{
-                if (grocery!="" && dueDate!=""&& dueDate!=item.due){
+                if (grocery!="" && dueDate!=""){
                     viewModel.updateGroceryItem(item.id!!,grocery,dueDate, item.status!!)
                     adapter.notifyItemChanged(pos)
                     Toast.makeText(context,"successfully updated", Toast.LENGTH_LONG).show()

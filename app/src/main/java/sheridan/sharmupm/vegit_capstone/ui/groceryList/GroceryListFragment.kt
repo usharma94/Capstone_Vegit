@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -63,6 +64,27 @@ class GroceryListFragment : Fragment(), onDialogCloseListener, MygroceryItemRecy
 
         viewModel.groceryList.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             if (it!=null ){
+                for (item in it){
+//                    if (item.name?.contains("\"")==true){
+//                        item.name?.replace("\""," ")
+//                    }
+                    if (item.name?.contains("\"") == true){
+                        var name = item.name!!.replace("\"","")
+                        item.name = name
+                    }
+                    if (item.name?.startsWith("[")==true){
+                        item.name = item.name!!.substring(1, item.name!!.length-1)
+                    }
+                        //item.name = item.name!!.substring(1, item.name!!.length-1)
+//                    }
+//                    if (item.name?.endsWith(".")==true){
+//                        item.name = item.name!!.substring(0,item.name!!.length-1)
+//                    }
+
+
+
+                }
+
                 adapter.setList(it)
             }
              })
