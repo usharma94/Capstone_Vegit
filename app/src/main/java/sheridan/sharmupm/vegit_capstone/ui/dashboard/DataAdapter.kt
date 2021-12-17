@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import sheridan.sharmupm.vegit_capstone.R
 import sheridan.sharmupm.vegit_capstone.models.ingredients.ClassifyIngredient
 
+
+
+//Dialog List Data Adapter.
 class DataAdapter(
         private val mDataset: ArrayList<ClassifyIngredient>,
         internal var recyclerViewItemClickListener: ClassifyproductsFragment

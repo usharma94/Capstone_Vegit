@@ -13,13 +13,6 @@ import sheridan.sharmupm.vegit_capstone.models.groceryList.Grocery
 class MygroceryItemRecyclerViewAdapter(private val listener:OnItemClickListener):
     RecyclerView.Adapter<MygroceryItemRecyclerViewAdapter.ViewHolder>() {
 
-   // var groceryList = mutableListOf<Grocery>()
-   // private val context: Context
-
-//    constructor(context: Context, listGrocery: List<Grocery>) : super() {
-//        this.context = context
-//        groceryList.addAll(listGrocery)
-//    }
 
     var groceryList = mutableListOf<Grocery>()
     private var viewModel: GroceryListViewModel = GroceryListViewModel()
@@ -69,6 +62,7 @@ class MygroceryItemRecyclerViewAdapter(private val listener:OnItemClickListener)
         return groceryList.size
     }
 
+    //set UI for each row
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),View.OnClickListener {
         var mDueDateTv = itemView.due_date_tv
         var mCheckBox = itemView.mcheckbox

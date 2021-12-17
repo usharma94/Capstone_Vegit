@@ -29,10 +29,8 @@ class AddNewItem: BottomSheetDialogFragment() {
     private lateinit var mSaveBtn: Button
     private var dueDate = ""
     private lateinit var myContext:Context
-    private var groceryListFragment: GroceryListFragment = GroceryListFragment()
 
     companion object {
-        val TAG = "AddNewTask"
         fun newInstance(): AddNewItem? {
             return AddNewItem()
         }
@@ -95,20 +93,6 @@ class AddNewItem: BottomSheetDialogFragment() {
             if (grocery.isEmpty()){
                 Toast.makeText(context, "Empty input not allowed", Toast.LENGTH_SHORT).show()
             } else {
-//                val groceryMap: MutableMap<String, Any> = HashMap()
-//                val groceryItem:Grocery = Grocery()
-//
-//                groceryMap["grocery"] = grocery
-//                groceryItem.grocery = grocery
-//                groceryMap["due"] = dueDate
-//                groceryItem.due = dueDate
-//                groceryMap.put("status", 0)
-//                groceryItem.status = 0
-//                val bundle:Bundle = Bundle()
-//                bundle.putParcelable("grocery",groceryItem)
-//                groceryListFragment.setArguments(bundle)
-//                //Toast.makeText(context,groceryItem.grocery,Toast.LENGTH_LONG).show()
-
                 if (grocery!="" && dueDate!=""){
                     viewModel.submitGrocery(grocery,dueDate)
                     Toast.makeText(context,"successfully added",Toast.LENGTH_LONG).show()

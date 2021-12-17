@@ -19,7 +19,7 @@ import sheridan.sharmupm.vegit_capstone.controllers.groceryList.GroceryListViewM
 import sheridan.sharmupm.vegit_capstone.models.groceryList.Grocery
 import java.util.*
 
-
+// Updata Fragment
 class UpdateItem : Fragment(),MygroceryItemRecyclerViewAdapter.OnItemClickListener {
 
     private val viewModel: GroceryListViewModel by viewModels()
@@ -55,13 +55,6 @@ class UpdateItem : Fragment(),MygroceryItemRecyclerViewAdapter.OnItemClickListen
         if (bundle !=null){
             item = bundle.getParcelable<Grocery>("position")!!
             pos = bundle.getInt("Pos")
-            //val grocery = viewModel.getGroceryItem(id)
-//            viewModel.grocery.observe(viewLifecycleOwner,
-//                {results->
-//                    mTaskEdit.setText(results?.name)
-//                    updateDueDate.setText(results?.due)
-//
-//            })
             mTaskEdit.setText(item.name)
             updateDueDate.text = item.due
 

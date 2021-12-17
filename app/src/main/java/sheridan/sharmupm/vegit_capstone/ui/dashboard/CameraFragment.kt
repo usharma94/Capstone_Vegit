@@ -41,7 +41,6 @@ class CameraFragment : Fragment() {
 
     private var imageCapture: ImageCapture?=null
     private lateinit var viewFinder:PreviewView
-    private lateinit var outputDirectory: File
 
     companion object{
     private val PERMISSION_CODE = 1001
@@ -55,7 +54,6 @@ class CameraFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-
 
         return inflater.inflate(R.layout.fragment_camera, container, false)
     }
@@ -73,9 +71,11 @@ class CameraFragment : Fragment() {
              requestPermissions(Constants.REQUIRED_PERMISSION,Constants.REQUEST_CODE_PERMISSION)
 
          }
+        //Take picture
         takePhotoBtn.setOnClickListener {
             takePhoto()
         }
+        //upload image
         galleryBtn.setOnClickListener {
             if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.M){
                 if (context?.applicationContext?.let { it1 -> ContextCompat.checkSelfPermission(it1, Manifest.permission.READ_EXTERNAL_STORAGE) } ==PackageManager.PERMISSION_DENIED)
@@ -173,21 +173,6 @@ class CameraFragment : Fragment() {
 
         })
 
-//        imageCapture.takePicture(
-//            ContextCompat.getMainExecutor(context), // Defines where the callbacks are run
-//            object : ImageCapture.OnImageCapturedCallback() {
-//                @SuppressLint("UnsafeOptInUsageError")
-//                override fun onCaptureSuccess(imageProxy: ImageProxy) {
-//                    val image: Image? = imageProxy.image // Do what you want with the image
-//
-//                    imageProxy.close() // Make sure to close the image
-//                }
-//
-//                override fun onError(exception: ImageCaptureException) {
-//                    // Handle exception
-//                }
-//            }
-//        )
 
 
 
@@ -242,9 +227,4 @@ class CameraFragment : Fragment() {
         Constants.REQUIRED_PERMISSION.all{
             ContextCompat.checkSelfPermission(context?.applicationContext!!,it)== PackageManager.PERMISSION_GRANTED
         }
-
-
-
-
-
 }
