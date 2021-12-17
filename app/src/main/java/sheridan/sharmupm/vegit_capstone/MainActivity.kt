@@ -55,7 +55,6 @@ class MainActivity : AppCompatActivity() {
                             navViewManufacturer.visibility = View.VISIBLE
                             navViewAdmin.visibility = View.INVISIBLE
                             setupNavBar(navController, navViewManufacturer, setOf(
-                                    R.id.navigation_home,
                                     R.id.approvedProduct,
                                     R.id.deniedProduct,
                                     R.id.adminProductFragment,
@@ -67,7 +66,6 @@ class MainActivity : AppCompatActivity() {
                             navViewManufacturer.visibility = View.INVISIBLE
                             navViewAdmin.visibility = View.VISIBLE
                             setupNavBar(navController, navViewAdmin, setOf(
-                                    R.id.navigation_home,
                                     R.id.adminProductFragment,
                                     R.id.adminClassifyFragment,
                                     R.id.userProfile))
