@@ -28,10 +28,8 @@ class AddItem: Fragment() {
     private lateinit var mSaveBtn: Button
     private var dueDate = ""
     private lateinit var myContext: Context
-    private var groceryListFragment: GroceryListFragment = GroceryListFragment()
 
     companion object {
-        val TAG = "AddNewTask"
         fun newInstance(): AddNewItem? {
             return AddNewItem()
         }
@@ -51,6 +49,7 @@ class AddItem: Fragment() {
         mTaskEdit = view.findViewById(R.id.task_edittext)
         mSaveBtn = view.findViewById(R.id.save_btn)
 
+        //add Text
         mTaskEdit.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
                 mSaveBtn.isEnabled = false
@@ -71,6 +70,7 @@ class AddItem: Fragment() {
             override fun afterTextChanged(s: Editable) {}
         })
 
+        //set the date
         setDueDate.setOnClickListener {
             val calendar = Calendar.getInstance()
             val MONTH = calendar[Calendar.MONTH]
@@ -88,6 +88,7 @@ class AddItem: Fragment() {
             datePickerDialog.show()
         }
 
+        //Save the Item
         mSaveBtn.setOnClickListener {
             var grocery = mTaskEdit.text.toString()
             if (grocery.isEmpty()){

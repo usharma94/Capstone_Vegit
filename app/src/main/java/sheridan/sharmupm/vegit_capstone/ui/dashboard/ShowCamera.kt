@@ -7,6 +7,7 @@ import android.view.SurfaceHolder
 import android.view.SurfaceView
 import java.io.IOException
 
+//Set UP CameraX API
 class ShowCamera(context: Context?, var camera: Camera) : SurfaceView(context), SurfaceHolder.Callback {
 
 

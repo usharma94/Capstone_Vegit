@@ -49,19 +49,17 @@ class GroceryListFragment : Fragment(), onDialogCloseListener, MygroceryItemRecy
             )
         )
 
+        //navigate to add item fragment when click + button
         floatActionButton.setOnClickListener {
-            //AddNewItem.newInstance()?.show(requireFragmentManager(), AddNewItem.TAG)
             val addItem = AddItem()
             fragmentManager?.beginTransaction()?.replace(R.id.nav_host_fragment,addItem)?.commit()
 
         }
-
-       // mList = viewModel.getAllGroceryItems()
-//        Toast.makeText(context,mList[0].name,Toast.LENGTH_LONG).show()
         adapter = MygroceryItemRecyclerViewAdapter(this)
         adapter.notifyDataSetChanged()
         recyclerView.adapter = adapter
 
+        //retrive data
         viewModel.groceryList.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             if (it!=null ){
                 for (item in it){
@@ -75,20 +73,14 @@ class GroceryListFragment : Fragment(), onDialogCloseListener, MygroceryItemRecy
                     if (item.name?.startsWith("[")==true){
                         item.name = item.name!!.substring(1, item.name!!.length-1)
                     }
-                        //item.name = item.name!!.substring(1, item.name!!.length-1)
-//                    }
-//                    if (item.name?.endsWith(".")==true){
-//                        item.name = item.name!!.substring(0,item.name!!.length-1)
-//                    }
-
-
-
                 }
 
                 adapter.setList(it)
             }
              })
 
+
+        //delete touch helper
         ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT or ItemTouchHelper
             .RIGHT){
             override fun onMove(
@@ -111,33 +103,6 @@ class GroceryListFragment : Fragment(), onDialogCloseListener, MygroceryItemRecy
                     show() }
             }
         }).attachToRecyclerView(view.recycerlview)
-
-//        viewModel.groceryList.observe(viewLifecycleOwner,
-//            { results ->
-//                if (results != null) {
-//                    println(results)
-//                    val adapter = MygroceryItemRecyclerViewAdapter(requireContext(),results)
-//                    adapter.groceryList=results.toMutableList()
-//
-//                    //recyclerView.adapter = adapter
-//                }
-//                else {
-//                    println("No data found")
-//                }
-//
-//
-//           // mList = viewModel.getAllGroceryItems()
-//
-//        })
-        //recyclerView.setAdapter(adapter)
-
-        //Toast.makeText(context,mList[0].grocery,Toast.LENGTH_LONG).show()
-       // showData()
-       // adapter = MygroceryItemRecyclerViewAdapter(requireContext(), mList)
-
-       // Toast.makeText(context, "something", Toast.LENGTH_LONG).show()
-
-       // recyclerView.setAdapter(adapter)
         return view
     }
 
@@ -146,7 +111,6 @@ class GroceryListFragment : Fragment(), onDialogCloseListener, MygroceryItemRecy
         val item = adapter.groceryList[position]
         val updateItem = UpdateItem()
         val bundle = Bundle()
-        //bundle.putInt("position",item.id!!)
         bundle.putParcelable("position",item)
         bundle.putInt("Pos",position)
         updateItem.arguments = bundle
@@ -158,7 +122,6 @@ class GroceryListFragment : Fragment(), onDialogCloseListener, MygroceryItemRecy
         viewModel.getAllGroceryItems()
         //showData()
         adapter.clearList()
-        //adapter = MygroceryItemRecyclerViewAdapter()
         adapter.notifyDataSetChanged()
         recyclerView.adapter = adapter
 

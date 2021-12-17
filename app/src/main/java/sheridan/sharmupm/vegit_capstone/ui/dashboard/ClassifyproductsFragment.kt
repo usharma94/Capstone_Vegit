@@ -30,13 +30,11 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
     private lateinit var classifyproductsViewModel: ClassifyproductsViewModel
     private lateinit var ingredientLabelPicture: ImageView
     private lateinit var customDialog:CustomListViewDialog
-    private lateinit var analyzeBtn:Button
     private lateinit var mItem:String
     private lateinit var mCategory:String
     private lateinit var mImageUrl:String
     private var mLastClickTime:Long = 0
 
-    private lateinit var camera: Camera
 
     var showCamera: ShowCamera? = null
 
@@ -67,10 +65,9 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ingredientLabelPicture = view.findViewById<ImageView>(R.id.imageView)
+        ingredientLabelPicture = view.findViewById(R.id.imageView)
         val galleryBtn = view.findViewById<ImageButton>(R.id.gallery)
         val analyzeBtn = view.findViewById<Button>(R.id.takePicture)
-        val scanResult = view.findViewById<TextView>(R.id.text_view)
         val framelayout = view.findViewById<FrameLayout>(R.id.frame_layout)
         val captureImage = view.findViewById<ImageButton>(R.id.capture_picture)
         val sharedPref = requireActivity().getSharedPreferences("myPref", Context.MODE_PRIVATE)
@@ -79,21 +76,22 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
         mImageUrl = sharedPref.getString("imageUrl",null)!!
         println(mCategory)
 
-
+// get image bitmap from camera Fragment
         val args = this.arguments
         if (args?.isEmpty == false){
             val image = args.get("bitmap")
             ingredientLabelPicture.setImageBitmap(image as Bitmap?)
-            //ingredientLabelPicture.animate().rotation(90.0f).start()
-//            val item = args.getParcelable<Item>("item")
-//            mItem = item?.name!!
-//            mCategory = item?.category
-//            mImageUrl = item.imageUrl
             args.clear()
         }
 
+        //Upload image from gallery.
+
         galleryBtn.setOnClickListener{
             framelayout.removeView(showCamera)
+            if (ingredientLabelPicture.drawable != null){
+                ingredientLabelPicture.setImageBitmap(null)
+
+            }
             if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.M){
                 if (context?.applicationContext?.let { it1 -> checkSelfPermission(it1,android.Manifest.permission.READ_EXTERNAL_STORAGE) } ==PackageManager.PERMISSION_DENIED)
                 {
@@ -106,7 +104,7 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
                 pickImageFromGallery()
             }
         }
-
+//take picture
         captureImage.setOnClickListener{
 
 
@@ -129,13 +127,10 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
 
         //Google OCR: extract text from the ingredient label and saved as string and analysis the string and return the
         //result if the food is safe to eat
-        //**** the "analyze" is hard-code now***
         analyzeBtn.setOnClickListener {
             if (analyzeBtn.isClickable==true){
                 if(SystemClock.elapsedRealtime()-mLastClickTime<1000){
                     analyzeBtn.isClickable=false
-                    //analyzeBtn.postDelayed(Runnable { kotlin.run { analyzeBtn.isClickable=false } },1000)
-                    //Toast.makeText(requireContext(),"The button is unclickable now",Toast.LENGTH_LONG).show()
                 }
                 else{
 
@@ -144,12 +139,17 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
                             .show()
                     }
                     else{
+
+                        //OCR: Google Vision API
                         val mBitmap = ingredientLabelPicture.drawable.toBitmap()
+                        //detect text
                         val textRecognizer = TextRecognizer.Builder(context?.applicationContext).build()
+                        // error handling, if the OCR cannot work.
                         if (!textRecognizer.isOperational) {
                             Toast.makeText(context?.applicationContext, "Could not get the text", Toast.LENGTH_SHORT)
                                 .show()
                         } else {
+                            //extract text
                             val frame = Frame.Builder().setBitmap(mBitmap).build()
                             val items = textRecognizer.detect(frame)
 
@@ -163,10 +163,12 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
                                 println("No data able to be extracted!")
                             }
                         }
+
                     }
                 }
                 mLastClickTime=SystemClock.elapsedRealtime()
                 analyzeBtn.isClickable=true
+
 
             }
         }
@@ -181,24 +183,34 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
                 }
             })
 
+
+        //observe the OCR result and return result 'Analyze'
+
         classifyproductsViewModel.ingredientList.observe(viewLifecycleOwner,
             { ingredients ->
                 if (ingredients != null) {
                     classifyproductsViewModel.similarProducts.observe(viewLifecycleOwner,
                         { products ->
                             val dataAdapter = DataAdapter(ingredients, this)
+                            //Dialog shows
                             customDialog = CustomListViewDialog(
                                 this@ClassifyproductsFragment,
                                 dataAdapter,
                                 products,
+                                ingredients,
                                 requireContext()
                             )
 
+
                             //if we know that the particular variable not null any time ,we can assign !! (not null operator ), then  it won't check for null, if it becomes null, it willthrow exception
+
                             customDialog.show()
+
                             if (customDialog.isShowing){
                                 analyzeBtn.isClickable=true
+
                             }
+
                             customDialog.setCanceledOnTouchOutside(false)
                         })
                 }
@@ -208,76 +220,11 @@ class ClassifyproductsFragment : Fragment(),DataAdapter.RecyclerViewItemClickLis
             })
     }
 
-//    private val mPictureCallBack = Camera.PictureCallback { data, _ ->
-//        val pictureFile: File = getOutputMediaFile(MEDIA_TYPE_IMAGE) ?: run {
-//            Log.d(TAG, ("Error creating media file, check storage permissions"))
-//            return@PictureCallback
-//        }
-//
-//        try {
-//            val fos = FileOutputStream(pictureFile)
-//            fos.write(data)
-//            fos.close()
-//        } catch (e: FileNotFoundException) {
-//            Log.d(TAG, "File not found: ${e.message}")
-//        } catch (e: IOException) {
-//            Log.d(TAG, "Error accessing file: ${e.message}")
-//        }
-//    }
-//
-//    private fun getOutputMediaFile(type: Int): File? {
-//        // To be safe, you should check that the SDCard is mounted
-//        // using Environment.getExternalStorageState() before doing this.
-//
-//        val mediaStorageDir = File(
-//            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-//            "MyCameraApp"
-//        )
-//         //This location works best if you want the created images to be shared
-//         //between applications and persist after your app has been uninstalled.
-//
-//         //Create the storage directory if it does not exist
-//        mediaStorageDir.apply {
-//            if (!exists()) {
-//                if (!mkdirs()) {
-//                    Log.d("MyCameraApp", "failed to create directory")
-//                    return null
-//                }
-//            }
-//        }
-//
-//        // Create a media file name
-//        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-//        return when (type) {
-//            MEDIA_TYPE_IMAGE -> {
-//                File("${mediaStorageDir.path}${File.separator}IMG_$timeStamp.jpg")
-//            }
-//            MEDIA_TYPE_VIDEO -> {
-//                File("${mediaStorageDir.path}${File.separator}VID_$timeStamp.mp4")
-//            }
-//            else -> null
-//        }
-//    }
-//
-//    /** A safe way to get an instance of the Camera object. */
-//    fun getCameraInstance(): Camera? {
-//        return try {
-//            Camera.open()// attempt to get a Camera instance
-//        } catch (e: Exception) {
-//            // Camera is not available (in use or does not exist)
-//            null // returns null if camera is unavailable
-//        }
-//    }
+
 
 
 
     private fun captureImage(){
-//        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-//        if (takePictureIntent.resolveActivity(requireContext().packageManager)!=null){
-//            startActivityForResult(takePictureIntent,REQUEST_CODE)
-//        }else{
-//            Toast.makeText(context?.applicationContext,"Unable to Open Camera", Toast.LENGTH_SHORT).show()
-//        }
 
         val cameraFragment = CameraFragment()
         val transaction:FragmentTransaction = requireFragmentManager().beginTransaction()

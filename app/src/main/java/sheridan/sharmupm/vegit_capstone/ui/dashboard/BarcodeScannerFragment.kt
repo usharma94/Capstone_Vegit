@@ -25,37 +25,18 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.util.isNotEmpty
 import androidx.fragment.app.Fragment
-import com.google.android.gms.vision.CameraSource
-import com.google.android.gms.vision.Detector
-import com.google.android.gms.vision.barcode.Barcode
-import com.google.android.gms.vision.barcode.BarcodeDetector
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.squareup.picasso.Picasso
-import okhttp3.*
-import org.json.JSONObject
 import sheridan.sharmupm.vegit_capstone.R
 import java.io.FileNotFoundException
-import java.io.IOException
 import java.nio.ByteBuffer
 
 
 class BarcodeScannerFragment : Fragment() {
-    private lateinit var cameraSource:CameraSource
-    private lateinit var detector:BarcodeDetector
-    private lateinit var surfaceView:SurfaceView
-    private val client = OkHttpClient()
-    private lateinit var bottomSheetDialog: BottomSheetDialog
-    private lateinit var bottomSheetView:View
     private lateinit var viewFinder: PreviewView
     private var imageCapture: ImageCapture?=null
-
-    private var completed = false
-
 
     companion object{
         private val PERMISSION_CODE = 1001
         private val IMAGE_PICK_CODE = 1000
-        private val requestCodeCameraPermission = 1002
     }
 
 
@@ -81,17 +62,19 @@ class BarcodeScannerFragment : Fragment() {
         val takePhotoBtn = view.findViewById<ImageButton>(R.id.btnTakePhoto)
         viewFinder = view.findViewById<PreviewView>(R.id.viewFinder)
 
+        // If permission granted then run camera, if permission not permitted, then request permission.
         if (allPermissionGranted()){
-            //Toast.makeText(context?.applicationContext,"We have permission",Toast.LENGTH_SHORT).show()
             startCamera()
         }else{
             requestPermissions(Constants.REQUIRED_PERMISSION,Constants.REQUEST_CODE_PERMISSION_CAMERA)
 
         }
+        //take photo event listener
         takePhotoBtn.setOnClickListener {
             takePhoto()
         }
 
+//gallery event listener
         galleryBtn.setOnClickListener {
             if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.M){
                 if (context?.applicationContext?.let { it1 -> ContextCompat.checkSelfPermission(
@@ -128,19 +111,13 @@ class BarcodeScannerFragment : Fragment() {
                 //get bitmap from image
                 val bitmap = imageProxyToBitmap(image)
                 val rotateBitmap = bitmap.rotate(90.0f)
-
-
                 val barcodeReaderFragment = BarcodeReaderFragment()
-
+                //pass captured image from barcode scanner fragment to barcode reader listener
                 val bundle = Bundle()
                 bundle.putParcelable("bitmap", rotateBitmap)
                 barcodeReaderFragment.arguments = bundle
                 fragmentManager?.beginTransaction()
                     ?.replace(R.id.nav_host_fragment, barcodeReaderFragment)?.commit()
-
-
-
-
                 super.onCaptureSuccess(image)
             }
 
@@ -151,7 +128,7 @@ class BarcodeScannerFragment : Fragment() {
         val matrix = Matrix().apply { postRotate(degrees) }
         return Bitmap.createBitmap(this, 0, 0, width, height, matrix, true)
     }
-
+//convert image to bitmap, because ONLY bitmap can be passed between fragments.
     private fun imageProxyToBitmap(image: ImageProxy): Bitmap {
         val planeProxy = image.planes[0]
         val buffer: ByteBuffer = planeProxy.buffer
@@ -175,9 +152,7 @@ class BarcodeScannerFragment : Fragment() {
 
 
 
-    private fun askForCameraPermission(){
-        requestPermissions(arrayOf(Manifest.permission.CAMERA), requestCodeCameraPermission)
-    }
+
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -232,11 +207,9 @@ class BarcodeScannerFragment : Fragment() {
                 activity?.fragmentManager?.popBackStack()
             }
         }
-
-
-
-
     }
+
+    // start camera perpare
     private fun startCamera(){
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
         cameraProviderFuture.addListener({
@@ -254,63 +227,6 @@ class BarcodeScannerFragment : Fragment() {
             }
         },ContextCompat.getMainExecutor(requireContext()))
     }
-
-//    private val surgaceCallBack = object : SurfaceHolder.Callback{
-//        override fun surfaceCreated(surfaceHolder: SurfaceHolder) {
-//            try{
-//                if (context?.let {
-//                        ActivityCompat.checkSelfPermission(
-//                            it,
-//                            Manifest.permission.CAMERA
-//                        )
-//                    } != PackageManager.PERMISSION_GRANTED
-//                ) {
-//                    // TODO: Consider calling
-//                    //    ActivityCompat#requestPermissions
-//                    // here to request the missing permissions, and then overriding
-//                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//                    //                                          int[] grantResults)
-//                    // to handle the case where the user grants the permission. See the documentation
-//                    // for ActivityCompat#requestPermissions for more details.
-//                    return
-//                }
-//                cameraSource.start(surfaceHolder)
-//
-//            }catch (exception: Exception){
-//                Toast.makeText(context, "Something went wrong", Toast.LENGTH_LONG).show()
-//            }
-//        }
-//
-//        override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
-//            //Toast.makeText(context,"Something went wrong",Toast.LENGTH_LONG).show()
-//            if (context?.let {
-//                    ActivityCompat.checkSelfPermission(
-//                        it,
-//                        Manifest.permission.CAMERA
-//                    )
-//                } != PackageManager.PERMISSION_GRANTED
-//            ) {
-//                // TODO: Consider calling
-//                //    ActivityCompat#requestPermissions
-//                // here to request the missing permissions, and then overriding
-//                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//                //                                          int[] grantResults)
-//                // to handle the case where the user grants the permission. See the documentation
-//                // for ActivityCompat#requestPermissions for more details.
-//                return
-//            }
-//            cameraSource.start(holder)
-//        }
-//
-//        override fun surfaceDestroyed(holder: SurfaceHolder) {
-//            cameraSource.stop()
-//        }
-//    }
-
-
-
-
-
 
 
 }

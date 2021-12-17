@@ -67,13 +67,16 @@ class BarcodeReaderFragment : Fragment() {
 
         val args = this.arguments
         if (args?.isEmpty == false){
+            //get bitmap (image) from BarcodeScanner Fragment
             val image = args.get("bitmap")
 
             barcodeImageView.setImageBitmap(image as Bitmap?)
 
             args.clear()
-            //barcodeImageView.animate().rotation(90.0f).start()
+
         }
+
+        //set Gallery (upload image from gallery) event listener
 
         galleryBtn.setOnClickListener {
             if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.M){
@@ -94,6 +97,8 @@ class BarcodeReaderFragment : Fragment() {
             }
         }
 
+        //set analyze (read barcode and return relevant information) event listener
+
         analyzeBtn.setOnClickListener {
             if (barcodeImageView.drawable == null){
                 Toast.makeText(context,"No Picture Detected!", Toast.LENGTH_SHORT)
@@ -105,16 +110,8 @@ class BarcodeReaderFragment : Fragment() {
                     val frame = Frame.Builder().setBitmap(mBitmap).build()
                     val sparseArr = barcodeDetector.detect(frame)
                     if (sparseArr != null && sparseArr.size()>0){
-//                        for (i in 0..sparseArr.size()-1){
-//                            Log.d(LOG_TAG,"Value: " + sparseArr.valueAt(i).rawValue+"---"+sparseArr.valueAt(i).displayValue)
-//                            Toast.makeText(LOG_TAG,sparseArr.valueAt(i).rawValue,Toast.LENGTH_LONG).show()
-//                            val myItem = items.valueAt(i)
-//                            sb.append(myItem.value)
-//                            sb.append("\n")
-//                        }
                         var code = sparseArr.valueAt(0)
                         val url = "https://api.upcitemdb.com/prod/trial/lookup?upc="+code.rawValue
-                        //AsyncTaskHandleJson().execute(url)
                         run(url)
 
 
@@ -122,6 +119,9 @@ class BarcodeReaderFragment : Fragment() {
                     else{
                         Toast.makeText(context,"No Barcode detected",Toast.LENGTH_LONG).show()
                     }
+                }
+                else{
+                    Toast.makeText(context,"No Barcode detected",Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -136,6 +136,7 @@ class BarcodeReaderFragment : Fragment() {
     }
 
 
+//pass barcode to UPCItem API, the API will read the barcode and return relevant information (jSON), then parse jSON and return information
     fun run(url: String) {
         val request = Request.Builder()
             .url(url)
@@ -154,7 +155,6 @@ class BarcodeReaderFragment : Fragment() {
                     activity?.runOnUiThread {
                         // Toast.makeText(this@MainActivity, response.body()?.string(), Toast.LENGTH_SHORT).show()
                         val jsonObject = JSONObject(response.body()?.string())
-                        //val jsonObject = JSONObject(Gson().toJson(response.body()))
                         val itemsArr = jsonObject.getJSONArray("items")
                         val items = itemsArr.getJSONObject(0)
                         val title = items.getString("title")
@@ -164,11 +164,6 @@ class BarcodeReaderFragment : Fragment() {
                         val pictureArray = items.getJSONArray("images")
                         val picture = pictureArray.getString(0)
                         val upc = items.getString("upc")
-                       // val item = Item(title,category,picture)
-//                        var bundle = Bundle()
-//                        bundle.putParcelable("item",item)
-//                        val classifyproductsFragment = ClassifyproductsFragment()
-//                        classifyproductsFragment.setArguments(bundle)
 
                         val sharedPref = activity!!.getSharedPreferences("myPref", Context.MODE_PRIVATE)
                         val editor = sharedPref.edit()
@@ -178,9 +173,6 @@ class BarcodeReaderFragment : Fragment() {
                             putString("imageUrl",picture)
                             apply()
                         }
-
-
-
 
                         //Toast.makeText(context,title,Toast.LENGTH_LONG).show()
                         bottomSheetDialog = BottomSheetDialog(requireContext(),R.style.BottomSheetDialogTheme)
